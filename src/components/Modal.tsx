@@ -1,17 +1,18 @@
 import styled, { css } from "styled-components";
 import { parseCSS, useRefresh } from "scripts/FunctionsBundle";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import IP from "@utils/ImageProvider";
-import { FSAction, GS } from "App";
+import { GS } from "App";
 import { Member, Ticket } from "@utils/ClassTypes";
 import Input from "./Input";
+import { Form, useNavigation } from "react-router-dom";
 
 // #region ##################################################################################### PROPS
 type _Base = import("@utils/ClassTypes")._Base;
 // Modal => Rename all instances to use (CTRL + SHIFT + L)
 export type ModalProps = {
   _item: Ticket | null;
-  _action: "delete" | "edit" | null;
+  _isDelete?: boolean;
   _onClose?: () => void;
 } & _Base;
 // #endregion
@@ -19,62 +20,50 @@ export type ModalProps = {
 // #region ##################################################################################### COMPONENT
 const _Modal = (props: ModalProps) => {
   // ---------------------------------------------------------------------- HOOKS
-  const [loading, setLoading] = useState("");
   const [refresh, volkey] = useRefresh();
-  const [LS, setLS] = useState<Ticket>(new Ticket());
+  const [LS, setLS] = useState<Ticket>(props._item || new Ticket());
   const [open, setOpen] = useState(!!props._item);
+  const navi = useNavigation();
 
   // ---------------------------------------------------------------------- FUNCTION HANDLERS
-  function handleClose() {
-    setLS(new Ticket());
-    setOpen(false);
-    props._onClose?.();
-  }
-
-  const handleOpen = useCallback(() => {
+  // ============================== HANDLE OPEN
+  function handleOpen() {
+    if (navi.state !== "idle") return;
     setLS(props._item || new Ticket());
     setOpen(true);
-  }, [props._item]);
+    refresh();
+  }
+
+  // ============================== HANDLE CLOSE
+  function handleClose() {
+    if (navi.state !== "idle") return;
+    setLS(new Ticket());
+    setOpen(false);
+
+    if (props._item) props._onClose?.();
+  }
 
   // ---------------------------------------------------------------------- HANDLE SUBMIT
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading("Guardando...");
-    let success: object | null = null;
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    if (navi.state !== "idle") return;
 
-    if (props._action === "delete") {
-      success = await FSAction("delete", LS.id || "error", {});
-    } else if (props._action === "edit") {
-      success = await FSAction("update", LS.id || "error", LS);
-    } else {
-      success = await FSAction("add", "n/a", LS);
-    }
-
-    if (success) {
-      GS.setAlert({
-        _message: "Se han guardado los cambios!",
-        _type: "success",
-      });
-
-      handleClose();
-    }
-
-    setLoading("");
+    GS.cache = {
+      ticket: LS,
+      action: props._isDelete ? "delete" : props._item ? "edit" : "add",
+      closeModal: () => handleClose(),
+    };
   };
 
-  useEffect(() => {
-    if (props._item) handleOpen();
-  }, [handleOpen, props._item]);
+  // ============================== SHORTCUT
+  const loading = navi.state !== "idle";
 
   // ---------------------------------------------------------------------- RETURN
   return (
     <>
       {/* -------------------------------------------------- OPEN BUTTON */}
-      {loading && <div className="spinner">{loading}</div>}
-
       <button
         className="success"
-        disabled={open || !!loading}
+        disabled={open || loading}
         onClick={handleOpen}
       >
         {loading ? "Cargando..." : "Crear nuevo ticket"}
@@ -88,34 +77,34 @@ const _Modal = (props: ModalProps) => {
             {/* ============================== TITLE */}
             <div className="modal-title">
               <h3>
-                {props._action === "delete"
+                {props._isDelete
                   ? "Eliminar"
-                  : props._action === "edit"
+                  : props._item
                   ? "Editar"
                   : "Nuevo"}{" "}
                 Ticket
               </h3>
               <button
                 className="exit"
-                onClick={handleClose}
-                disabled={!!loading}
+                onClick={() => handleClose()}
+                disabled={loading}
               >
                 <img src={IP.icon.close} alt="close button" />
               </button>
             </div>
 
             {/* ============================== INPUTS */}
-            <form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit} method="POST">
               <Input
                 _store={LS}
                 _store_var="family"
                 _label="Familia"
                 _preset="name"
-                _disabled={props._action === "delete"}
+                _disabled={props._isDelete}
               />
 
               <div className="crud-container">
-                <table className={props._action === "delete" ? "disabled" : ""}>
+                <table className={props._isDelete ? "disabled" : ""}>
                   <thead>
                     <tr>
                       <th>Invitado</th>
@@ -132,7 +121,7 @@ const _Modal = (props: ModalProps) => {
                             _store_var={"name"}
                             _preset="name"
                             _label=""
-                            _disabled={props._action === "delete"}
+                            _disabled={props._isDelete}
                           />
                         </td>
                         <td>
@@ -141,7 +130,7 @@ const _Modal = (props: ModalProps) => {
                             _store_var={"accepted"}
                             _type="checkbox"
                             _label=""
-                            _disabled={props._action === "delete"}
+                            _disabled={props._isDelete}
                           />
                         </td>
                         <td>
@@ -151,7 +140,7 @@ const _Modal = (props: ModalProps) => {
                               LS.members.splice(ind, 1);
                               refresh();
                             }}
-                            disabled={props._action === "delete"}
+                            disabled={props._isDelete}
                           >
                             Eliminar
                           </button>
@@ -161,7 +150,7 @@ const _Modal = (props: ModalProps) => {
                   </tbody>
                 </table>
 
-                {props._action !== "delete" && (
+                {!props._isDelete && (
                   <button
                     onClick={() => {
                       LS.members.push(new Member());
@@ -177,18 +166,18 @@ const _Modal = (props: ModalProps) => {
               <div className="modal-controls">
                 <button
                   className="back"
-                  onClick={handleClose}
-                  disabled={!!loading}
+                  onClick={() => handleClose()}
+                  disabled={loading}
                 >
                   <img src={IP.icon.eye_on} alt="previous" />
                   Regresar
                 </button>
 
-                <button className="login" disabled={!!loading}>
+                <button className="login" disabled={loading}>
                   {loading ? "Enviando..." : "Confirmar"}
                 </button>
               </div>
-            </form>
+            </Form>
           </div>
         </div>
       )}

@@ -88,7 +88,7 @@ export type InputProps = {
   /** Función de cambio para cada vez que se modifique el valor del Input. Si regresa un valor `string` se coloca como error. */
   _onChange?: (value: string, el: HTMLInputElement) => void | string;
   /** Similar al _onChange, pero esta vez se ejecuta después de que la información haya sido validada y modificada. */
-  _afterChange?: () => void;
+  _afterChange?: (value: string, el: HTMLInputElement) => void;
   /** Función de cambio para cada vez que se salga del Input. Sirve principalmente para efectuar cambios finales en el value. */
   _onBlur?: (value: string, el: HTMLInputElement) => void;
   /** Función de cambio para cada vez que entre al Input. Sirve principalmente para re-validar los datos antes que nada. */
@@ -151,14 +151,14 @@ const _Input = (props: InputProps) => {
       if (props._type === "checkbox") {
         setLS(el.checked); // UPDATE INPUT
         props._store[props._store_var] = el.checked; // VALID DATA
-        props._afterChange?.();
+        props._afterChange?.(val, el);
         return;
       }
 
       // -------------------------------------------------- HANDLE OPTIONS
       if (props._options) {
         // ALREADY HANDLED BY RADIO BUTTONS THEMSELVES
-        props._afterChange?.();
+        props._afterChange?.(val, el);
         return;
       }
 
@@ -185,7 +185,7 @@ const _Input = (props: InputProps) => {
         valid("", el); // REMOVE ERRORS
         setLS(dd); // UPDATE INPUT
         if (dd.getTime()) props._store[props._store_var] = dd;
-        props._afterChange?.();
+        props._afterChange?.(val, el);
         return;
       }
 
@@ -266,7 +266,7 @@ const _Input = (props: InputProps) => {
         : val;
 
       // -------------------------------------------------- EXECUTE ANY AFTER CHANGE FUNCTION
-      props._afterChange?.();
+      props._afterChange?.(val, el);
     },
     [props]
   );

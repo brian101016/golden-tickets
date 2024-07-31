@@ -17,27 +17,23 @@ const _AdminScreen = (props: AdminScreenProps) => {
   /** `Ticket[]` - Todos los tickets de la BD. */
   const data = useLoaderData() as Ticket[];
   const [tick, setTick] = useState<Ticket | null>(null);
-  const [action, setAction] = useState<"delete" | "edit" | null>(null);
+  const [isDelete, setIsDelete] = useState(false);
   const [refresh, volkey] = useRefresh();
 
   // ---------------------------------------------------------------------- HANDLER FUNCTIONS
   function handleEdit(ticket: Ticket) {
-    if (action !== "edit") {
-      setTick(structuredClone(ticket));
-      setAction("edit");
-    }
+    setTick(structuredClone(ticket));
+    refresh();
   }
 
   function handleDelete(ticket: Ticket) {
-    if (action !== "delete") {
-      setTick(structuredClone(ticket));
-      setAction("delete");
-    }
+    setIsDelete(true);
+    handleEdit(ticket);
   }
 
   function handleModalClose() {
     setTick(null);
-    setAction(null);
+    setIsDelete(false);
     refresh();
   }
 
@@ -49,7 +45,7 @@ const _AdminScreen = (props: AdminScreenProps) => {
       <Modal
         key={volkey}
         _item={tick}
-        _action={action}
+        _isDelete={isDelete}
         _onClose={handleModalClose}
       />
 

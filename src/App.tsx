@@ -19,7 +19,7 @@ import AdminScreen from "@screens/AdminScreen";
 
 // ---------------------------------------------------------------------- TYPESCRIPT IMPORTS
 type _LoaderFunctionArgs = import("react-router-dom").LoaderFunctionArgs;
-// type _ActionFunctionArgs = import("react-router-dom").ActionFunctionArgs;
+type _ActionFunctionArgs = import("react-router-dom").ActionFunctionArgs;
 // #endregion
 
 // #region ##################################################################################### FIREBASE INIT
@@ -313,6 +313,53 @@ async function loadTicket(req: _LoaderFunctionArgs) {
 }
 // #endregion
 
+// #region ##################################################################################### FUNCIONES LOADERS
+// ---------------------------------------------------------------------- LOAD ADMIN DATA
+/** Se encarga del CRUD de admin para administrar los Tickets y familias. */
+async function adminAction(req: _ActionFunctionArgs) {
+  // ============================== PREV CHECK
+  const prev = await checkUser(req);
+  if (prev) return prev;
+
+  // ============================== RETRIEVE CACHE
+  const data = GS.cache?.ticket as _T.Ticket;
+  const action = GS.cache?.action as "delete" | "edit" | "add";
+
+  if (!data) {
+    GS.setAlert({
+      _message: "Falta información importante!",
+      _type: "error",
+    });
+    return null;
+  }
+
+  // ============================== CHECK DATA
+  data.members.forEach((memb) => {
+    if (!memb.accepted || memb.acceptedDate) return;
+    memb.acceptedDate = new Date();
+  });
+
+  // ============================== FS ACTION
+  let success: object | null = null;
+  if (action === "delete")
+    success = await FSAction("delete", data.id || "error", {});
+  else if (action === "edit")
+    success = await FSAction("update", data.id || "error", data);
+  else success = await FSAction("add", "n/a", data);
+
+  if (success) {
+    GS.setAlert({
+      _message: "Se han guardado los cambios!",
+      _type: "success",
+    });
+  }
+
+  // ============================== RETURN
+  GS.cache?.closeModal?.(); // CLOSE MODAL ACTIVATOR
+  return null;
+}
+// #endregion
+
 // #region ##################################################################################### MAIN APPLICATION
 function App() {
   // ---------------------------------------------------------------------- GLOBAL STATE
@@ -356,6 +403,7 @@ function App() {
             {
               path: "admin",
               loader: loadAdmin,
+              action: adminAction,
               element: <AdminScreen />,
             },
             // -------------------------------------------------- TICKETS PAGE
