@@ -1,0 +1,1645 @@
+// #region ##################################################################################### (85) SECCIÓN PRINCIPAL
+// ---------------------------------------------------------------------- (70) SECCIÓN SECUNDARIA
+// -------------------------------------------------- (50) SECCIÓN TERCIARIA
+// ============================== (30) MINI-SECCIÓN
+// #endregion
+
+// #region ##################################################################################### IMPORTS
+// ---------------------------------------------------------------------- SASS
+@use "sass:list";
+// ---------------------------------------------------------------------- FONTS
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+// ---------------------------------------------------------------------- BOOTSTRAP ICONS
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css");
+// #endregion
+
+// #region ##################################################################################### VARIABLES
+// ---------------------------------------------------------------------- SASS VARIABLES
+// -------------------------------------------------- COLORS
+// ============================== PALETTE
+$color-palette-darkblue: #0c3670;
+$color-palette-blue: #297ca4;
+$color-palette-gray: #96a9b0;
+$color-palette-orange: #f8b55c;
+$color-palette-lightblue: #94d5db;
+$color-palette-pink: #f8a295;
+$color-palette-beige: #fbdcb1;
+$color-palette-brown: #814603;
+
+// ============================== LOGO
+$color-logo-blue: #a1d7d7;
+$color-logo-brown: #7f4603;
+
+// ============================== BASE
+$color-base-darkblue: #1a6396;
+$color-base-blue: #1e6fa8;
+$color-base-lightblue: #3182bc;
+$color-base-skyblue: #7ea1b4;
+
+// ============================== CLASSIC
+$color-classic-blue: #0d6efd; // PRIMARY
+$color-classic-indigo: #35008b; // VISITED
+$color-classic-purple: #6f42c1;
+$color-classic-pink: #d63384;
+$color-classic-red: #dc3545; // Active - Danger - Selected Links
+$color-classic-orange: #fd7e14; // Hover
+$color-classic-yellow: #ffc107; // Warning
+$color-classic-green: #198754; // Success
+$color-classic-teal: #20c997;
+$color-classic-cyan: #0dcaf0; // Emphasis - Info - Links
+
+// ============================== SHADOW
+$color-shadow-black: #000000;
+$color-shadow-dark: #212529; // Dark - Alternative Text
+$color-shadow-semidark: #2e2e2e;
+$color-shadow-darkgray: #343a40;
+$color-shadow-lightgray: #6c757d; // Secondary
+$color-shadow-semilight: #ced4da;
+$color-shadow-light: #eaeaea;
+$color-shadow-white: #f8f9fa;
+
+// ============================== STATE
+$color-state-success: #29bc6b;
+$color-state-warning: #{$color-classic-yellow};
+$color-state-error: #{$color-classic-red};
+$color-state-informative: #{$color-classic-cyan};
+
+// ============================== TRANSPARENT COLORS
+$color-transparent: transparent; // Background
+
+// -------------------------------------------------- LINEAR GRADIENTS
+$gradient-logo: linear-gradient(
+  180deg,
+  var(--color-logo-blue) 0%,
+  trasparent 100%
+);
+
+// -------------------------------------------------- SHADOWS
+$shadow-small: 0 0 10px -3px var(--color-shadow-black);
+$shadow-medium: 0 0 15px -3px var(--color-shadow-dark);
+$shadow-button: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+// -------------------------------------------------- OTHER
+// ============================== MARGIN & PADDING
+$margin-title: 0.75rem 0;
+$padding-button: 0.3em 1em;
+
+$margin-small: 0.5rem 0.75rem;
+$margin-medium: 0.75rem 1.5rem;
+$margin-big: 1.75rem 2.5rem;
+
+$padding-small: 0.25em 0.5em;
+$padding-medium: 0.5em 0.75em;
+
+// ============================== FONT SIZES
+$size-title: 3.125rem;
+$size-subtitle: 2.25rem;
+$size-thirdtitle: 1.3125rem;
+$size-label: 1.25rem;
+$size-body: 1rem;
+
+// ============================== FONT FAMILIES
+$font-icons: "bootstrap-icons";
+$font-poppins: "Poppins";
+$font-raleway: "Raleway";
+$font-roboto: "Roboto";
+
+// ---------------------------------------------------------------------- CSS VARIABLES
+:root {
+  // -------------------------------------------------- COLORS
+  // ============================== PALETTE
+  --color-palette-darkblue: #{$color-palette-darkblue};
+  --color-palette-blue: #{$color-palette-blue};
+  --color-palette-gray: #{$color-palette-gray};
+  --color-palette-orange: #{$color-palette-orange};
+  --color-palette-lightblue: #{$color-palette-lightblue};
+  --color-palette-pink: #{$color-palette-pink};
+  --color-palette-beige: #{$color-palette-beige};
+  --color-palette-brown: #{$color-palette-brown};
+
+  // ============================== LOGO
+  --color-logo-blue: #{$color-logo-blue};
+  --color-logo-brown: #{$color-logo-brown};
+
+  // ============================== BASE
+  --color-base-darkblue: #{$color-base-darkblue};
+  --color-base-blue: #{$color-base-blue};
+  --color-base-lightblue: #{$color-base-lightblue};
+  --color-base-skyblue: #{$color-base-skyblue};
+
+  // ============================== CLASSIC COLORS
+  --color-classic-blue: #{$color-classic-blue};
+  --color-classic-indigo: #{$color-classic-indigo};
+  --color-classic-purple: #{$color-classic-purple};
+  --color-classic-pink: #{$color-classic-pink};
+  --color-classic-red: #{$color-classic-red};
+  --color-classic-orange: #{$color-classic-orange};
+  --color-classic-yellow: #{$color-classic-yellow};
+  --color-classic-green: #{$color-classic-green};
+  --color-classic-teal: #{$color-classic-teal};
+  --color-classic-cyan: #{$color-classic-cyan};
+
+  // ============================== SHADOW COLORS
+  --color-shadow-black: #{$color-shadow-black};
+  --color-shadow-dark: #{$color-shadow-dark};
+  --color-shadow-semidark: #{$color-shadow-semidark};
+  --color-shadow-darkgray: #{$color-shadow-darkgray};
+  --color-shadow-lightgray: #{$color-shadow-lightgray};
+  --color-shadow-semilight: #{$color-shadow-semilight};
+  --color-shadow-light: #{$color-shadow-light};
+  --color-shadow-white: #{$color-shadow-white};
+
+  // ============================== STATE
+  --color-state-success: #{$color-state-success};
+  --color-state-warning: #{$color-state-warning};
+  --color-state-error: #{$color-state-error};
+  --color-state-informative: #{$color-state-informative};
+
+  // ============================== TRANSPARENT COLORS
+  --color-transparent: #{$color-transparent};
+
+  // ============================== LINEAR GRADIENTS
+  --gradient-logo: #{$gradient-logo};
+
+  // -------------------------------------------------- SHADOWS
+  --shadow-small: #{$shadow-small};
+  --shadow-medium: #{$shadow-medium};
+  --shadow-button: #{$shadow-button};
+
+  // -------------------------------------------------- OTHER
+  // ============================== MARGIN & PADDING
+  --margin-title: #{$margin-title};
+  --padding-button: #{$padding-button};
+
+  --margin-small: #{$margin-small};
+  --margin-medium: #{$margin-medium};
+  --margin-big: #{$margin-big};
+
+  --padding-small: #{$padding-small};
+  --padding-medium: #{$padding-medium};
+
+  // ============================== FONT SIZES
+  --size-title: #{$size-title};
+  --size-subtitle: #{$size-subtitle};
+  --size-thirdtitle: #{$size-thirdtitle};
+  --size-label: #{$size-label};
+  --size-body: #{$size-body};
+
+  // ============================== FONT FAMILIES
+  --font-icons: "bootstrap-icons";
+  --font-poppins: "Poppins";
+  --font-raleway: "Raleway";
+  --font-roboto: "Roboto";
+}
+// #endregion
+
+// #region ##################################################################################### MIXINS
+// ---------------------------------------------------------------------- BORDERS
+@mixin border($color: currentColor, $radius: inherit) {
+  border-width: 2px;
+  border-style: solid;
+  border-color: $color;
+  border-radius: $radius;
+}
+
+// ---------------------------------------------------------------------- SLIDE-SHOW ANIMATION
+@mixin slide($vv: null, $hh: null, $op: false, $tran: false) {
+  $t: 0%;
+  $r: 0%;
+  $b: 0%;
+  $l: 0%;
+
+  @if $vv == top {
+    $b: 100%;
+  } @else if $vv == center {
+    $t: 50%;
+    $b: 50%;
+  } @else if $vv == bottom {
+    $t: 100%;
+  }
+
+  @if $hh == left {
+    $r: 100%;
+  } @else if $hh == center {
+    $l: 50%;
+    $r: 50%;
+  } @else if $hh == right {
+    $l: 100%;
+  }
+
+  @if $tran {
+    @if $op {
+      transition: clip-path 0.25s ease-in, opacity 0.25s ease-in;
+    } @else {
+      transition: clip-path 0.25s ease-in;
+    }
+  }
+
+  @if not $vv and not $hh {
+    // ABRIR
+    @if $op {
+      opacity: 1;
+    }
+  } @else {
+    // CERRAR
+    @if $op {
+      opacity: 0;
+    }
+  }
+
+  clip-path: inset($t $r $b $l);
+}
+
+// ---------------------------------------------------------------------- GRID
+@mixin grid($size: 120px) {
+  display: grid;
+  justify-content: start;
+  align-items: start;
+
+  // grid-template-columns: minmax($size, auto) 35% minmax(25%, 1fr);
+  grid-template-columns: minmax($size, auto) 1fr;
+  grid-template-rows: 1fr;
+  gap: 0.75rem 0.5rem;
+}
+
+// ---------------------------------------------------------------------- GENERAL TRANSITIONS/ANIMATIONS
+@mixin gral-trans($items: null, $add: []) {
+  @if not $items {
+    $items: [box-shadow opacity color border-color border-radius];
+  }
+  $items: list.join($items, $add);
+  $temp: ();
+
+  @each $item in $items {
+    $temp: list.append($temp, $item 0.2s ease-out, comma);
+  }
+
+  transition: $temp;
+
+  &::before {
+    transition: inherit;
+    transition-delay: inherit;
+
+    opacity: 0;
+    z-index: -1;
+  }
+}
+// #endregion
+
+// #region ##################################################################################### RESETS
+// ---------------------------------------------------------------------- RESET ALL
+*,
+*::after,
+*::before {
+  // -------------------------------------------------- INITIALS
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  // -------------------------------------------------- REMOVE FOCUS
+  &:focus,
+  &:focus-visible,
+  &:focus-within {
+    outline: none;
+    transition: none;
+  }
+  &::-moz-focus-inner {
+    border: 0 !important;
+  }
+}
+
+// ---------------------------------------------------------------------- RESET PSEUDO
+::before,
+::after {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+}
+
+// ---------------------------------------------------------------------- RESET DOCUMENT
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100svh;
+
+  // -------------------------------------------------- INHERIT-ABLES
+  color: var(--color-shadow-black);
+  font-family: var(--font-poppins), Arial, Helvetica, sans-serif, serif;
+  font-size: $size-body;
+  background-color: var(--color-palette-beige);
+
+  scroll-behavior: smooth;
+}
+
+// ---------------------------------------------------------------------- ROOT ELEMENT
+#root {
+  display: flex;
+  flex-direction: column;
+  overflow-x: clip;
+
+  // -------------------------------------------------- CUSTOM BACKGROUND
+  background-color: var(--color-shadow-white);
+}
+// #endregion
+
+// #region ##################################################################################### GENERALS
+// ---------------------------------------------------------------------- DIV as simple wrapper
+.wrapper {
+  display: inline;
+}
+
+// ---------------------------------------------------------------------- SCREEN replacing DIV
+.as-div,
+.screen {
+  display: block;
+  flex-grow: 1;
+}
+
+.screen {
+  margin: 0.5rem 1.25rem;
+}
+
+// ---------------------------------------------------------------------- DISABLE POINTER EVENTS
+:disabled,
+.disabled {
+  // -------------------------------------------------- DISABLE PARENT
+  cursor: not-allowed !important;
+  box-shadow: none !important;
+  opacity: 0.5 !important;
+  pointer-events: none !important;
+
+  // -------------------------------------------------- DISABLE CHILDREN
+  * {
+    cursor: not-allowed !important;
+    box-shadow: none !important;
+    pointer-events: none !important;
+
+    &.disabled,
+    &:disabled {
+      opacity: 1 !important;
+    }
+  }
+}
+// #endregion
+
+// #region ##################################################################################### SCROLLBAR
+// ---------------------------------------------------------------------- FIREFOX
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-palette-brown) var(--color-shadow-semilight);
+}
+
+// ---------------------------------------------------------------------- WEBKIT
+* {
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  // -------------------------------------------------- TRACK
+  &::-webkit-scrollbar-track {
+    background-color: var(--color-shadow-semilight);
+    &:hover {
+      background-color: var(--color-shadow-light);
+    }
+  }
+
+  // -------------------------------------------------- THUMB
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--color-logo-brown);
+    border: 2px solid var(--color-shadow-semilight);
+    &:hover {
+      background-color: mix($color-palette-brown, $color-shadow-light, 85%);
+      border-color: var(--color-shadow-light);
+    }
+    &:active {
+      background-color: mix($color-palette-brown, $color-shadow-light, 65%);
+    }
+  }
+}
+// #endregion
+
+// #region ##################################################################################### UTILITY CLASSES
+// ---------------------------------------------------------------------- NO SELECTABLE
+.no-selectable,
+button,
+a {
+  user-select: none;
+
+  * {
+    user-select: none;
+  }
+}
+
+// ---------------------------------------------------------------------- Z INDEX AUTO
+.z-index-auto {
+  z-index: inherit;
+
+  * {
+    z-index: inherit;
+  }
+}
+
+// ---------------------------------------------------------------------- BOOTSTRAP ICONS
+.icons {
+  font-family: var(--font-icons);
+}
+
+// ---------------------------------------------------------------------- PENDING DATA
+.loading {
+  cursor: wait !important;
+
+  * {
+    cursor: wait !important;
+  }
+}
+
+// ---------------------------------------------------------------------- REVERSED
+.reversed {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+// ---------------------------------------------------------------------- BOLD
+.bold {
+  font-weight: 700;
+}
+
+// ---------------------------------------------------------------------- HIDDEN
+.hidden,
+.hide {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+// ---------------------------------------------------------------------- BG IMG
+.bg-img {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-color: transparent;
+}
+
+// ---------------------------------------------------------------------- NO RESULT
+.no-results {
+  margin-top: 5rem;
+  text-align: center;
+}
+
+// ---------------------------------------------------------------------- TEXT ELLIPSIS
+.text-ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: pre;
+}
+// #endregion
+
+// #region ##################################################################################### TITLES
+// ---------------------------------------------------------------------- TITLE - H1
+h1,
+.title,
+.as-h1 {
+  margin: $margin-title;
+
+  color: var(--color-palette-brown);
+  font-family: var(--font-raleway);
+  font-size: $size-title;
+  font-weight: 500;
+  line-height: 1.5;
+
+  font-variant: normal;
+  // text-transform: uppercase;
+  text-align: center;
+}
+
+// ---------------------------------------------------------------------- SUBTITLE - H2
+h2,
+.subtitle,
+.as-h2 {
+  margin: $margin-title;
+
+  color: var(--color-palette-brown);
+  font-family: var(--font-roboto);
+  font-size: $size-subtitle;
+  font-weight: 300;
+  line-height: 1.5;
+
+  font-variant: normal;
+  // text-align: center;
+}
+
+// ---------------------------------------------------------------------- THIRD TITLE - H3
+h3,
+.third-title,
+.as-h3,
+legend {
+  margin: $margin-title;
+
+  font-family: var(--font-poppins);
+  font-size: $size-thirdtitle;
+  font-weight: 600;
+  line-height: 1.25;
+}
+// #endregion
+
+// #region ##################################################################################### FORM ELEMENTS
+// ---------------------------------------------------------------------- FORM
+form {
+  margin: $margin-big;
+}
+
+// ---------------------------------------------------------------------- FIELDSET
+fieldset,
+.fieldset {
+  margin: $margin-big;
+  padding: $padding-medium;
+  padding-top: 0.2em;
+
+  @include border(var(--color-palette-lightblue), 0.5rem);
+
+  background-color: mix($color-shadow-light, transparent, 50%);
+
+  @include grid();
+
+  &:invalid {
+    color: var(--color-classic-red);
+    border-color: var(--color-classic-red);
+  }
+}
+
+// ---------------------------------------------------------------------- CRUD SUB-FIELDSET
+.sub-fieldset {
+  @include grid(0px);
+
+  grid-column: 2 / -1;
+
+  margin-bottom: 1rem;
+}
+
+// ---------------------------------------------------------------------- LABELS
+label,
+.as-label {
+  margin: 0 0.5rem;
+
+  color: var(--color-palette-brown);
+  font-family: var(--font-poppins);
+  font-weight: 300;
+  text-align: right;
+
+  @include gral-trans();
+
+  &.invalid {
+    color: var(--color-palette-brown);
+    border-color: var(--color-classic-red);
+  }
+}
+
+// ---------------------------------------------------------------------- INPUT WARNING
+.warning {
+  margin: 0 0.5rem;
+  color: var(--color-classic-red);
+  position: relative;
+  cursor: help;
+  user-select: none;
+  vertical-align: top;
+  z-index: 5;
+
+  &:hover .floating {
+    @include slide(null, null, true, false);
+  }
+
+  .floating {
+    position: absolute;
+    padding: $padding-medium;
+
+    @include border(currentColor, 1em);
+    border-top-left-radius: 0;
+
+    background-color: mix($color-palette-orange, $color-palette-beige, 25%);
+
+    top: 50%;
+    left: 100%;
+    width: max-content;
+    max-width: 30vw;
+    white-space: pre-line;
+
+    z-index: -1;
+    @include slide(top, left, true, true);
+  }
+}
+// #endregion
+
+// #region ##################################################################################### INPUTS
+// ---------------------------------------------------------------------- TRANSITIONS
+button,
+input,
+a,
+.dropdown,
+.nav-item,
+.input,
+select,
+textarea {
+  @include gral-trans();
+}
+
+// ---------------------------------------------------------------------- SELECT, INPUT, TEXTAREA
+input,
+select,
+textarea,
+.input {
+  padding: $padding-small;
+
+  font-family: var(--font-poppins);
+  font-weight: 400;
+  font-size: 0.8rem;
+
+  --priv-color: var(--color-palette-darkblue);
+
+  background-color: var(--color-shadow-white);
+  color: var(--color-palette-brown);
+  @include border($color-palette-brown, 0.05rem);
+  border-radius: 0.7rem;
+  outline: none;
+
+  // max-width: 70%;
+  min-width: 10ch;
+
+  // -------------------------------------------------- CHECKBOX - RADIO BUTTONS
+  &[type="checkbox"],
+  &[type="radio"] {
+    width: 1.5rem;
+    height: 1.5rem;
+    min-width: 0;
+
+    border-radius: 0;
+    vertical-align: text-bottom;
+    margin: 0 0.25rem;
+    padding: 0;
+
+    position: relative;
+    appearance: none;
+  }
+
+  &[type="checkbox"] {
+    &::after {
+      content: "";
+      width: 100%;
+      height: 100%;
+      text-align: center;
+    }
+
+    &:checked::after {
+      content: "✔️";
+    }
+  }
+
+  &[type="radio"] {
+    border-radius: 50%;
+    &::after {
+      content: "";
+      border-radius: inherit;
+      width: 100%;
+      height: 100%;
+      background-color: var(--color-base-blue);
+      transform: scale(0);
+      transform-origin: center center;
+      @include gral-trans(null, [transform]);
+    }
+
+    &:checked::after {
+      transform: scale(0.5);
+    }
+  }
+
+  // -------------------------------------------------- PLACEHOLDER
+  &::placeholder {
+    opacity: 75%;
+    letter-spacing: 1px;
+    font-kerning: none;
+    color: var(--color-palette-brown);
+  }
+
+  // -------------------------------------------------- HOVER
+  &:hover,
+  &.loading {
+    --priv-color: var(--color-shadow-lightgray);
+
+    &:invalid {
+      --priv-color: var(--color-palette-beige);
+    }
+
+    box-shadow: 0 0 0px 2px var(--priv-color);
+  }
+
+  // -------------------------------------------------- INVALID
+  &:invalid {
+    --priv-color: var(--color-palette-brown);
+    box-shadow: 0 0 0px 2px var(--priv-color);
+  }
+
+  // -------------------------------------------------- FOCUS
+  &:focus,
+  &:focus-visible,
+  &:focus-within {
+    --priv-color: var(--color-palette-brown);
+
+    &:invalid {
+      --priv-color: var(--color-classic-red);
+    }
+
+    box-shadow: 0 0 0px 2px var(--priv-color);
+  }
+}
+
+// ---------------------------------------------------------------------- ANCHOR TAGS
+a {
+  text-decoration: none;
+  color: var(--color-palette-orange);
+
+  &:hover,
+  &.loading {
+    color: var(--color-classic-blue);
+    text-decoration: underline;
+  }
+
+  &:active,
+  &.loading {
+    color: var(--color-palette-lightblue);
+  }
+}
+
+// ---------------------------------------------------------------------- TEXT AREA
+textarea {
+  resize: vertical;
+  min-height: 3ch;
+  max-height: 15ch;
+}
+
+.options-wrapper {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.25rem 1rem;
+
+  .input[type="radio"] {
+    margin: 0 0.75rem;
+  }
+}
+// #endregion
+
+// #region ##################################################################################### BUTTONS
+// ---------------------------------------------------------------------- GENERAL
+button,
+.dropdown,
+.as-button,
+.nav-item {
+  margin: $margin-small;
+  padding: $padding-button;
+
+  font-family: var(--font-poppins);
+  font-weight: 500;
+  text-decoration: none;
+
+  @include border(currentColor, 1rem);
+  @include gral-trans(null, background-color);
+
+  // -------------------------------------------------- DEFAULT STYLE
+  background-color: var(--color-shadow-white);
+  border-radius: 0.5rem;
+  border: 2px solid var(--color-palette-brown);
+  color: var(--color-palette-brown);
+  height: 2rem;
+
+  // -------------------------------------------------- HOVER
+  &:hover,
+  &.loading {
+    cursor: pointer;
+    text-decoration: none;
+    opacity: 0.7;
+  }
+
+  // -------------------------------------------------- ACTIVE
+  &:active,
+  &.loading {
+    transition-delay: -0.2s;
+    opacity: 0.9;
+    transform: scale(0.95);
+  }
+
+  // -------------------------------------------------- CUSTOM STYLES - CLEAR WHITE
+  &.clear {
+    background-color: transparent;
+    color: var(--color-palette-brown);
+
+    &:hover,
+    &.loading {
+      cursor: pointer;
+      background-color: mix($color-palette-lightblue, transparent, 20%);
+      color: var(--color-palette-lightblue);
+    }
+  }
+
+  // -------------------------------------------------- CUSTOM STYLES - LOGIN
+  &.login {
+    background-color: var(--color-palette-brown);
+    color: var(--color-shadow-white);
+    border: none;
+    border-radius: 0.25rem;
+    box-shadow: var(--shadow-button);
+
+    &:active,
+    &.loading {
+      box-shadow: inset $shadow-small;
+    }
+  }
+
+  // -------------------------------------------------- CUSTOM STYLES - LOGOUT
+  &.logout {
+    background-color: var(--color-palette-brown);
+    color: var(--color-shadow-white);
+    border: none;
+    border-radius: 1rem;
+    box-shadow: var(--shadow-button);
+
+    &:active,
+    &.loading {
+      box-shadow: inset $shadow-small;
+    }
+  }
+
+  // -------------------------------------------------- CUSTOM STYLES - PRIMARY
+  &.primary,
+  &.success {
+    background-color: var(--color-state-success);
+    color: var(--color-shadow-white);
+    border: none;
+    border-radius: 0.25rem;
+    box-shadow: var(--shadow-button);
+
+    &:active,
+    &.loading {
+      box-shadow: inset $shadow-small;
+    }
+  }
+
+  // -------------------------------------------------- CUSTOM STYLES - SECONDARY
+  &.secondary,
+  &.warning {
+    background-color: #ff8d01;
+    color: var(--color-shadow-white);
+    border: none;
+    border-radius: 0.25rem;
+    box-shadow: var(--shadow-button);
+
+    &:active,
+    &.loading {
+      box-shadow: inset $shadow-small;
+    }
+  }
+
+  // -------------------------------------------------- CUSTOM STYLES - CLEAR
+  &.danger {
+    background-color: var(--color-classic-red);
+    color: var(--color-shadow-white);
+    border: none;
+    border-radius: 0.25rem;
+    box-shadow: var(--shadow-button);
+
+    &:active,
+    &.loading {
+      box-shadow: inset $shadow-small;
+    }
+  }
+
+  // -------------------------------------------------- CUSTOM STYLES - BIG BUTTON
+  &.big {
+    font-size: 1rem;
+  }
+}
+// #endregion
+
+// #region ##################################################################################### GLOBAL NAVIGATION
+// ---------------------------------------------------------------------- NAVBAR
+nav,
+.navbar {
+  position: sticky;
+  display: flex;
+  top: 0px;
+  min-height: 6vh;
+  padding: 0.4rem;
+  justify-content: space-between;
+
+  background-color: white;
+  border-bottom: 3px solid var(--color-palette-brown);
+  align-items: center;
+  z-index: 10;
+
+  // -------------------------------------------------- LOGO
+  .logo,
+  .logo-responsive {
+    height: 4rem;
+    box-shadow: var(--shadow-button);
+    border-radius: 2.5rem;
+    // margin: 0.5rem 1.5rem;
+
+    &-responsive {
+      display: none;
+      height: 50px;
+    }
+  }
+
+  // -------------------------------------------------- LOGOUT RESPONSIVE
+  .logout-resp {
+    display: none;
+    background-size: 70%;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin: 0;
+    padding: 0;
+    border-radius: 50%;
+  }
+
+  // -------------------------------------------------- MEDIA QUERY
+  @media screen and (max-width: 750px) {
+    .logo {
+      display: none;
+    }
+
+    .logo-responsive {
+      display: initial;
+    }
+
+    .button.logout {
+      display: none;
+    }
+
+    .logout-resp {
+      display: block;
+    }
+  }
+}
+
+// -------------------------------------------------- BREADCRUMBS
+.breadcrumbs {
+  display: inline-flex;
+  overflow: hidden;
+  white-space: nowrap;
+  flex-grow: 1;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  overscroll-behavior-inline: contain;
+  gap: 2px;
+  width: 100%;
+  padding-left: 2rem;
+
+  scrollbar-width: none;
+  position: absolute;
+  left: 0;
+  // margin-left: 2rem;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .item {
+    outline: none;
+    padding: 0.75em 0.75em 0.75em 1.25em;
+    position: relative;
+    text-decoration: none;
+    transition: 0.2s linear;
+    padding-right: 3px;
+    padding-bottom: 5px;
+    display: inline-block;
+
+    a {
+      color: var(--color-palette-brown);
+      text-decoration: none;
+
+      &:hover {
+        color: var(--color-palette-orange);
+        border-bottom: 1px solid;
+      }
+    }
+
+    &:after,
+    &:before {
+      background: var(--color-palette-brown);
+      bottom: 0;
+      clip-path: polygon(75% 0%, 100% 50%, 75% 100%, 63% 100%, 90% 50%, 63% 0%);
+      content: "";
+      position: absolute;
+      top: 38%;
+      left: -6px;
+      transition: 0.2s linear;
+      width: 1em;
+      z-index: 1;
+      min-height: 40%;
+      max-height: 20%;
+    }
+
+    &:before {
+      background: #cbd2d9;
+      margin-left: 1px;
+    }
+
+    &:last-child {
+      border-right: 3px;
+    }
+  }
+
+  @media screen and (max-width: 750px) {
+    padding-left: 0.5rem;
+  }
+
+  @media screen and (max-width: 500px) {
+    padding-left: 0;
+
+    .item {
+      display: none;
+    }
+
+    .item:nth-last-child(-n + 2) {
+      display: inline-block;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------- POPUP
+.popup {
+  position: fixed;
+  z-index: 100;
+  bottom: 0;
+  left: 0%;
+  width: 100%;
+  min-height: 5rem;
+  // border-radius: 0 1rem 1rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  margin: 0;
+  // padding: 1rem 1.5rem;
+  font-size: 1.2rem;
+  font-family: var(--font-raleway);
+  font-weight: 600;
+  background-color: var(--color-shadow-white);
+
+  img {
+    padding: 0 1.5rem;
+  }
+
+  .close-button {
+    margin: 0;
+    border: none;
+    background-color: transparent;
+    margin-left: auto;
+    font-size: 2rem;
+    height: 100%;
+    color: var(--color-shadow-lightgray);
+  }
+
+  // -------------------------------------------------- POPUP STATE (default) - Success
+  --state-color: var(--color-state-success);
+  color: var(--color-classic-green);
+  border-left: 1.5rem solid;
+  border-left-color: var(--state-color);
+  border-top: 2px solid;
+
+  user-select: auto;
+
+  @include slide(null, null, true, true);
+
+  // -------------------------------------------------- POPUP STATE - Closed
+  &.close {
+    @include slide(null, left, false, false);
+  }
+
+  // -------------------------------------------------- POPUP STATE - Warning
+  &.warning {
+    color: var(--color-classic-orange);
+    --state-color: var(--color-classic-yellow);
+    background-color: var(--color-palette-beige);
+  }
+
+  // -------------------------------------------------- POPUP STATE - Error
+  &.error {
+    color: var(--color-classic-red);
+    --state-color: var(--color-classic-red);
+    background-color: var(--color-palette-pink);
+  }
+
+  // -------------------------------------------------- POPUP STATE - Informative
+  &.informative {
+    color: var(--color-base-darkblue);
+    --state-color: var(--color-classic-cyan);
+    background-color: var(--color-palette-lightblue);
+  }
+
+  // -------------------------------------------------- RESPONSIVE
+  @media screen and (max-width: 500px) {
+    img,
+    .close-button {
+      padding: 0 0.5rem;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------- FOOTER
+footer,
+.footer {
+  width: 100%;
+  min-height: 2rem;
+  margin-top: auto;
+
+  background-color: var(--color-base-darkblue);
+  background: var(--gradient-logo);
+  border-top: 2px solid var(--color-palette-lightblue);
+
+  text-align: right;
+  color: var(--color-palette-blue);
+  padding: 1rem 0 0.5rem 0;
+
+  a,
+  a:hover {
+    color: var(--color-logo-blue);
+  }
+
+  a:active {
+    color: var(--color-palette-lightblue);
+  }
+}
+// #endregion
+
+// #region ##################################################################################### MODAL
+// ---------------------------------------------------------------------- MODAL CONTAINER
+.modal-container {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: #000000b3;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  overflow: auto;
+  overscroll-behavior: contain;
+
+  display: flex;
+  padding: 2.5rem 0;
+
+  color: var(--color-palette-brown);
+
+  // -------------------------------------------------- MODAL ELEMENT
+  .modal {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    min-width: 32rem;
+    width: min-content;
+    margin: auto;
+    box-shadow: var(--shadow-button);
+
+    // ============================== MODAL TITLE
+    .modal-title {
+      display: flex;
+      align-items: center;
+
+      h3 {
+        border-bottom: 1px solid;
+        flex-grow: 1;
+      }
+
+      // ============================== EXIT BUTTON
+      .exit {
+        margin: 0 0 0 0.5rem;
+        padding: 0;
+        width: 2rem;
+        height: 2rem;
+        border: none;
+        background-color: var(--color-transparent);
+
+        img {
+          width: 100%;
+        }
+      }
+    }
+
+    // ============================== FORM ELEMENT
+    form {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      padding: 0.5rem 0;
+
+      label {
+        text-align: left;
+        font-size: var(--size-label);
+      }
+
+      > .wrapper,
+      .dropzone,
+      .filenames,
+      .crud-list {
+        margin-bottom: 1rem;
+      }
+    }
+
+    // ============================== MODAL CONTROLS
+    .modal-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      button {
+        margin: 0;
+      }
+
+      button.back {
+        border: none;
+        display: flex;
+        vertical-align: middle;
+        padding: 0;
+        align-items: center;
+        background: none;
+
+        img {
+          height: 2rem;
+        }
+      }
+    }
+
+    // ============================== DROPZONE
+    .dropzone {
+      color: var(--color-palette-brown);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 2px dashed;
+      border-radius: 0.75rem;
+      padding: 0.75rem;
+      cursor: pointer;
+      font-size: 1rem;
+      gap: 0.25rem;
+      overflow: auto;
+      max-height: 8rem;
+      @include gral-trans(null, [background-color]);
+
+      img {
+        width: 3rem;
+        user-select: none;
+        pointer-events: none;
+      }
+
+      &:hover,
+      &.drop {
+        background-color: mix($color-palette-orange, $color-transparent, 35%);
+      }
+
+      &.drop,
+      &:active {
+        opacity: 0.7;
+      }
+    }
+
+    // ============================== FILENAMES
+    .filenames {
+      border: 1px solid var(--color-palette-brown);
+      max-height: 7.5rem;
+      padding: 0.5rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      overflow: auto;
+    }
+
+    // ============================== FILENAMES
+    .crud-list {
+      border: 1px solid var(--color-palette-brown);
+      max-height: 7.5rem;
+      padding: 0.5rem 0.5rem 0.5rem 1.5rem;
+      overflow: auto;
+    }
+  }
+
+  @media screen and (max-width: 500px) {
+    align-items: flex-end;
+    padding-bottom: 0;
+
+    .modal {
+      min-width: 0;
+      width: 100%;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      margin-bottom: 0;
+    }
+  }
+}
+// #endregion
+
+// #region ##################################################################################### CRUD
+// ---------------------------------------------------------------------- CRUD LIST
+.crud-list {
+  display: flex;
+  flex-direction: column;
+  padding-left: 1.5rem;
+  gap: 0.5rem;
+
+  // ---------------------------------------------------------------------- CRUD ITEM
+  .crud-list-item {
+    display: flex;
+    align-items: center;
+
+    // ---------------------------------------------------------------------- BUTTON DANGER
+    button.danger {
+      // ---------------------------------------------------------------------- DELETE ICON IMG
+      img.delete-label {
+        height: 2rem;
+        display: none;
+      }
+    }
+  }
+
+  @media screen and (max-width: 750px) {
+    .crud-list-item button.danger {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      box-shadow: none;
+
+      span.delete-label {
+        display: none;
+      }
+
+      img.delete-label {
+        display: initial;
+      }
+    }
+  }
+}
+// #endregion
+
+// #region ##################################################################################### SHOW TABLE
+.show-table {
+  margin: 0 5%;
+  --navbar-size: 78px;
+
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100svh - var(--navbar-size) - 1rem);
+
+  h1 {
+    margin-top: 2rem;
+  }
+
+  // ---------------------------------------------------------------------- CONTROLS CONTAINER
+  .controls-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    --size-icon: 25px;
+
+    background-color: var(--color-shadow-white);
+    padding-bottom: 0.5rem;
+
+    button {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    .modal-button {
+      margin-left: auto;
+      .alt-resp {
+        display: none;
+        height: 100%;
+      }
+    }
+
+    .wrapper {
+      position: relative;
+    }
+
+    .search-input {
+      padding-left: calc(0.3em + var(--size-icon) + 0.3em);
+    }
+
+    .icon-search {
+      position: absolute;
+      top: 0;
+      left: 0.3em;
+      width: var(--size-icon);
+      height: 100%;
+      pointer-events: none;
+    }
+  }
+
+  // ---------------------------------------------------------------------- TABLE CONTAINER
+  .table-container {
+    overflow: auto;
+    flex-grow: 1;
+    margin: 0 -1rem;
+    padding: 0 1rem;
+  }
+
+  .table-container > div {
+    border-radius: 0.75rem;
+    border: 1px solid var(--color-palette-brown);
+    box-shadow: 3px 1px 11px 1px rgba(0, 0, 0, 0.25);
+    margin: 1rem 0;
+    padding: 1rem 1.25rem;
+    background-color: var(--color-shadow-white);
+
+    h2 {
+      margin: 0;
+      line-height: normal;
+      cursor: pointer;
+
+      position: sticky;
+      top: 0;
+      background-color: var(--color-shadow-white);
+      z-index: 3;
+
+      &:hover {
+        text-decoration: underline;
+        text-decoration-thickness: 1.5px;
+      }
+    }
+
+    .subtable {
+      overflow: auto;
+      background-color: var(--color-shadow-white);
+    }
+
+    table {
+      width: max-content;
+      min-width: 100%;
+      margin-bottom: 0.75rem;
+      border-collapse: collapse;
+    }
+
+    h2.collapsed + .subtable {
+      display: none;
+    }
+
+    tr {
+      border-bottom: 1px solid #d4d4d4;
+    }
+
+    tbody > tr:hover {
+      background: #f5f5f5;
+      cursor: pointer;
+    }
+
+    tbody > tr:active {
+      background: #e0e0e0;
+    }
+
+    th {
+      text-align: left;
+      color: var(--color-palette-brown);
+      font-size: 1.25rem;
+      font-weight: 400;
+      padding: 0.5rem;
+    }
+
+    td {
+      font-size: 1.15rem;
+      padding: 0.5rem;
+      vertical-align: middle;
+    }
+
+    .admin-controls {
+      display: flex;
+      gap: 1.5rem;
+
+      img {
+        width: 1.5rem;
+        z-index: 1;
+      }
+
+      img:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+
+  @media screen and (max-width: 750px) {
+    --navbar-size: 64px;
+  }
+
+  @media screen and (max-width: 600px) {
+    h1 {
+      font-size: var(--size-subtitle);
+    }
+
+    h2 {
+      font-size: 1.75rem;
+    }
+
+    .controls-container {
+      .studies {
+        display: none;
+      }
+
+      .modal-button {
+        background: none;
+        padding: 0;
+        margin: 0;
+        border-radius: 50%;
+
+        .txt {
+          display: none;
+        }
+        .alt-resp {
+          display: initial;
+        }
+      }
+    }
+
+    .table-container > div table {
+      th,
+      td {
+        font-size: 1rem;
+        padding: 0.25rem 0.5rem;
+        line-height: 1;
+      }
+    }
+  }
+}
+// #endregion
+
+// #region ##################################################################################### ANIMATIONS
+// ---------------------------------------------------------------------- SPINNER - STYLES
+.spinner {
+  position: fixed;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 100;
+
+  font-family: var(--font-raleway);
+  font-size: 2.25rem;
+  text-transform: uppercase;
+  color: var(--color-base-blue);
+  user-select: none;
+
+  animation: fade-in 2s ease-out 0s;
+
+  // -------------------------------------------------- BEFORE
+  &::before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-shadow-white);
+    opacity: 0.75;
+    z-index: -1;
+  }
+
+  // -------------------------------------------------- AFTER
+  &::after {
+    content: "";
+    position: relative;
+    color: var(--color-palette-lightblue);
+    width: 2.5rem;
+    height: 5rem;
+    translate: -50%;
+    border-top: 8px solid;
+    border-left: 8px solid;
+    border-bottom: 8px solid;
+    border-top-left-radius: 100px;
+    border-bottom-left-radius: 100px;
+    transform-origin: right center;
+    animation: anim-spinner 1s linear 0s infinite;
+  }
+}
+
+// ---------------------------------------------------------------------- SPINNER - ANIMATION
+@keyframes anim-spinner {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+// ---------------------------------------------------------------------- FADE IN
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  75% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+// #endregion
