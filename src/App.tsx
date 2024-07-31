@@ -60,7 +60,7 @@ export function FSAction(
 ) {
   return new Promise<object | null>(async (resolve) => {
     // -------------------------------------------------- INSUFFICIENT DATA
-    if (action !== "read" && !auth.currentUser?.uid) {
+    if (!["read", "update"].includes(action) && !auth.currentUser?.uid) {
       GS.setAlert({
         _type: "error",
         _message: "Es necesario iniciar sesión para realizar esta acción.",
@@ -313,10 +313,10 @@ async function loadTicket(req: _LoaderFunctionArgs) {
 }
 // #endregion
 
-// #region ##################################################################################### FUNCIONES LOADERS
-// ---------------------------------------------------------------------- LOAD ADMIN DATA
+// #region ##################################################################################### FUNCIONES ACTIONS
+// ---------------------------------------------------------------------- ACTION ADMIN CRUD
 /** Se encarga del CRUD de admin para administrar los Tickets y familias. */
-async function adminAction(req: _ActionFunctionArgs) {
+async function actionAdmin(req: _ActionFunctionArgs) {
   // ============================== PREV CHECK
   const prev = await checkUser(req);
   if (prev) return prev;
@@ -335,8 +335,9 @@ async function adminAction(req: _ActionFunctionArgs) {
 
   // ============================== CHECK DATA
   data.members.forEach((memb) => {
-    if (!memb.accepted || memb.acceptedDate) return;
-    memb.acceptedDate = new Date();
+    if (memb.accepted !== !!memb.acceptedDate) {
+      memb.acceptedDate = memb.accepted ? new Date() : null;
+    }
   });
 
   // ============================== FS ACTION
@@ -356,6 +357,48 @@ async function adminAction(req: _ActionFunctionArgs) {
 
   // ============================== RETURN
   GS.cache?.closeModal?.(); // CLOSE MODAL ACTIVATOR
+  GS.cache = {};
+  return null;
+}
+
+// ---------------------------------------------------------------------- ACTION TICKET CRUD
+/** Se encarga de enviar los checks para confirmar un ticket. */
+async function actionTicket(req: _ActionFunctionArgs) {
+  // ============================== PREV CHECK
+  // no needed
+
+  // ============================== RETRIEVE CACHE
+  const data = GS.cache?.ticket as _T.Ticket;
+
+  if (!data) {
+    GS.setAlert({
+      _message: "Falta información importante!",
+      _type: "error",
+    });
+    return null;
+  }
+
+  // ============================== CHECK DATA
+  data.members.forEach((memb) => {
+    if (memb.accepted !== !!memb.acceptedDate) {
+      memb.acceptedDate = memb.accepted ? new Date() : null;
+    }
+  });
+
+  // ============================== FS ACTION
+  const success = await FSAction("update", data.id || "error", {
+    members: data.members,
+  });
+
+  if (success) {
+    GS.setAlert({
+      _message: "Gracias por confirmar!",
+      _type: "success",
+    });
+  }
+
+  // ============================== RETURN
+  GS.cache = {};
   return null;
 }
 // #endregion
@@ -403,13 +446,14 @@ function App() {
             {
               path: "admin",
               loader: loadAdmin,
-              action: adminAction,
+              action: actionAdmin,
               element: <AdminScreen />,
             },
             // -------------------------------------------------- TICKETS PAGE
             {
               path: "tickets/:ticketid",
               loader: loadTicket,
+              action: actionTicket,
               element: <TicketScreen />,
             },
           ],
