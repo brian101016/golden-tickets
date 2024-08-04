@@ -1,0 +1,58 @@
+// ExtraLight (Thin / hairline)  200
+// Light . . . . . . . . . . . . 300
+// Regular . . . . . . . . . . . 400
+// Medium  . . . . . . . . . . . 500
+// Semibold  . . . . . . . . . . 600
+// Bold  . . . . . . . . . . . . 700
+// Extrabold . . . . . . . . . . 800
+// Black . . . . . . . . . . . . 900
+
+// #region ##################################################################################### CINZEL
+// Regular
+@font-face {
+  font-family: $font-Cinzel;
+  src: url(./fonts/CinzelRegular.woff2) format("woff2");
+  font-weight: 400;
+}
+
+// Bold
+@font-face {
+  font-family: $font-Cinzel;
+  src: url(./fonts/CinzelBold.woff2) format("woff2");
+  font-weight: 700;
+}
+// #endregion
+
+// #region ##################################################################################### TANGERINE
+// Regular
+@font-face {
+  font-family: $font-Tangerine;
+  src: url(./fonts/TangerineRegular.woff2) format("woff2");
+  font-weight: 400;
+}
+
+// Bold
+@font-face {
+  font-family: $font-Tangerine;
+  src: url(./fonts/TangerineBold.woff2) format("woff2");
+  font-weight: 700;
+}
+// #endregion
+
+// #region ##################################################################################### OPEN TEXT
+// Regular
+@font-face {
+  font-family: $font-OpenText;
+  src: url(./fonts/OpenText.woff2) format("woff2");
+  font-weight: 400;
+}
+// #endregion
+
+// #region ##################################################################################### PINYON SCRIPT
+// Regular
+@font-face {
+  font-family: $font-PinyonScript;
+  src: url(./fonts/PinyonScript.woff2) format("woff2");
+  font-weight: 400;
+}
+// #endregion

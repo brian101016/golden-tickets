@@ -937,6 +937,93 @@ export function handleKeyDown(e: any) {
     }
   }
 }
+
+// ---------------------------------------------------------------------- TIME BETWEEN
+/**
+ * Gets the time between two given dates, in every single time unit.
+ *
+ * @param goal Goal date to calc the time.
+ * @param from Initial date, defaults to `Date.now()`.
+ * @returns Object containing every unit with its corresponding value associated.
+ */
+export function timeBetween(goal: Date, from?: Date) {
+  type timeObj = {
+    milliseconds: number;
+    seconds: number;
+    minutes: number;
+    hours: number;
+    date: number;
+    month: number;
+    fullYear: number;
+    rawDays: number;
+  };
+
+  from = from || new Date();
+
+  if (from > goal) {
+    const c = from;
+    from = goal;
+    goal = c;
+  }
+
+  let leftOver = 0;
+  let current = 0;
+  const absoluteDiff = goal.getTime() - from.getTime();
+  const timeDiff = {
+    rawDays: Math.floor(absoluteDiff / (24000 * 3600)),
+  };
+
+  const tags: [string, number][] = [
+    ["milliseconds", 1000],
+    ["seconds", 60],
+    ["minutes", 60],
+    ["hours", 24],
+    ["date", 30],
+    ["month", 12],
+    ["fullYear", 1],
+  ];
+
+  // ############################################ START CYCLE
+  for (const tag of tags) {
+    const [name, unit] = tag;
+    const fn = `UTC${name[0].toUpperCase()}${name.substring(1)}`;
+
+    // ignore months leftovers
+    if (name === "month") {
+      goal.setUTCDate(1);
+      from.setUTCDate(1);
+    }
+
+    // adapt leftover
+    if ((name === "date" || name === "month") && leftOver) {
+      goal[`set${fn}`](goal[`get${fn}`]() - 1);
+      leftOver = 0;
+    }
+
+    // calc
+    current = goal[`get${fn}`]() - from[`get${fn}`]() - leftOver;
+    leftOver = 0;
+
+    // check leftover
+    if (current < 0) {
+      leftOver = 1;
+
+      if (name === "date") {
+        const ff = new Date(from);
+        ff.setUTCDate(1);
+        ff.setUTCMonth(ff.getUTCMonth() + 1);
+        ff.setUTCDate(ff.getUTCDate() - 1);
+        current = ff.getUTCDate() - from.getUTCDate();
+        current += goal.getUTCDate();
+      } else current = unit + current;
+    }
+
+    timeDiff[name] = current; // SAVE
+  }
+
+  return timeDiff as timeObj;
+}
+
 // #endregion
 
 // #region ##################################################################################### HOOKS

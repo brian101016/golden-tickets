@@ -21,7 +21,7 @@ const _HomeScreen = (props: HomeScreenProps) => {
   // ---------------------------------------------------------------------- RETURN
   return (
     <>
-      <NavBar />
+      {/* <NavBar /> */}
       <AlertMessage />
 
       {props.isNotFound ? <NotFoundScreen /> : <Outlet />}

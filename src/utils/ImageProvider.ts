@@ -6,6 +6,9 @@ import bg_common_decoration from "@theme/images/bg/common-decoration.jpg";
 import bg_petals from "@theme/images/bg/petals.jpg";
 import bg_standing_dark from "@theme/images/bg/standing-dark.jpg";
 import bg_standing_light from "@theme/images/bg/standing-light.jpg";
+import bg_argollas from "@theme/images/bg/argollas.jpg";
+import bg_granular from "@theme/images/bg/granular.jpg";
+import bg_terranova from "@theme/images/bg/terranova.jpg";
 // #endregion
 
 // #region ##################################################################################### SHAPE
@@ -18,6 +21,7 @@ import shape_alert_success from "@theme/images/shape/alert-success.png";
 import shape_alert_warning from "@theme/images/shape/alert-warning.png";
 import shape_alert_error from "@theme/images/shape/alert-error.png";
 import shape_alert_info from "@theme/images/shape/alert-info.png";
+import shape_aniversario from "@theme/images/shape/aniversario.jpg";
 // #endregion
 
 // #region ##################################################################################### ICON
@@ -38,6 +42,9 @@ const IP = {
     petals: bg_petals,
     standing_dark: bg_standing_dark,
     standing_light: bg_standing_light,
+    argollas: bg_argollas,
+    granular: bg_granular,
+    terranova: bg_terranova,
   },
 
   /** Imágenes utilizadas como **contenido** (imágenes medianas). */
@@ -51,6 +58,7 @@ const IP = {
     alert_warning: shape_alert_warning,
     alert_error: shape_alert_error,
     alert_info: shape_alert_info,
+    aniversario: shape_aniversario,
   },
 
   /** Imágenes utilizadas como **íconos** (imágenes pequeñas). */
