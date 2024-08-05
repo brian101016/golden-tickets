@@ -27,24 +27,18 @@ $font-PinyonScript: "PinyonScript";
 // ---------------------------------------------------------------------- SASS VARIABLES
 // -------------------------------------------------- COLORS
 // ============================== PALETTE
-$color-palette-darkblue: #0c3670;
+$color-palette-blue-ultra: #0c3670;
+$color-palette-blue-royal: #1a6396;
+$color-palette-blue-light: #94d5db;
+$color-palette-blue-pastel: #accbe1;
 $color-palette-blue: #297ca4;
 $color-palette-gray: #96a9b0;
-$color-palette-orange: #f8b55c;
-$color-palette-lightblue: #94d5db;
 $color-palette-pink: #f8a295;
-$color-palette-beige: #fbdcb1;
+$color-palette-beige: #f8e7aa;
 $color-palette-brown: #814603;
-
-// ============================== LOGO
-$color-logo-blue: #a1d7d7;
-$color-logo-brown: #7f4603;
-
-// ============================== BASE
-$color-base-darkblue: #1a6396;
-$color-base-blue: #1e6fa8;
-$color-base-lightblue: #3182bc;
-$color-base-skyblue: #7ea1b4;
+$color-palette-golden: #daa520;
+$color-palette-cream: #f8b55c;
+$color-palette-orange: #ff9815;
 
 // ============================== CLASSIC
 $color-classic-blue: #0d6efd; // PRIMARY
@@ -76,11 +70,12 @@ $color-state-informative: #{$color-classic-cyan};
 
 // ============================== TRANSPARENT COLORS
 $color-transparent: transparent; // Background
+$color-semi-transparent: #00000080;
 
 // -------------------------------------------------- LINEAR GRADIENTS
 $gradient-logo: linear-gradient(
   180deg,
-  var(--color-logo-blue) 0%,
+  var(--color-palette-blue-light) 0%,
   trasparent 100%
 );
 
@@ -89,21 +84,36 @@ $shadow-small: 0 0 10px -3px var(--color-shadow-black);
 $shadow-medium: 0 0 15px -3px var(--color-shadow-dark);
 $shadow-button: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 
+$shadow-round: 0 0 20px 0 var(--color-semi-transparent);
+
+$shadow-updown: inset 0px 20px 20px -20px var(--color-semi-transparent),
+  inset 0px -20px 20px -20px var(--color-semi-transparent);
+
+$shadow-sides: inset -20px 0px 20px -20px var(--color-semi-transparent),
+  inset 20px 0px 20px -20px var(--color-semi-transparent);
+
 // -------------------------------------------------- OTHER
 // ============================== MARGIN & PADDING
-$margin-title: 0.75rem 0;
-$padding-button: 0.3em 1em;
-
 $margin-small: 0.5rem 0.75rem;
 $margin-medium: 0.75rem 1.5rem;
 $margin-big: 1.75rem 2.5rem;
 
+$margin-section: 7rem auto;
+$margin-title: 3.5rem 0;
+$margin-subtitle: 1.5rem 0;
+$margin-screen: 0.5rem 1.25rem;
+
 $padding-small: 0.25em 0.5em;
 $padding-medium: 0.5em 0.75em;
+$padding-big: 0.75em 0.85em;
+
+$padding-button: 0.3em 1em;
 
 // ============================== FONT SIZES
+$size-big: 8rem;
 $size-title: 5rem;
 $size-subtitle: 3rem;
+$size-content: 2.5rem;
 $size-thirdtitle: 2rem;
 $size-label: 1.25rem;
 $size-body: 1rem;
@@ -118,24 +128,18 @@ $font-roboto: "Roboto";
 :root {
   // -------------------------------------------------- COLORS
   // ============================== PALETTE
-  --color-palette-darkblue: #{$color-palette-darkblue};
+  --color-palette-blue-ultra: #{$color-palette-blue-ultra};
+  --color-palette-blue-royal: #{$color-palette-blue-royal};
+  --color-palette-blue-pastel: #{$color-palette-blue-pastel};
+  --color-palette-blue-light: #{$color-palette-blue-light};
   --color-palette-blue: #{$color-palette-blue};
   --color-palette-gray: #{$color-palette-gray};
-  --color-palette-orange: #{$color-palette-orange};
-  --color-palette-lightblue: #{$color-palette-lightblue};
   --color-palette-pink: #{$color-palette-pink};
   --color-palette-beige: #{$color-palette-beige};
   --color-palette-brown: #{$color-palette-brown};
-
-  // ============================== LOGO
-  --color-logo-blue: #{$color-logo-blue};
-  --color-logo-brown: #{$color-logo-brown};
-
-  // ============================== BASE
-  --color-base-darkblue: #{$color-base-darkblue};
-  --color-base-blue: #{$color-base-blue};
-  --color-base-lightblue: #{$color-base-lightblue};
-  --color-base-skyblue: #{$color-base-skyblue};
+  --color-palette-golden: #{$color-palette-golden};
+  --color-palette-cream: #{$color-palette-cream};
+  --color-palette-orange: #{$color-palette-orange};
 
   // ============================== CLASSIC COLORS
   --color-classic-blue: #{$color-classic-blue};
@@ -167,6 +171,7 @@ $font-roboto: "Roboto";
 
   // ============================== TRANSPARENT COLORS
   --color-transparent: #{$color-transparent};
+  --color-semi-transparent: #{$color-semi-transparent};
 
   // ============================== LINEAR GRADIENTS
   --gradient-logo: #{$gradient-logo};
@@ -176,21 +181,32 @@ $font-roboto: "Roboto";
   --shadow-medium: #{$shadow-medium};
   --shadow-button: #{$shadow-button};
 
+  --shadow-round: #{$shadow-round};
+  --shadow-updown: #{$shadow-updown};
+  --shadow-sides: #{$shadow-sides};
+
   // -------------------------------------------------- OTHER
   // ============================== MARGIN & PADDING
-  --margin-title: #{$margin-title};
-  --padding-button: #{$padding-button};
-
   --margin-small: #{$margin-small};
   --margin-medium: #{$margin-medium};
   --margin-big: #{$margin-big};
 
+  --margin-section: #{$margin-section};
+  --margin-title: #{$margin-title};
+  --margin-subtitle: #{$margin-subtitle};
+  --margin-screen: #{$margin-screen};
+
   --padding-small: #{$padding-small};
   --padding-medium: #{$padding-medium};
+  --padding-big: #{$padding-big};
+
+  --padding-button: #{$padding-button};
 
   // ============================== FONT SIZES
+  --size-big: #{$size-big};
   --size-title: #{$size-title};
   --size-subtitle: #{$size-subtitle};
+  --size-content: #{$size-content};
   --size-thirdtitle: #{$size-thirdtitle};
   --size-label: #{$size-label};
   --size-body: #{$size-body};
@@ -354,8 +370,7 @@ body,
   overflow-x: clip;
 
   // -------------------------------------------------- CUSTOM BACKGROUND
-  // background-color: var(--color-shadow-white);
-  background-color: #accbe1;
+  background-color: var(--color-palette-blue-pastel); // WIP
 }
 // #endregion
 
@@ -372,8 +387,17 @@ body,
   flex-grow: 1;
 }
 
-.screen {
-  margin: 0.5rem 1.25rem;
+// ---------------------------------------------------------------------- VERTICAL SCREEN
+.vertical-screen {
+  @extend .screen;
+  margin: 0 auto;
+  padding: 0;
+
+  max-width: 1024px;
+  width: 100%;
+
+  background-color: var(--color-shadow-white);
+  box-shadow: var(--shadow-round);
 }
 
 // ---------------------------------------------------------------------- DISABLE POINTER EVENTS
@@ -403,7 +427,7 @@ body,
 // ---------------------------------------------------------------------- FIREFOX
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--color-palette-brown) var(--color-shadow-semilight);
+  scrollbar-color: var(--color-palette-golden) var(--color-palette-beige);
 }
 
 // ---------------------------------------------------------------------- WEBKIT
@@ -415,7 +439,7 @@ body,
 
   // -------------------------------------------------- TRACK
   &::-webkit-scrollbar-track {
-    background-color: var(--color-shadow-semilight);
+    background-color: var(--color-palette-beige);
     &:hover {
       background-color: var(--color-shadow-light);
     }
@@ -423,14 +447,14 @@ body,
 
   // -------------------------------------------------- THUMB
   *::-webkit-scrollbar-thumb {
-    background-color: var(--color-logo-brown);
-    border: 2px solid var(--color-shadow-semilight);
+    background-color: var(--color-palette-brown);
+    border: 2px solid var(--color-palette-beige);
     &:hover {
-      background-color: mix($color-palette-brown, $color-shadow-light, 85%);
+      background-color: mix($color-palette-golden, $color-shadow-light, 85%);
       border-color: var(--color-shadow-light);
     }
     &:active {
-      background-color: mix($color-palette-brown, $color-shadow-light, 65%);
+      background-color: mix($color-palette-golden, $color-shadow-light, 65%);
     }
   }
 }
@@ -478,6 +502,27 @@ a {
   justify-content: flex-end;
 }
 
+// ---------------------------------------------------------------------- FLEX ROW CENTER
+.flex-row-center {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+// ---------------------------------------------------------------------- FLEX COLUMN CENTER
+.flex-col-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+// ---------------------------------------------------------------------- FLEX COLUMN BETWEEN
+.flex-col-betw {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 // ---------------------------------------------------------------------- BOLD
 .bold {
   font-weight: 700;
@@ -495,14 +540,6 @@ a {
   visibility: hidden !important;
 }
 
-// ---------------------------------------------------------------------- BG IMG
-.bg-img {
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-color: transparent;
-}
-
 // ---------------------------------------------------------------------- NO RESULT
 .no-results {
   margin-top: 5rem;
@@ -515,22 +552,100 @@ a {
   overflow: hidden;
   white-space: pre;
 }
+
+// ---------------------------------------------------------------------- REMARK
+.remark {
+  backdrop-filter: blur(5px) brightness(1.25);
+}
+// #endregion
+
+// #region ##################################################################################### BACKGROUND IMAGES
+// ---------------------------------------------------------------------- BACKGROUND IMAGE CONTAINER
+.bg-image-container {
+  @extend .flex-row-center;
+
+  margin: 0;
+  padding: 3rem 0;
+
+  background-color: var(--color-palette-beige);
+  box-shadow: var(--shadow-updown);
+}
+
+// ---------------------------------------------------------------------- BACKGROUND IMAGE
+.bg-image {
+  position: relative;
+  width: 100%;
+  height: 90svh; // WIP
+  /* aspect-ratio: 1 / 1; */
+
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-color: var(--color-shadow-white);
+
+  box-shadow: var(--shadow-updown);
+
+  // -------------------------------------------------- BACKGROUND (for filters)
+  &::before {
+    content: "";
+    width: 100%;
+    height: 100%;
+  }
+
+  // -------------------------------------------------- ROUND
+  &.circle {
+    box-shadow: var(--shadow-round);
+    border-radius: 100%;
+
+    width: 75%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+  }
+
+  // -------------------------------------------------- CENTER
+  &.center {
+    background-size: contain;
+    background-color: transparent;
+  }
+}
 // #endregion
 
 // #region ##################################################################################### TITLES
+// ---------------------------------------------------------------------- BIG TITLE
+.big-title,
+.header-title {
+  margin: var(--margin-title);
+  margin-top: 0;
+  padding: var(--padding-big);
+
+  border: 10px solid;
+  border-style: double;
+
+  color: var(--color-palette-golden);
+  font-family: var(--font-pinyon);
+  font-size: var(--size-big);
+  font-weight: 700;
+
+  line-height: 1;
+  text-align: center;
+  font-variant: normal;
+  letter-spacing: 4px;
+}
+
 // ---------------------------------------------------------------------- TITLE - H1
 h1,
 .title,
 .as-h1 {
-  margin: $margin-title;
+  margin: var(--margin-title);
   padding: 0;
 
-  color: goldenrod;
-  font-family: var(--font-pinyon);
-  font-size: $size-title;
-  font-weight: 500;
-  line-height: 1;
+  color: var(--color-palette-brown);
+  font-family: var(--font-tangerine);
+  font-size: var(--size-title);
+  font-weight: 700;
 
+  line-height: 1;
   font-variant: normal;
   text-align: center;
 }
@@ -539,17 +654,17 @@ h1,
 h2,
 .subtitle,
 .as-h2 {
-  margin: $margin-title;
+  width: max(75%, 20rem);
+  margin: var(--margin-section);
   padding: 0;
 
-  color: var(--color-palette-brown);
-  font-family: var(--font-tangerine);
-  font-size: $size-subtitle;
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: 0.25em;
-  text-align: center;
+  font-family: var(--font-raleway);
+  font-weight: 300;
+  font-size: var(--size-content);
 
+  color: var(--color-shadow-black);
+  text-align: center;
+  line-height: 1;
   font-variant: normal;
 }
 
@@ -558,13 +673,20 @@ h3,
 .third-title,
 .as-h3,
 legend {
-  margin: $margin-title;
+  width: 100%;
+  height: min-content;
+  margin: var(--margin-subtitle);
+  padding: var(--padding-medium);
 
   color: var(--color-palette-brown);
-  font-family: var(--font-cinzel);
-  font-size: $size-thirdtitle;
-  font-weight: 600;
-  line-height: 1.25;
+  font-family: var(--font-tangerine);
+  font-size: var(--size-subtitle);
+  font-weight: 700;
+
+  font-variant: normal;
+  line-height: 1;
+  text-align: center;
+  letter-spacing: 4px;
 }
 // #endregion
 
@@ -581,7 +703,7 @@ fieldset,
   padding: $padding-medium;
   padding-top: 0.2em;
 
-  @include border(var(--color-palette-lightblue), 0.5rem);
+  @include border(var(--color-palette-blue-light), 0.5rem);
 
   background-color: mix($color-shadow-light, transparent, 50%);
 
@@ -641,7 +763,7 @@ label,
     @include border(currentColor, 1em);
     border-top-left-radius: 0;
 
-    background-color: mix($color-palette-orange, $color-palette-beige, 25%);
+    background-color: mix($color-palette-cream, $color-palette-beige, 25%);
 
     top: 50%;
     left: 100%;
@@ -679,7 +801,7 @@ textarea,
   font-weight: 400;
   font-size: 0.8rem;
 
-  --priv-color: var(--color-palette-darkblue);
+  --priv-color: var(--color-palette-blue-ultra);
 
   background-color: var(--color-shadow-white);
   color: var(--color-palette-brown);
@@ -726,7 +848,7 @@ textarea,
       border-radius: inherit;
       width: 100%;
       height: 100%;
-      background-color: var(--color-base-blue);
+      background-color: var(--color-palette-blue);
       transform: scale(0);
       transform-origin: center center;
       @include gral-trans(null, [transform]);
@@ -780,7 +902,7 @@ textarea,
 // ---------------------------------------------------------------------- ANCHOR TAGS
 a {
   text-decoration: none;
-  color: var(--color-palette-orange);
+  color: var(--color-palette-cream);
 
   &:hover,
   &.loading {
@@ -790,7 +912,7 @@ a {
 
   &:active,
   &.loading {
-    color: var(--color-palette-lightblue);
+    color: var(--color-palette-blue-light);
   }
 }
 
@@ -859,8 +981,8 @@ button,
     &:hover,
     &.loading {
       cursor: pointer;
-      background-color: mix($color-palette-lightblue, transparent, 20%);
-      color: var(--color-palette-lightblue);
+      background-color: mix($color-palette-blue-light, transparent, 20%);
+      color: var(--color-palette-blue-light);
     }
   }
 
@@ -954,7 +1076,7 @@ nav,
   padding: 0.4rem;
   justify-content: space-between;
 
-  background-color: white;
+  background-color: var(--color-shadow-white);
   border-bottom: 3px solid var(--color-palette-brown);
   align-items: center;
   z-index: 10;
@@ -1041,7 +1163,7 @@ nav,
       text-decoration: none;
 
       &:hover {
-        color: var(--color-palette-orange);
+        color: var(--color-palette-cream);
         border-bottom: 1px solid;
       }
     }
@@ -1155,9 +1277,9 @@ nav,
 
   // -------------------------------------------------- POPUP STATE - Informative
   &.informative {
-    color: var(--color-base-darkblue);
+    color: var(--color-palette-blue-royal);
     --state-color: var(--color-classic-cyan);
-    background-color: var(--color-palette-lightblue);
+    background-color: var(--color-palette-blue-light);
   }
 
   // -------------------------------------------------- RESPONSIVE
@@ -1176,9 +1298,9 @@ footer,
   min-height: 2rem;
   margin-top: auto;
 
-  background-color: var(--color-base-darkblue);
+  background-color: var(--color-palette-blue-royal);
   background: var(--gradient-logo);
-  border-top: 2px solid var(--color-palette-lightblue);
+  border-top: 2px solid var(--color-palette-blue-light);
 
   text-align: right;
   color: var(--color-palette-blue);
@@ -1186,11 +1308,11 @@ footer,
 
   a,
   a:hover {
-    color: var(--color-logo-blue);
+    color: var(--color-palette-blue-pastel);
   }
 
   a:active {
-    color: var(--color-palette-lightblue);
+    color: var(--color-palette-blue-light);
   }
 }
 // #endregion
@@ -1215,7 +1337,7 @@ footer,
 
   // -------------------------------------------------- MODAL ELEMENT
   .modal {
-    background-color: white;
+    background-color: var(--color-shadow-white);
     padding: 2rem;
     border-radius: 1rem;
     min-width: 32rem;
@@ -1317,7 +1439,7 @@ footer,
 
       &:hover,
       &.drop {
-        background-color: mix($color-palette-orange, $color-transparent, 35%);
+        background-color: mix($color-palette-cream, $color-transparent, 35%);
       }
 
       &.drop,
@@ -1593,6 +1715,47 @@ footer,
 }
 // #endregion
 
+// #region ##################################################################################### COLUMN ELEMENT
+// ---------------------------------------------------------------------- (70) SECCIÓN SECUNDARIA
+.column {
+  @extend .flex-col-center;
+
+  margin: 0;
+  padding: 5rem 0;
+  gap: 3rem;
+  position: relative;
+
+  overflow: hidden;
+  text-align: center;
+
+  // -------------------------------------------------- COLUMN ITEM
+  .column-item {
+    z-index: 1;
+  }
+
+  // -------------------------------------------------- COLUMN TITLE
+  .column-title {
+    font-family: var(--font-tangerine);
+    font-size: 4rem;
+    font-weight: 700;
+
+    color: var(--color-palette-orange);
+    text-shadow: 2px 2px 2px var(--color-palette-brown);
+  }
+
+  // -------------------------------------------------- COLUMN CHILDREN
+  .column-children {
+    @extend .flex-row-center;
+    gap: 3.5rem;
+
+    color: var(--color-shadow-white);
+    font-family: var(--font-tangerine);
+    font-size: 3.5rem;
+    line-height: 0.7em;
+  }
+}
+// #endregion
+
 // #region ##################################################################################### ANIMATIONS
 // ---------------------------------------------------------------------- SPINNER - STYLES
 .spinner {
@@ -1611,7 +1774,7 @@ footer,
   font-family: var(--font-raleway);
   font-size: 2.25rem;
   text-transform: uppercase;
-  color: var(--color-base-blue);
+  color: var(--color-palette-blue);
   user-select: none;
 
   animation: fade-in 2s ease-out 0s;
@@ -1630,7 +1793,7 @@ footer,
   &::after {
     content: "";
     position: relative;
-    color: var(--color-palette-lightblue);
+    color: var(--color-palette-blue-light);
     width: 2.5rem;
     height: 5rem;
     translate: -50%;

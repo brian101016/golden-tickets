@@ -28,6 +28,7 @@ import shape_aniversario from "@theme/images/shape/aniversario.jpg";
 import icon_close from "@theme/images/icon/close.png";
 import icon_eye_off from "@theme/images/icon/eye-off.png";
 import icon_eye_on from "@theme/images/icon/eye-on.png";
+import icon_heart from "@theme/images/icon/heart.png";
 // #endregion
 
 // #region ##################################################################################### MISC
@@ -66,6 +67,7 @@ const IP = {
     close: icon_close,
     eye_off: icon_eye_off,
     eye_on: icon_eye_on,
+    heart: icon_heart,
   },
 
   /** Imágenes sin categoría utilizadas en ocasiones específicas. */
