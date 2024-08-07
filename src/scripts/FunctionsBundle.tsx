@@ -167,6 +167,26 @@ export function fitString(
   return result;
 }
 
+// ---------------------------------------------------------------------- GET IMG SIZE
+/**
+ * Renders an image with an `HTMLImageElement` from the given url.
+ * After the element loads, returns the `width` and `height`.
+ * @param url Representing the `img.src`.
+ * @returns An object with both `width` & `height` as numbers.
+ */
+export async function getImageSize(url: string) {
+  return new Promise<{ width: number; height: number }>((r) => {
+    const img = document.createElement("img");
+    img.src = url;
+    img.onload = () => {
+      r({
+        width: img.width,
+        height: img.height,
+      });
+    };
+  });
+}
+
 // #endregion
 
 // #region ##################################################################################### FORMAT & STYLE TEXT
@@ -1114,30 +1134,38 @@ export const useIsFirstRender = () => {
   return ifrRef.current;
 };
 
-// ---------------------------------------------------------------------- USE REF CALLBACK - UNUSED
+// ---------------------------------------------------------------------- USE REF CALLBACK
+type cleanUp = (prev: HTMLElement) => void | Promise<void>;
 /**
- * Hook para manipular `ref`s cuando éstas cambien. Como un `useEffect` cada vez que `ref.current` cambia.
+ * Simulate a `useEffect` but with a ref element. That is, every time `ref.current` changes
+ * the callbacks get executed.
  *
  * Cheers to: https://gist.github.com/thebuilder/fb07c989093d4a82811625de361884e7.
- * @deprecated
- * @returns una `ref function` que admite un `node` como parámetro.
+ *
+ * @param onMount Callback to execute every time the `ref.current` points to a new element.
+ * @param cleanUp Similar to `onMount`, but executes *with* the previous element as to clean up.
+ * @param onNull Executes every time the element unmounts, after the `cleanUp` function.
+ * @returns `ref function` to insert as a `ref` parameter of any HTMLElement.
  */
-export function useRefCallback(fun?: (el: any) => void) {
-  const ref = useRef(null);
-  const setRef = useCallback((node) => {
-    if (ref.current) {
-      // Make sure to cleanup any events/references added to the last instance
-    }
+export function useRefCallback(
+  onMount?: (el: HTMLElement) => void | cleanUp | Promise<void | cleanUp>,
+  onNull?: () => void | Promise<void>
+) {
+  const ref = useRef<null | HTMLElement>(null);
+  const [LS] = useState<{ fn: cleanUp | void }>({ fn: undefined });
 
-    if (node) {
-      // Check if a node is actually passed. Otherwise node would be null.
-      // You can now do what you need to, addEventListeners, measure, etc.
-      // fun?.(node);
-    }
+  const setRef = useCallback(
+    async (node: null | HTMLElement) => {
+      if (ref.current) await LS.fn?.(ref.current);
 
-    // Save a reference to the node
-    ref.current = node;
-  }, []);
+      if (node) LS.fn = await onMount?.(node);
+      else await onNull?.();
+
+      // Save a reference to the node
+      ref.current = node;
+    },
+    [LS, onMount, onNull]
+  );
 
   return setRef;
 }

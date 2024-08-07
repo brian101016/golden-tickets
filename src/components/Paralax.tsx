@@ -1,5 +1,10 @@
 import styled, { css } from "styled-components";
-import { parseCSS } from "scripts/FunctionsBundle";
+import {
+  getImageSize,
+  parseCSS,
+  useRefCallback,
+} from "scripts/FunctionsBundle";
+import { useCallback } from "react";
 
 // #region ##################################################################################### PROPS
 type _Base = import("@utils/ClassTypes")._Base;
@@ -14,6 +19,8 @@ type ParalaxProps = {
   _filter?: string;
   /** Overrides the default of `height: 90svh;` from the `bg-img` element. */
   _autoheight?: boolean;
+  /** Overrides the default `background-position: top center;` from the `bg-img` element. */
+  _bgPosition?: string;
 
   /** Children to append to the container generated. */
   children?: React.ReactNode;
@@ -24,12 +31,40 @@ type ParalaxProps = {
 
 // #region ##################################################################################### COMPONENT
 const _Paralax = (props: ParalaxProps) => {
+  const onMount = useCallback(
+    async (el: HTMLElement) => {
+      const size = await getImageSize(props._src);
+      // console.log("Mounted on image", props._src, "with size", size);
+
+      function handleAdjustSize() {
+        const num = visualViewport!.height * size.width;
+
+        if (el.offsetWidth > num / size.height)
+          el.style.backgroundSize = el.offsetWidth + "px auto";
+        else el.style.backgroundSize = "auto 100%";
+      }
+
+      handleAdjustSize();
+
+      window.addEventListener("resize", handleAdjustSize);
+      return (el: HTMLElement) => {
+        window.removeEventListener("resize", handleAdjustSize);
+        // console.log("unmounted on image", props._src, "with elem", el);
+      };
+    },
+    [props._src]
+  );
+
+  const setref = useRefCallback(onMount);
+
   // ---------------------------------------------------------------------- RETURN
   return (
     <div
       className={props.className + (props._shape ? " bg-image-container" : "")}
     >
-      <div className={"bg-image " + (props._shape || "")}>{props.children}</div>
+      <div className={"bg-image " + (props._shape || "")} ref={setref}>
+        {props.children}
+      </div>
     </div>
   );
 };
@@ -44,6 +79,9 @@ const Paralax = styled(_Paralax).attrs((props: ParalaxProps): ParalaxProps => {
 
     .bg-image {
       background-image: url(${props._src});
+      background-size: auto 100%;
+
+      background-position: ${props._bgPosition};
       height: ${props._autoheight ? "auto" : ""};
 
       &::before {
