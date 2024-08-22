@@ -46,13 +46,13 @@ const _AlertMessage = (props: _Base) => {
       }
     >
       {GS.alert._type === "error" ? (
-        <img src={IP.shape.alert_error} alt="icon error alert" />
+        <img src={IP.icon.alert_error} alt="icon error alert" />
       ) : GS.alert._type === "warning" ? (
-        <img src={IP.shape.alert_warning} alt="icon warning alert" />
+        <img src={IP.icon.alert_warning} alt="icon warning alert" />
       ) : GS.alert._type === "informative" ? (
-        <img src={IP.shape.alert_info} alt="icon info alert" />
+        <img src={IP.icon.alert_info} alt="icon info alert" />
       ) : (
-        <img src={IP.shape.alert_success} alt="icon correct alert" />
+        <img src={IP.icon.alert_success} alt="icon correct alert" />
       )}
       {GS.alert._type === "error"
         ? "Error! "

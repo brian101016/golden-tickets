@@ -25,7 +25,7 @@ const _NotFoundScreen = (props: NotFoundScreenProps) => {
       </Helmet>
 
       <img
-        src={ImageProvider.shape.flower_ring_full}
+        src={ImageProvider.shape.ring_full}
         alt="Unable to load content"
         className="img-not-found"
       />

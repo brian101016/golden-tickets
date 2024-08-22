@@ -7,6 +7,7 @@ import IP from "@utils/ImageProvider";
 import Countdown from "@components/Countdown";
 import Column from "@components/Column";
 import Paralax from "@components/Paralax";
+import ImageHolder from "@components/ImageHolder";
 
 // #region ##################################################################################### PROPS
 type _Base = import("@utils/ClassTypes")._Base;
@@ -26,6 +27,11 @@ const _LandingScreen = (props: LandingScreenProps) => {
   // ---------------------------------------------------------------------- RETURN
   return (
     <div className={props.className + " vertical-screen"}>
+      <ImageHolder
+        _image={{
+          _src: IP.shape.flower_blue,
+        }}
+      />
       <p className="big-title">
         Bodas
         <br />
@@ -38,7 +44,7 @@ const _LandingScreen = (props: LandingScreenProps) => {
         <span>J</span>
       </h1>
 
-      <Paralax _src={IP.shape.aniversario} _shape={"circle"} />
+      <Paralax _src={IP.misc.aniversario} _shape={"circle"} />
 
       <h1
         style={{

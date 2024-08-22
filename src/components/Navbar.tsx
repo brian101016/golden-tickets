@@ -63,7 +63,7 @@ const NavBar = styled(_NavBar).attrs((props: NavBarProps): NavBarProps => {
 })<NavBarProps>`
   ${(props) => css`
     .logo {
-      background-image: url(${IP.shape.flower_ring_empty});
+      background-image: url(${IP.shape.ring_empty});
     }
 
     .logout-resp {
