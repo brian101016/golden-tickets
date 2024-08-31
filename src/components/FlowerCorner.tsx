@@ -24,9 +24,9 @@ const _FlowerCorner = (props: FlowerCornerProps) => {
     <div className={props.className}>
       <div
         style={{
-          width: "145.956px",
-          height: "132.156px",
-          transform: "translate(135.986px, 275.724px)",
+          width: "23.3821%",
+          height: "21.1713%",
+          transform: "translate(93.1692%, 208.6352%)",
         }}
       >
         <img src={IP.shape.flower_dark} alt="flower dark" />
@@ -34,9 +34,9 @@ const _FlowerCorner = (props: FlowerCornerProps) => {
 
       <div
         style={{
-          width: "110.506px",
-          height: "103.072px",
-          transform: "translate(285.501px, 189.596px)",
+          width: "17.7030%",
+          height: "16.5121%",
+          transform: "translate(258.3579%, 183.9452%)",
         }}
       >
         <img src={IP.shape.flower_white} alt="flower white" />
@@ -44,9 +44,9 @@ const _FlowerCorner = (props: FlowerCornerProps) => {
 
       <div
         style={{
-          width: "185.162px",
-          height: "217.605px",
-          transform: "translate(391.481px, 25.1261px) rotate(60.7628deg)",
+          width: "29.6628%",
+          height: "34.8602%",
+          transform: "translate(211.4262%, 11.5467%) rotate(60.7628deg)",
         }}
       >
         <img src={IP.shape.flower_branch} alt="flower branch" />
@@ -54,9 +54,9 @@ const _FlowerCorner = (props: FlowerCornerProps) => {
 
       <div
         style={{
-          width: "233.094px",
-          height: "180.966px",
-          transform: "translate(250.967px, 47.3527px)",
+          width: "37.3415%",
+          height: "28.9906%",
+          transform: "translate(107.6677%, 26.1666%)",
         }}
       >
         <img src={IP.shape.flower_blue} alt="flower blue" />
@@ -64,9 +64,9 @@ const _FlowerCorner = (props: FlowerCornerProps) => {
 
       <div
         style={{
-          width: "199.36px",
-          height: "180.511px",
-          transform: "translate(141.394px, 77.9051px)",
+          width: "31.9374%",
+          height: "28.9178%",
+          transform: "translate(70.9240%, 43.1581%)",
         }}
       >
         <img src={IP.shape.flower_dark} alt="flower dark" />
@@ -74,9 +74,9 @@ const _FlowerCorner = (props: FlowerCornerProps) => {
 
       <div
         style={{
-          width: "185.162px",
-          height: "217.605px",
-          transform: "translate(43.4055px, 330.807px) rotate(148.241deg)",
+          width: "29.6628%",
+          height: "34.8602%",
+          transform: "translate(23.4419%, 152.0218%) rotate(148.241deg)",
         }}
       >
         <img src={IP.shape.flower_branch} alt="flower branch" />
@@ -84,9 +84,9 @@ const _FlowerCorner = (props: FlowerCornerProps) => {
 
       <div
         style={{
-          width: "191.069px",
-          height: "190.374px",
-          transform: "translate(42.9573px, 123.945px)",
+          width: "30.6091%",
+          height: "30.4978%",
+          transform: "translate(22.4826%, 65.1061%)",
         }}
       >
         <img src={IP.shape.flower_blue} alt="flower blue" />
@@ -94,9 +94,9 @@ const _FlowerCorner = (props: FlowerCornerProps) => {
 
       <div
         style={{
-          width: "161.083px",
-          height: "158.74px",
-          transform: "translate(72.9429px, 44.5746px)",
+          width: "25.8054%",
+          height: "25.4301%",
+          transform: "translate(45.2828%, 28.0803%)",
         }}
       >
         <img src={IP.shape.flower_gray} alt="flower gray" />
@@ -104,9 +104,9 @@ const _FlowerCorner = (props: FlowerCornerProps) => {
 
       <div
         style={{
-          width: "186.058px",
-          height: "173.542px",
-          transform: "translate(42.9573px, 247.799px)",
+          width: "29.8064%",
+          height: "27.8013%",
+          transform: "translate(23.0881%, 142.7891%)",
         }}
       >
         <img src={IP.shape.flower_white} alt="flower white" />
@@ -114,9 +114,9 @@ const _FlowerCorner = (props: FlowerCornerProps) => {
 
       <div
         style={{
-          width: "117.683px",
-          height: "115.971px",
-          transform: "translate(196.839px, 194.262px)",
+          width: "18.8527%",
+          height: "18.5785%",
+          transform: "translate(167.2621%, 167.5091%)",
         }}
       >
         <img src={IP.shape.flower_gray} alt="flower gray" />
@@ -124,9 +124,9 @@ const _FlowerCorner = (props: FlowerCornerProps) => {
 
       <div
         style={{
-          width: "141.578px",
-          height: "144.836px",
-          transform: "translate(96.4908px, 72.0364px) rotate(-180deg)",
+          width: "22.6807%",
+          height: "23.2026%",
+          transform: "translate(68.1538%, 49.7365%) rotate(-180deg)",
         }}
       >
         <img src={IP.shape.flower_yellow} alt="flower yellow" />
@@ -149,7 +149,11 @@ const FlowerCorner = styled(_FlowerCorner).attrs(
   }
 )<FlowerCornerProps>`
   ${(props) => css`
-    position: absolute;
+    position: relative;
+    /* width: 624.222px;
+    height: 580.85px; */
+    width: 500px;
+    aspect-ratio: 624.222 / 580.85;
     transform: translate(${props._x}, ${props._y}) scale(${props._scale})
       rotate(${props._rotate}deg);
 

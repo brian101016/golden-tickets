@@ -28,6 +28,10 @@ const _LandingScreen = (props: LandingScreenProps) => {
   // ---------------------------------------------------------------------- RETURN
   return (
     <div className={props.className + " vertical-screen"}>
+      {/* <FlowerCorner _style={{ zIndex: 8 }} />
+
+      <Paralax _src="ee" /> */}
+
       <div className="text-ellipsis">
         <ImageHolder
           _image={{
@@ -41,7 +45,7 @@ const _LandingScreen = (props: LandingScreenProps) => {
             _style: { overflow: "visible" },
           }}
         >
-          <FlowerCorner _scale={0.75} />
+          <FlowerCorner />
         </ImageHolder>
 
         <p className="big-title">
@@ -56,13 +60,13 @@ const _LandingScreen = (props: LandingScreenProps) => {
           }}
           _canvas={{
             _position: {
-              top: "6.5rem",
+              bottom: "-6.5rem",
               left: "5.5rem",
             },
             _style: { overflow: "visible" },
           }}
         >
-          <FlowerCorner _rotate={180} _scale={0.75} />
+          <FlowerCorner _rotate={180} />
         </ImageHolder>
       </div>
 
