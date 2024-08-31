@@ -398,6 +398,7 @@ body,
 
   background-color: var(--color-shadow-white);
   box-shadow: var(--shadow-round);
+  // overflow: hidden;
 }
 
 // ---------------------------------------------------------------------- DISABLE POINTER EVENTS
@@ -615,9 +616,12 @@ a {
 // ---------------------------------------------------------------------- BIG TITLE
 .big-title,
 .header-title {
-  margin: var(--margin-title);
-  margin-top: 0;
+  // margin: var(--margin-title);
+  // margin-top: 0;
   padding: var(--padding-big);
+
+  position: relative;
+  z-index: 10;
 
   border: 10px solid;
   border-style: double;
@@ -631,6 +635,11 @@ a {
   text-align: center;
   font-variant: normal;
   letter-spacing: 4px;
+
+  @media screen and (max-width: 500px) {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 
 // ---------------------------------------------------------------------- TITLE - H1

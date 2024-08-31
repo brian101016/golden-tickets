@@ -8,6 +8,7 @@ import Countdown from "@components/Countdown";
 import Column from "@components/Column";
 import Paralax from "@components/Paralax";
 import ImageHolder from "@components/ImageHolder";
+import FlowerCorner from "@components/FlowerCorner";
 
 // #region ##################################################################################### PROPS
 type _Base = import("@utils/ClassTypes")._Base;
@@ -27,16 +28,43 @@ const _LandingScreen = (props: LandingScreenProps) => {
   // ---------------------------------------------------------------------- RETURN
   return (
     <div className={props.className + " vertical-screen"}>
-      <ImageHolder
-        _image={{
-          _src: IP.shape.flower_blue,
-        }}
-      />
-      <p className="big-title">
-        Bodas
-        <br />
-        de Oro
-      </p>
+      <div className="text-ellipsis">
+        <ImageHolder
+          _image={{
+            _position: 7,
+          }}
+          _canvas={{
+            _position: {
+              top: "-6.5rem",
+              left: "-5.5rem",
+            },
+            _style: { overflow: "visible" },
+          }}
+        >
+          <FlowerCorner _scale={0.75} />
+        </ImageHolder>
+
+        <p className="big-title">
+          Bodas
+          <br />
+          de Oro
+        </p>
+
+        <ImageHolder
+          _image={{
+            _position: 9,
+          }}
+          _canvas={{
+            _position: {
+              top: "6.5rem",
+              left: "5.5rem",
+            },
+            _style: { overflow: "visible" },
+          }}
+        >
+          <FlowerCorner _rotate={180} _scale={0.75} />
+        </ImageHolder>
+      </div>
 
       <h1 style={{ letterSpacing: "0.5ch" }}>
         <span>Y</span>

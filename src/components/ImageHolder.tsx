@@ -7,20 +7,37 @@ type _Base = import("@utils/ClassTypes")._Base;
 type ImageHolderProps = {
   children?: React.ReactNode;
 
+  /** `boolean` - Shows visible lines as background. */
   _debug?: boolean;
+  /** `boolean` - Dictates if the image is selectable or not. */
   _selectable?: boolean;
 
+  /** Values for the `HTMLImageElement`. */
   _image?: {
+    /** Image source.  */
     _src?: string;
+    /** Alt text. */
     _alt?: string;
+    /** Size, in format [width, height] or a single string for both. */
     _size?: [string, string] | string;
+    /** Position shortcut for the image inside the canvas. Numbers from `1` to `9`.
+     * Think of it like the numeric pad, where `5` is horizontal-center + vertical-middle.
+     * `8` is Top + Center. `6` is Middle + Right. */
     _position?: number;
+    /** Sets a positive `z-index` if `"top"` or negative otherwise. */
     _layer?: "top" | "bottom";
   } & _Base;
 
+  /** Values for the `HTMLDivElement` that holds the image inside it. */
   _canvas?: {
+    /** `string` - Element width. */
     _width?: string;
+    /** `string` - Element height. */
     _height?: string;
+    /** Either a predefined position, or an object with possibly each parameter.
+     *  The `"top"` & `"bottom"` mean `top/bottom: 100%` respectibly.
+     *  While the `"top-in"` & `"bottom-in"` mean `top/bottom: 0&` respectibly.
+     */
     _position?:
       | {
           top?: string;
@@ -67,8 +84,8 @@ const _ImageHolder = (props: ImageHolderProps) => {
 // #region ##################################################################################### STYLES
 const ImageHolder = styled(_ImageHolder).attrs(
   (props: ImageHolderProps): ImageHolderProps => {
-    var canvasPosition = {};
-    var canvasDisplay = {};
+    let canvasPosition = {};
+    let canvasDisplay = {};
 
     if (props._canvas?._position === "bottom-in")
       canvasPosition = { bottom: "0%" };
@@ -117,7 +134,7 @@ const ImageHolder = styled(_ImageHolder).attrs(
         _alt: "Displayed Image",
         _size: "auto",
         _src: "https://picsum.photos/200/300",
-        _layer: "bottom",
+        _layer: "top",
         ...props._image,
       },
     };
