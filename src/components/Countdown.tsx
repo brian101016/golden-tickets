@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import { parseCSS, timeBetween } from "scripts/FunctionsBundle";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // #region ##################################################################################### PROPS
 type _Base = import("@utils/ClassTypes")._Base;
@@ -14,19 +14,33 @@ type CountdownProps = {
 
 // #region ##################################################################################### COMPONENT
 const _Countdown = (props: CountdownProps) => {
-  const [time, setTime] = useState("Calculando...");
+  const [time, setTime] = useState<React.ReactNode>("Calculando...");
 
   useEffect(() => {
     const intv = setInterval(() => {
       const tb = timeBetween(new Date("2024-12-21T20:00:00Z"));
-      let str = "";
-      if (tb.month) str += tb.month + " meses ";
-      if (tb.date) str += tb.date + " días ";
-      if (tb.hours) str += tb.hours + " horas ";
-      // if (tb.minutes) str += tb.minutes + " minuto(s) ";
-      // if (tb.seconds) str += tb.seconds + " segundo(s) ";
-
-      str = str.substring(0, str.length - 1);
+      let str = (
+        <span>
+          {tb.month && (
+            <>
+              <span className="text-number">{tb.month}</span>
+              {" meses "}
+            </>
+          )}
+          {tb.date && (
+            <>
+              <span className="text-number">{tb.date}</span>
+              {" días "}
+            </>
+          )}
+          {tb.hours && (
+            <>
+              <span className="text-number">{tb.hours}</span>
+              {" horas "}
+            </>
+          )}
+        </span>
+      );
 
       setTime(str);
     }, 1000);

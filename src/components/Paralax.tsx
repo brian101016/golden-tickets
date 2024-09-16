@@ -5,6 +5,7 @@ import {
   useRefCallback,
 } from "scripts/FunctionsBundle";
 import { useCallback } from "react";
+import IP from "@utils/ImageProvider";
 
 // #region ##################################################################################### PROPS
 type _Base = import("@utils/ClassTypes")._Base;
@@ -18,7 +19,7 @@ type ParalaxProps = {
   /** Filters to apply to the `::after` element. */
   _filter?: string;
   /** Overrides the default of `height: 90svh;` from the `bg-img` element. */
-  _autoheight?: boolean;
+  _autoheight?: boolean | string;
   /** Overrides the default `background-position: top center;` from the `bg-img` element. */
   _bgPosition?: string;
 
@@ -77,12 +78,16 @@ const Paralax = styled(_Paralax).attrs((props: ParalaxProps): ParalaxProps => {
   ${(props) => css`
     // Ingresa aquí todos los estilos.
 
+    background-image: url(${IP.bg.granular});
+    background-position: center;
+    background-size: cover;
+
     .bg-image {
       background-image: url(${props._src});
       background-size: auto 100%;
 
       background-position: ${props._bgPosition};
-      height: ${props._autoheight ? "auto" : ""};
+      height: ${props._autoheight === true ? "auto" : props._autoheight || ""};
 
       &::before {
         backdrop-filter: ${props._filter};

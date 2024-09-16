@@ -2,6 +2,7 @@
 
 // #region ##################################################################################### BACKGROUND
 import bg_argollas from "@bg/argollas.jpg";
+import bg_carmen from "@bg/carmen.jpg";
 import bg_church from "@bg/church.jpg";
 import bg_common_decoration from "@bg/common-decoration.jpg";
 import bg_granular from "@bg/granular.jpg";
@@ -38,9 +39,10 @@ import icon_alert_info from "@icon/alert-info.png";
 import icon_alert_success from "@icon/alert-success.png";
 import icon_alert_warning from "@icon/alert-warning.png";
 import icon_close from "@icon/close.png";
+import icon_envelope from "@icon/envelope.svg";
 import icon_eye_off from "@icon/eye-off.png";
 import icon_eye_on from "@icon/eye-on.png";
-import icon_heart from "@icon/heart.png";
+import icon_heart from "@icon/heart.svg";
 // #endregion
 
 // #region ##################################################################################### MISC
@@ -52,6 +54,7 @@ const IP = {
   /** Imágenes utilizadas como **fondo de pantalla** (imágenes grandes). */
   bg: {
     argollas: bg_argollas,
+    carmen: bg_carmen,
     church: bg_church,
     common_decoration: bg_common_decoration,
     granular: bg_granular,
@@ -88,6 +91,7 @@ const IP = {
     alert_success: icon_alert_success,
     alert_warning: icon_alert_warning,
     close: icon_close,
+    envelope: icon_envelope,
     eye_off: icon_eye_off,
     eye_on: icon_eye_on,
     heart: icon_heart,

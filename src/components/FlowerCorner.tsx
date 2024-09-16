@@ -11,7 +11,7 @@ type FlowerCornerProps = {
   /** Y coord for the `transform` property.  It also needs a measure unit (px, rem). */
   _y?: string;
   /** Number for the `scale(x)` function. */
-  _scale?: number;
+  _scale?: number | string;
   /** Number of degrees for the `rotate(x)` function. */
   _rotate?: number;
 } & _Base;
@@ -25,7 +25,7 @@ const _FlowerCorner = (props: FlowerCornerProps) => {
       <div
         style={{
           width: "23.3821%",
-          height: "21.1713%",
+          height: "22.7522%",
           transform: "translate(93.1692%, 208.6352%)",
         }}
       >
@@ -35,7 +35,7 @@ const _FlowerCorner = (props: FlowerCornerProps) => {
       <div
         style={{
           width: "17.7030%",
-          height: "16.5121%",
+          height: "17.7450%",
           transform: "translate(258.3579%, 183.9452%)",
         }}
       >
@@ -45,7 +45,7 @@ const _FlowerCorner = (props: FlowerCornerProps) => {
       <div
         style={{
           width: "29.6628%",
-          height: "34.8602%",
+          height: "37.4632%",
           transform: "translate(211.4262%, 11.5467%) rotate(60.7628deg)",
         }}
       >
@@ -55,7 +55,7 @@ const _FlowerCorner = (props: FlowerCornerProps) => {
       <div
         style={{
           width: "37.3415%",
-          height: "28.9906%",
+          height: "31.1554%",
           transform: "translate(107.6677%, 26.1666%)",
         }}
       >
@@ -65,7 +65,7 @@ const _FlowerCorner = (props: FlowerCornerProps) => {
       <div
         style={{
           width: "31.9374%",
-          height: "28.9178%",
+          height: "31.0770%",
           transform: "translate(70.9240%, 43.1581%)",
         }}
       >
@@ -75,7 +75,7 @@ const _FlowerCorner = (props: FlowerCornerProps) => {
       <div
         style={{
           width: "29.6628%",
-          height: "34.8602%",
+          height: "37.4632%",
           transform: "translate(23.4419%, 152.0218%) rotate(148.241deg)",
         }}
       >
@@ -85,7 +85,7 @@ const _FlowerCorner = (props: FlowerCornerProps) => {
       <div
         style={{
           width: "30.6091%",
-          height: "30.4978%",
+          height: "32.7751%",
           transform: "translate(22.4826%, 65.1061%)",
         }}
       >
@@ -95,7 +95,7 @@ const _FlowerCorner = (props: FlowerCornerProps) => {
       <div
         style={{
           width: "25.8054%",
-          height: "25.4301%",
+          height: "27.3289%",
           transform: "translate(45.2828%, 28.0803%)",
         }}
       >
@@ -105,7 +105,7 @@ const _FlowerCorner = (props: FlowerCornerProps) => {
       <div
         style={{
           width: "29.8064%",
-          height: "27.8013%",
+          height: "29.8772%",
           transform: "translate(23.0881%, 142.7891%)",
         }}
       >
@@ -115,7 +115,7 @@ const _FlowerCorner = (props: FlowerCornerProps) => {
       <div
         style={{
           width: "18.8527%",
-          height: "18.5785%",
+          height: "19.9657%",
           transform: "translate(167.2621%, 167.5091%)",
         }}
       >
@@ -125,7 +125,7 @@ const _FlowerCorner = (props: FlowerCornerProps) => {
       <div
         style={{
           width: "22.6807%",
-          height: "23.2026%",
+          height: "24.9352%",
           transform: "translate(68.1538%, 49.7365%) rotate(-180deg)",
         }}
       >
