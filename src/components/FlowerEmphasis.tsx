@@ -19,14 +19,13 @@ const _FlowerEmphasis = (props: FlowerEmphasisProps) => {
 
   // ---------------------------------------------------------------------- RETURN
   return (
-    <div className={props.className + " text-ellipsis"}>
-      <div className="border-item">
+    <div className={props.className + " flower-emphasis text-ellipsis"}>
+      <div className="border-item flex-col-center">
         {props._type === "FlowerBranches" ? (
           <FlowerBranches
             _rotate={rev ? 180 : 0}
             _style={{
               width: "auto",
-              height: "100%",
             }}
           />
         ) : (
@@ -34,7 +33,6 @@ const _FlowerEmphasis = (props: FlowerEmphasisProps) => {
             _scale={rev ? "-1, 1" : ""}
             _style={{
               width: "auto",
-              height: "100%",
             }}
           />
         )}
@@ -42,13 +40,12 @@ const _FlowerEmphasis = (props: FlowerEmphasisProps) => {
 
       {props.children}
 
-      <div className="border-item">
+      <div className="border-item flex-col-center">
         {props._type === "FlowerBranches" ? (
           <FlowerBranches
             _rotate={rev ? 0 : 180}
             _style={{
               width: "auto",
-              height: "100%",
             }}
           />
         ) : (
@@ -56,7 +53,6 @@ const _FlowerEmphasis = (props: FlowerEmphasisProps) => {
             _scale={rev ? "" : "-1, 1"}
             _style={{
               width: "auto",
-              height: "100%",
             }}
           />
         )}
@@ -86,6 +82,17 @@ const FlowerEmphasis = styled(_FlowerEmphasis).attrs(
     .border-item {
       align-self: stretch;
       min-height: 4.5rem;
+    }
+
+    @media screen and (max-width: 500px) {
+      grid-template-columns: minmax(10%, 33%) minmax(33%, 80%) minmax(10%, 33%);
+
+      .border-item {
+        align-self: center;
+        width: 100%;
+        min-height: 0;
+        aspect-ratio: 1 / 1;
+      }
     }
 
     ${parseCSS(props._style)}

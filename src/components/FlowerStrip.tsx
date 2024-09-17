@@ -8,6 +8,7 @@ type _Base = import("@utils/ClassTypes")._Base;
 // FlowerStrip => Rename all instances to use (CTRL + SHIFT + L)
 type FlowerStripProps = {
   _type?: "blue" | "gold";
+  _noResponsive?: boolean;
   children?: React.ReactNode;
 } & _Base;
 // #endregion
@@ -56,7 +57,7 @@ const _FlowerStrip = (props: FlowerStripProps) => {
   // ---------------------------------------------------------------------- RETURN
   return (
     <div
-      className={props.className}
+      className={props.className + " flower-strip"}
       style={{
         gridTemplateColumns: map[props._type || "blue"].grid,
       }}
@@ -103,6 +104,20 @@ const FlowerStrip = styled(_FlowerStrip).attrs(
     > div {
       width: 100%;
     }
+
+    ${props._noResponsive
+      ? ""
+      : `
+      @media screen and (max-width: 500px) {
+        margin: 0;
+        margin-left: calc(100vw - 100% * 1.5);
+        margin-top: 1rem;
+        width: 100vw;
+        position: absolute;
+
+        ${parseCSS(props._style)}
+      }
+    `}
 
     ${parseCSS(props._style)}
   `}

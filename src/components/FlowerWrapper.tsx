@@ -1,6 +1,5 @@
 import styled, { css } from "styled-components";
 import { parseCSS } from "scripts/FunctionsBundle";
-import ImageHolder from "./ImageHolder";
 import FlowerCorner from "./FlowerCorner";
 
 // #region ##################################################################################### PROPS
@@ -19,37 +18,45 @@ const _FlowerWrapper = (props: FlowerWrapperProps) => {
   // ---------------------------------------------------------------------- RETURN
   return (
     <div className={props.className + " text-ellipsis"}>
-      <ImageHolder
-        _image={{
-          _position: rev ? 9 : 7,
-        }}
-        _canvas={{
-          _position: {
-            top: "-6.5rem",
-            left: (rev ? "" : "-") + "5.5rem",
-          },
-          _style: { overflow: "visible" },
-        }}
-      >
-        <FlowerCorner _scale={rev ? "-1, 1" : 1} />
-      </ImageHolder>
+      {rev ? (
+        <FlowerCorner
+          _scale={"-1, 1"}
+          _abs
+          _position={{ top: 0, right: 0 }}
+          _x="17.6%"
+          _y="-22.35%"
+        />
+      ) : (
+        <FlowerCorner
+          _scale={"1, 1"}
+          _abs
+          _position={{ top: 0, left: 0 }}
+          _x="-17.6%"
+          _y="-22.35%"
+        />
+      )}
 
       {props.children}
 
-      <ImageHolder
-        _image={{
-          _position: rev ? 7 : 9,
-        }}
-        _canvas={{
-          _position: {
-            bottom: "-6.5rem",
-            left: (rev ? "-" : "") + "5.5rem",
-          },
-          _style: { overflow: "visible" },
-        }}
-      >
-        <FlowerCorner _rotate={180} _scale={rev ? "-1, 1" : 1} />
-      </ImageHolder>
+      {rev ? (
+        <FlowerCorner
+          _rotate={180}
+          _scale={"-1, 1"}
+          _abs
+          _position={{ bottom: 0, left: 0 }}
+          _x="-17.6%"
+          _y="22.35%"
+        />
+      ) : (
+        <FlowerCorner
+          _rotate={180}
+          _scale={"1, 1"}
+          _abs
+          _position={{ bottom: 0, right: 0 }}
+          _x="17.6%"
+          _y="22.35%"
+        />
+      )}
     </div>
   );
 };

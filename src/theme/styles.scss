@@ -39,6 +39,7 @@ $color-palette-brown: #814603;
 $color-palette-golden: #daa520;
 $color-palette-cream: #f8b55c;
 $color-palette-orange: #ff9815;
+$color-palette-white: #eff4f6;
 
 // ============================== CLASSIC
 $color-classic-blue: #0d6efd; // PRIMARY
@@ -140,6 +141,7 @@ $font-roboto: "Roboto";
   --color-palette-golden: #{$color-palette-golden};
   --color-palette-cream: #{$color-palette-cream};
   --color-palette-orange: #{$color-palette-orange};
+  --color-palette-white: #{$color-palette-white};
 
   // ============================== CLASSIC COLORS
   --color-classic-blue: #{$color-classic-blue};
@@ -370,7 +372,7 @@ body,
   overflow-x: clip;
 
   // -------------------------------------------------- CUSTOM BACKGROUND
-  background-color: var(--color-palette-blue-pastel); // WIP
+  background-color: var(--color-palette-white);
 }
 // #endregion
 
@@ -398,6 +400,7 @@ body,
 
   background-color: var(--color-shadow-white);
   box-shadow: var(--shadow-round);
+  z-index: 1;
   // overflow: hidden;
 }
 
@@ -679,7 +682,13 @@ a {
   font-variant: normal;
   letter-spacing: 4px;
 
+  position: relative;
+  z-index: 10;
+  white-space: normal;
+
   @media screen and (max-width: 500px) {
+    font-size: 5.5rem;
+
     padding-left: 0;
     padding-right: 0;
   }
@@ -700,6 +709,10 @@ h1,
   line-height: 1;
   font-variant: normal;
   text-align: center;
+
+  position: relative;
+  z-index: 10;
+  white-space: normal;
 }
 
 // ---------------------------------------------------------------------- SUBTITLE - H2
@@ -721,6 +734,7 @@ h2,
 
   position: relative;
   z-index: 10;
+  white-space: normal;
 }
 
 // ---------------------------------------------------------------------- THIRD TITLE - H3
@@ -742,6 +756,10 @@ legend {
   line-height: 1;
   text-align: center;
   letter-spacing: 4px;
+
+  position: relative;
+  z-index: 10;
+  white-space: normal;
 }
 // #endregion
 
@@ -1010,7 +1028,12 @@ button,
   border-radius: 0.5rem;
   border: 2px solid var(--color-palette-brown);
   color: var(--color-palette-brown);
-  height: 2rem;
+  min-height: 2rem;
+
+  display: flow-root;
+  height: auto;
+  text-align: center;
+  white-space: break-spaces;
 
   // -------------------------------------------------- HOVER
   &:hover,
@@ -1907,6 +1930,61 @@ footer,
   }
   to {
     transform: rotate(-35deg);
+  }
+}
+
+/* ---------------------------------------------------------------------- PULSE - STYLES*/
+.pulse {
+  animation: 1s pulse 0s infinite ease-out;
+  --color: var(--color-palette-golden);
+}
+
+/* ---------------------------------------------------------------------- PULSE - ANIMATION */
+@keyframes pulse {
+  0% {
+    outline: 0em solid rgb(from var(--color) r g b);
+    outline-offset: 0px;
+  }
+  15% {
+    outline: 0.25em solid rgb(from var(--color) r g b);
+    outline-offset: 2px;
+  }
+  80% {
+    outline: 0.15em solid rgb(from var(--color) r g b / 0.65);
+    outline-offset: 20px;
+  }
+  80%,
+  100% {
+    outline: 0em solid rgb(from var(--color) r g b / 0);
+    outline-offset: 25px;
+  }
+}
+// #endregion
+
+// #region ##################################################################################### MEDIA QUERIES
+// ---------------------------------------------------------------------- 500 PX
+@media screen and (max-width: 500px) {
+  :root,
+  html {
+    font-size: 12px;
+  }
+
+  h2 .flower-emphasis {
+    margin: 0;
+    margin-left: calc(100vw - 100% * 1.5);
+    width: 100vw;
+    position: relative;
+    white-space: break-spaces;
+  }
+
+  h1,
+  h2 {
+    white-space: break-spaces;
+  }
+
+  .envelope {
+    margin: 0;
+    margin-bottom: 1rem;
   }
 }
 // #endregion

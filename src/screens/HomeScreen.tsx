@@ -1,10 +1,10 @@
 import styled, { css } from "styled-components";
 import { parseCSS } from "scripts/FunctionsBundle";
 import AlertMessage from "@components/AlertMessage";
-import NavBar from "@components/Navbar";
 import { GS } from "App";
 import { Outlet, useNavigation } from "react-router";
 import NotFoundScreen from "./NotFoundScreen";
+import BackgroundScreen from "./BackgroundScreen";
 
 // #region ##################################################################################### PROPS
 type _Base = import("@utils/ClassTypes")._Base;
@@ -21,10 +21,16 @@ const _HomeScreen = (props: HomeScreenProps) => {
   // ---------------------------------------------------------------------- RETURN
   return (
     <>
-      {/* <NavBar /> */}
       <AlertMessage />
 
-      {props.isNotFound ? <NotFoundScreen /> : <Outlet />}
+      {props.isNotFound ? (
+        <NotFoundScreen />
+      ) : (
+        <>
+          <BackgroundScreen />
+          <Outlet />
+        </>
+      )}
 
       {GS.firstTime ? (
         <div className="spinner">Buscando sesiones de usuario...</div>

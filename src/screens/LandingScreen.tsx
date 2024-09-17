@@ -38,7 +38,7 @@ const _LandingScreen = (props: LandingScreenProps) => {
       </FlowerWrapper>
 
       <FlowerEmphasis>
-        <h1 style={{ letterSpacing: "0.5ch" }}>
+        <h1 style={{ letterSpacing: "0.5ch", whiteSpace: "pre" }}>
           <span>Y</span>
           <img src={IP.icon.heart} style={{ margin: "0 1.5rem" }} alt="heart" />
           <span>J</span>
@@ -50,12 +50,7 @@ const _LandingScreen = (props: LandingScreenProps) => {
       </FlowerWrapper>
 
       <FlowerWrapper>
-        <h1
-          style={{
-            fontSize: "6.75rem",
-            lineHeight: 0.8,
-          }}
-        >
+        <h1 className="title-names">
           Yolanda
           <br />
           &
@@ -111,10 +106,16 @@ const _LandingScreen = (props: LandingScreenProps) => {
       </Paralax>
 
       <h2>
-        <FlowerStrip _style={{ marginTop: "-3.5rem", marginBottom: "1rem" }} />
+        <FlowerStrip
+          _style={{
+            marginTop: "-3.5rem",
+            marginBottom: "1rem",
+            bottom: "100%",
+          }}
+        />
 
         <FlowerEmphasis _style={{ overflow: "visible" }}>
-          Misa de acción de gracias
+          {"Misa\nde acción\nde gracias"}
         </FlowerEmphasis>
 
         <FlowerStrip _style={{ marginBottom: "-3.5rem", marginTop: "1rem" }} />
@@ -139,7 +140,9 @@ const _LandingScreen = (props: LandingScreenProps) => {
               Abrir ubicación
             </a>
           </div>
-          <h1 className="remark text-clear">Parroquia Ntra Sra del Carmen</h1>
+          <h1 className="remark text-clear">
+            {"Parroquia\nNtra. Sra. del\nCarmen"}
+          </h1>
         </div>
       </Paralax>
 
@@ -175,23 +178,39 @@ const _LandingScreen = (props: LandingScreenProps) => {
             </a>
           </div>
           <h1 className="remark text-clear">
-            Av. Nayarit <span className="text-number">97A</span>, esq.{" "}
-            <span className="text-number">5</span> de Mayo
+            Av. Nayarit <span className="text-number">97A</span>
+            {",\nesq. "}
+            <span
+              className="text-number"
+              style={{ fontSize: "4.25rem", fontWeight: 500 }}
+            >
+              5
+            </span>{" "}
+            de Mayo
           </h1>
         </div>
       </Paralax>
 
       <FlowerWrapper>
         <h2>
-          <FlowerEmphasis _type="FlowerBunch">
-            <b style={{ color: "var(--color-palette-blue-royal)" }}>
-              Mesa de regalo
+          <FlowerEmphasis _type="FlowerBunch" _style={{ overflow: "visible" }}>
+            <b
+              style={{
+                color: "var(--color-palette-blue-royal)",
+                fontFamily: "var(--font-pinyon)",
+                fontSize: " 4rem",
+              }}
+            >
+              Mesa
+              <br />
+              de regalo
             </b>
           </FlowerEmphasis>
           <br />
-          Nuestro mejor regalo es tu presencia, <br />
-          pero si deseas tener un presente con <br />
-          nosotros te dejamos nuestra sugerencia <br /> <br />
+          Nuestro mejor regalo es tu presencia. <br /> <br />
+          Si deseas tener un presente con nosotros, <br />
+          te dejamos nuestra sugerencia...
+          <br /> <br />
         </h2>
       </FlowerWrapper>
 
@@ -205,13 +224,15 @@ const _LandingScreen = (props: LandingScreenProps) => {
             }}
           >
             <img className="envelope" src={IP.icon.envelope} alt="Envelope" />
-            ¡Lluvia de sobres!
+            {"\n¡Lluvia de sobres!"}
           </h1>
         </div>
       </Paralax>
 
       <h2>
         Deseamos que puedas acompañarnos
+        <br />
+        sin niños
         <FlowerStrip _type="gold" _style={{ marginBottom: "-3.5rem" }} />
       </h2>
 
@@ -223,28 +244,28 @@ const _LandingScreen = (props: LandingScreenProps) => {
               color: "var(--color-shadow-dark)",
             }}
           >
-            Reservado solo para adultos
+            {"Reservado solo\npara adultos"}
           </h1>
           <div style={{ margin: "0 auto", zIndex: 1 }}>
             <Link
               to="/tickets"
-              className="as-button warning"
+              className="as-button warning pulse"
               style={{
                 fontSize: "var(--size-thirdtitle)",
-                fontFamily: "var(--font-cinzel)",
+                fontFamily: "var(--font-poppins)",
               }}
             >
-              Confirma tu asistencia
+              {"Confirma tu\nasistencia"}
             </Link>
           </div>
         </div>
       </Paralax>
 
       <FlowerWrapper>
-        <p className="big-title">
-          <FlowerStrip _type="gold" />
+        <p className="big-title title-final">
+          <FlowerStrip _type="gold" _noResponsive />
           ¡Te esperamos!
-          <FlowerStrip />
+          <FlowerStrip _noResponsive />
         </p>
       </FlowerWrapper>
 
@@ -285,6 +306,17 @@ const LandingScreen = styled(_LandingScreen).attrs(
 )<LandingScreenProps>`
   ${(props) => css`
     // Ingresa aquí todos los estilos.
+
+    .title-names {
+      font-size: 6.75rem;
+      line-height: 0.8;
+    }
+
+    @media screen and (max-width: 500px) {
+      .title-final {
+        font-size: 3.5rem;
+      }
+    }
 
     ${parseCSS(props._style)}
   `}

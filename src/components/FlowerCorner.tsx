@@ -14,6 +14,15 @@ type FlowerCornerProps = {
   _scale?: number | string;
   /** Number of degrees for the `rotate(x)` function. */
   _rotate?: number;
+  /** top, left, bottom & right shorthand for the main image to be. */
+  _position?: {
+    top?: string | number;
+    bottom?: string | number;
+    left?: string | number;
+    right?: string | number;
+  };
+  /** If the image will be absolute or relative. */
+  _abs?: boolean;
 } & _Base;
 // #endregion
 
@@ -149,13 +158,18 @@ const FlowerCorner = styled(_FlowerCorner).attrs(
   }
 )<FlowerCornerProps>`
   ${(props) => css`
-    position: relative;
+    position: ${props._abs ? "absolute" : "relative"};
     /* width: 624.222px;
     height: 580.85px; */
-    width: 500px;
+    width: 50%;
+    max-width: 500px;
+    min-width: 200px;
     aspect-ratio: 624.222 / 580.85;
     transform: translate(${props._x}, ${props._y}) scale(${props._scale})
       rotate(${props._rotate}deg);
+    z-index: 1;
+
+    ${props._position ? parseCSS(props._position) : ""}
 
     > div {
       position: absolute;
