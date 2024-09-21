@@ -1,14 +1,17 @@
 import styled, { css } from "styled-components";
 import { parseCSS } from "scripts/FunctionsBundle";
 import IP from "@utils/ImageProvider";
-import FlowerBunch from "./FlowerBunch";
+import FlowerDecoration from "./FlowerDecoration";
 
 // #region ##################################################################################### PROPS
 type _Base = import("@utils/ClassTypes")._Base;
 // FlowerStrip => Rename all instances to use (CTRL + SHIFT + L)
 type FlowerStripProps = {
+  /** Type of the decoration to render. */
   _type?: "blue" | "gold";
+  /** Tells if the component should shrink or not. */
   _noResponsive?: boolean;
+
   children?: React.ReactNode;
 } & _Base;
 // #endregion
@@ -64,7 +67,9 @@ const _FlowerStrip = (props: FlowerStripProps) => {
     >
       {map[props._type || "blue"].imgs.map((v, i) => {
         if ("element" in v) {
-          return <FlowerBunch key={i} _scale={v.props?._scale} />;
+          return (
+            <FlowerDecoration key={i} _type="bunch" _scale={v.props?._scale} />
+          );
         }
 
         return (

@@ -7,7 +7,7 @@ import IP from "@utils/ImageProvider";
 import Countdown from "@components/Countdown";
 import Column from "@components/Column";
 import Paralax from "@components/Paralax";
-import FlowerWrapper from "@components/FlowerWrapper";
+import DecorationWrapper from "@components/DecorationWrapper";
 import FlowerEmphasis from "@components/FlowerEmphasis";
 import FlowerStrip from "@components/FlowerStrip";
 
@@ -29,15 +29,15 @@ const _LandingScreen = (props: LandingScreenProps) => {
   // ---------------------------------------------------------------------- RETURN
   return (
     <div className={props.className + " vertical-screen"}>
-      <FlowerWrapper>
+      <DecorationWrapper wrappers={[{ _type: "corner" }]}>
         <p className="big-title">
           Bodas
           <br />
           de Oro
         </p>
-      </FlowerWrapper>
+      </DecorationWrapper>
 
-      <FlowerEmphasis>
+      <FlowerEmphasis _type="branches">
         <h1 style={{ letterSpacing: "0.5ch", whiteSpace: "pre" }}>
           <span>Y</span>
           <img src={IP.icon.heart} style={{ margin: "0 1.5rem" }} alt="heart" />
@@ -45,11 +45,11 @@ const _LandingScreen = (props: LandingScreenProps) => {
         </h1>
       </FlowerEmphasis>
 
-      <FlowerWrapper _reverse className="pseudo-shadow">
+      <DecorationWrapper wrappers={[{ _type: "corner", _reverse: true }]} className="pseudo-shadow">
         <Paralax _src={IP.misc.aniversario} _shape={"circle"} />
-      </FlowerWrapper>
+      </DecorationWrapper>
 
-      <FlowerWrapper>
+      <DecorationWrapper wrappers={[{ _type: "corner" }]}>
         <h1 className="title-names">
           Yolanda
           <br />
@@ -57,11 +57,11 @@ const _LandingScreen = (props: LandingScreenProps) => {
           <br />
           Javier
         </h1>
-      </FlowerWrapper>
+      </DecorationWrapper>
 
       <Paralax _src={IP.bg.standing_light} _filter="grayscale(1)" />
 
-      <FlowerWrapper _reverse>
+      <DecorationWrapper wrappers={[{ _type: "corner", _reverse: true }]}>
         <h2>
           Tenemos el gusto de invitarle
           <br />
@@ -69,7 +69,7 @@ const _LandingScreen = (props: LandingScreenProps) => {
           <br />
           de nuestras vidas
         </h2>
-      </FlowerWrapper>
+      </DecorationWrapper>
 
       <Paralax _src={IP.bg.argollas} _childmax _autoheight="100svh">
         <div className="flex-col-betw">
@@ -114,7 +114,7 @@ const _LandingScreen = (props: LandingScreenProps) => {
           }}
         />
 
-        <FlowerEmphasis _style={{ overflow: "visible" }}>
+        <FlowerEmphasis _type="branches" _style={{ overflow: "visible" }}>
           {"Misa\nde acción\nde gracias"}
         </FlowerEmphasis>
 
@@ -147,7 +147,7 @@ const _LandingScreen = (props: LandingScreenProps) => {
       </Paralax>
 
       <h2>
-        <FlowerEmphasis _style={{ overflow: "visible" }}>
+        <FlowerEmphasis _type="branches" _style={{ overflow: "visible" }}>
           Banquete
         </FlowerEmphasis>
 
@@ -191,9 +191,9 @@ const _LandingScreen = (props: LandingScreenProps) => {
         </div>
       </Paralax>
 
-      <FlowerWrapper>
+      <DecorationWrapper wrappers={[{ _type: "corner" }]}>
         <h2>
-          <FlowerEmphasis _type="FlowerBunch" _style={{ overflow: "visible" }}>
+          <FlowerEmphasis _type="bunch" _style={{ overflow: "visible" }}>
             <b
               style={{
                 color: "var(--color-palette-blue-royal)",
@@ -212,7 +212,7 @@ const _LandingScreen = (props: LandingScreenProps) => {
           te dejamos nuestra sugerencia...
           <br /> <br />
         </h2>
-      </FlowerWrapper>
+      </DecorationWrapper>
 
       <Paralax _src={IP.bg.common_decoration} _childmax>
         <div className="flex-col-center">
@@ -261,23 +261,21 @@ const _LandingScreen = (props: LandingScreenProps) => {
         </div>
       </Paralax>
 
-      <FlowerWrapper>
+      <DecorationWrapper wrappers={[{ _type: "corner" }]}>
         <p className="big-title title-final">
           <FlowerStrip _type="gold" _noResponsive />
           ¡Te esperamos!
           <FlowerStrip _noResponsive />
         </p>
-      </FlowerWrapper>
+      </DecorationWrapper>
 
-      <FlowerWrapper _reverse className="pseudo-shadow">
-        <FlowerWrapper>
-          <Paralax
-            _src={IP.misc.aniversario}
-            _autoheight="100svh"
-            _bgPosition="center 30%"
-          />
-        </FlowerWrapper>
-      </FlowerWrapper>
+      <DecorationWrapper wrappers={[{ _type: "corner", _reverse: false }, { _type: "corner", _reverse: true }]} className="pseudo-shadow">
+        <Paralax
+          _src={IP.misc.aniversario}
+          _autoheight="100svh"
+          _bgPosition="center 30%"
+        />
+      </DecorationWrapper>
 
       {/*
       <p>Ingrese el código de su ticket para ver más información:</p>

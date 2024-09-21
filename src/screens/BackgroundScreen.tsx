@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import { parseCSS } from "scripts/FunctionsBundle";
-import FlowerCorner from "@components/FlowerCorner";
+import FlowerDecoration from "@components/FlowerDecoration";
 
 // #region ##################################################################################### PROPS
 type _Base = import("@utils/ClassTypes")._Base;
@@ -13,7 +13,8 @@ const _BackgroundScreen = (props: BackgroundScreenProps) => {
   // ---------------------------------------------------------------------- RETURN
   return (
     <div className={props.className}>
-      <FlowerCorner
+      <FlowerDecoration
+        _type="corner"
         _x="calc((-100vw + 1024px) / 2 + 75%)"
         _y="-25%"
         _rotate={0}
@@ -21,7 +22,8 @@ const _BackgroundScreen = (props: BackgroundScreenProps) => {
         _style={{ width: "300px", position: "absolute" }}
       />
 
-      <FlowerCorner
+      <FlowerDecoration
+        _type="corner"
         _x="calc((100vw - 1024px) / 2 - 75%)"
         _y="-25%"
         _rotate={90}
@@ -29,7 +31,8 @@ const _BackgroundScreen = (props: BackgroundScreenProps) => {
         _style={{ width: "300px", position: "absolute" }}
       />
 
-      <FlowerCorner
+      <FlowerDecoration
+        _type="corner"
         _x="25%"
         _y="25%"
         _rotate={180}
@@ -37,7 +40,8 @@ const _BackgroundScreen = (props: BackgroundScreenProps) => {
         _style={{ width: "300px", position: "absolute" }}
       />
 
-      <FlowerCorner
+      <FlowerDecoration
+        _type="corner"
         _x="-25%"
         _y="25%"
         _rotate={270}

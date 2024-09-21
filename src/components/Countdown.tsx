@@ -21,19 +21,19 @@ const _Countdown = (props: CountdownProps) => {
       const tb = timeBetween(new Date("2024-12-21T20:00:00Z"));
       let str = (
         <span>
-          {tb.month && (
+          {!!tb.month && (
             <>
               <span className="text-number">{tb.month}</span>
               {" meses "}
             </>
           )}
-          {tb.date && (
+          {!!tb.date && (
             <>
               <span className="text-number">{tb.date}</span>
               {" días "}
             </>
           )}
-          {tb.hours && (
+          {!!tb.hours && (
             <>
               <span className="text-number">{tb.hours}</span>
               {" horas "}
@@ -51,7 +51,7 @@ const _Countdown = (props: CountdownProps) => {
   // ---------------------------------------------------------------------- RETURN
   return (
     <div className={props.className}>
-      <span>{time}</span>
+      {time}
     </div>
   );
 };

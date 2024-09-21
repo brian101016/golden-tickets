@@ -4,14 +4,17 @@ import IP from "@utils/ImageProvider";
 
 // #region ##################################################################################### PROPS
 type _Base = import("@utils/ClassTypes")._Base;
-// FlowerCorner => Rename all instances to use (CTRL + SHIFT + L)
-type FlowerCornerProps = {
+// FlowerDecoration => Rename all instances to use (CTRL + SHIFT + L)
+export type FlowerDecorationProps = {
+  /** The type of decoration to render. */
+  _type: keyof typeof IMAGES;
+
   /** X coord for the `transform` property. It also needs a measure unit (px, rem). */
   _x?: string;
   /** Y coord for the `transform` property.  It also needs a measure unit (px, rem). */
   _y?: string;
   /** Number for the `scale(x)` function. */
-  _scale?: number | string;
+  _scale?: number | string | [number, number?] | [string, string?];
   /** Number of degrees for the `rotate(x)` function. */
   _rotate?: number;
   /** top, left, bottom & right shorthand for the main image to be. */
@@ -27,127 +30,15 @@ type FlowerCornerProps = {
 // #endregion
 
 // #region ##################################################################################### COMPONENT
-const _FlowerCorner = (props: FlowerCornerProps) => {
+const _FlowerDecoration = (props: FlowerDecorationProps) => {
   // ---------------------------------------------------------------------- RETURN
-  return (
-    <div className={props.className}>
-      <div
-        style={{
-          width: "23.3821%",
-          height: "22.7522%",
-          transform: "translate(93.1692%, 208.6352%)",
-        }}
-      >
-        <img src={IP.shape.flower_dark} alt="flower dark" />
-      </div>
-
-      <div
-        style={{
-          width: "17.7030%",
-          height: "17.7450%",
-          transform: "translate(258.3579%, 183.9452%)",
-        }}
-      >
-        <img src={IP.shape.flower_white} alt="flower white" />
-      </div>
-
-      <div
-        style={{
-          width: "29.6628%",
-          height: "37.4632%",
-          transform: "translate(211.4262%, 11.5467%) rotate(60.7628deg)",
-        }}
-      >
-        <img src={IP.shape.flower_branch} alt="flower branch" />
-      </div>
-
-      <div
-        style={{
-          width: "37.3415%",
-          height: "31.1554%",
-          transform: "translate(107.6677%, 26.1666%)",
-        }}
-      >
-        <img src={IP.shape.flower_blue} alt="flower blue" />
-      </div>
-
-      <div
-        style={{
-          width: "31.9374%",
-          height: "31.0770%",
-          transform: "translate(70.9240%, 43.1581%)",
-        }}
-      >
-        <img src={IP.shape.flower_dark} alt="flower dark" />
-      </div>
-
-      <div
-        style={{
-          width: "29.6628%",
-          height: "37.4632%",
-          transform: "translate(23.4419%, 152.0218%) rotate(148.241deg)",
-        }}
-      >
-        <img src={IP.shape.flower_branch} alt="flower branch" />
-      </div>
-
-      <div
-        style={{
-          width: "30.6091%",
-          height: "32.7751%",
-          transform: "translate(22.4826%, 65.1061%)",
-        }}
-      >
-        <img src={IP.shape.flower_blue} alt="flower blue" />
-      </div>
-
-      <div
-        style={{
-          width: "25.8054%",
-          height: "27.3289%",
-          transform: "translate(45.2828%, 28.0803%)",
-        }}
-      >
-        <img src={IP.shape.flower_gray} alt="flower gray" />
-      </div>
-
-      <div
-        style={{
-          width: "29.8064%",
-          height: "29.8772%",
-          transform: "translate(23.0881%, 142.7891%)",
-        }}
-      >
-        <img src={IP.shape.flower_white} alt="flower white" />
-      </div>
-
-      <div
-        style={{
-          width: "18.8527%",
-          height: "19.9657%",
-          transform: "translate(167.2621%, 167.5091%)",
-        }}
-      >
-        <img src={IP.shape.flower_gray} alt="flower gray" />
-      </div>
-
-      <div
-        style={{
-          width: "22.6807%",
-          height: "24.9352%",
-          transform: "translate(68.1538%, 49.7365%) rotate(-180deg)",
-        }}
-      >
-        <img src={IP.shape.flower_yellow} alt="flower yellow" />
-      </div>
-    </div>
-  );
+  return <div className={props.className}>{IMAGES[props._type].elements}</div>;
 };
 // #endregion
 
 // #region ##################################################################################### STYLES
-const FlowerCorner = styled(_FlowerCorner).attrs(
-  (props: FlowerCornerProps): FlowerCornerProps => {
+const FlowerDecoration = styled(_FlowerDecoration).attrs(
+  (props: FlowerDecorationProps): FlowerDecorationProps => {
     return {
       _x: "0px",
       _y: "0px",
@@ -156,17 +47,16 @@ const FlowerCorner = styled(_FlowerCorner).attrs(
       ...props,
     };
   }
-)<FlowerCornerProps>`
+)<FlowerDecorationProps>`
   ${(props) => css`
     position: ${props._abs ? "absolute" : "relative"};
-    /* width: 624.222px;
-    height: 580.85px; */
+
     width: 50%;
     max-width: 500px;
     min-width: 200px;
-    aspect-ratio: 624.222 / 580.85;
-    transform: translate(${props._x}, ${props._y}) scale(${props._scale})
-      rotate(${props._rotate}deg);
+    aspect-ratio: ${IMAGES[props._type].ratio};
+    transform: translate(${props._x}, ${props._y}) rotate(${props._rotate}deg)
+      scale(${props._scale?.toString()});
     z-index: 1;
 
     ${props._position ? parseCSS(props._position) : ""}
@@ -188,5 +78,190 @@ const FlowerCorner = styled(_FlowerCorner).attrs(
 // #endregion
 
 // #region ##################################################################################### EXPORTS
-export default FlowerCorner;
+export default FlowerDecoration;
 // #endregion
+
+const IMAGES = {
+  corner: {
+    elements: [
+      <div
+        style={{
+          width: "23.3821%",
+          height: "22.7522%",
+          transform: "translate(93.1692%, 208.6352%)",
+        }}
+      >
+        <img src={IP.shape.flower_dark} alt="flower dark" />
+      </div>,
+
+      <div
+        style={{
+          width: "17.7030%",
+          height: "17.7450%",
+          transform: "translate(258.3579%, 183.9452%)",
+        }}
+      >
+        <img src={IP.shape.flower_white} alt="flower white" />
+      </div>,
+
+      <div
+        style={{
+          width: "29.6628%",
+          height: "37.4632%",
+          transform: "translate(211.4262%, 11.5467%) rotate(60.7628deg)",
+        }}
+      >
+        <img src={IP.shape.flower_branch} alt="flower branch" />
+      </div>,
+
+      <div
+        style={{
+          width: "37.3415%",
+          height: "31.1554%",
+          transform: "translate(107.6677%, 26.1666%)",
+        }}
+      >
+        <img src={IP.shape.flower_blue} alt="flower blue" />
+      </div>,
+
+      <div
+        style={{
+          width: "31.9374%",
+          height: "31.0770%",
+          transform: "translate(70.9240%, 43.1581%)",
+        }}
+      >
+        <img src={IP.shape.flower_dark} alt="flower dark" />
+      </div>,
+
+      <div
+        style={{
+          width: "29.6628%",
+          height: "37.4632%",
+          transform: "translate(23.4419%, 152.0218%) rotate(148.241deg)",
+        }}
+      >
+        <img src={IP.shape.flower_branch} alt="flower branch" />
+      </div>,
+
+      <div
+        style={{
+          width: "30.6091%",
+          height: "32.7751%",
+          transform: "translate(22.4826%, 65.1061%)",
+        }}
+      >
+        <img src={IP.shape.flower_blue} alt="flower blue" />
+      </div>,
+
+      <div
+        style={{
+          width: "25.8054%",
+          height: "27.3289%",
+          transform: "translate(45.2828%, 28.0803%)",
+        }}
+      >
+        <img src={IP.shape.flower_gray} alt="flower gray" />
+      </div>,
+
+      <div
+        style={{
+          width: "29.8064%",
+          height: "29.8772%",
+          transform: "translate(23.0881%, 142.7891%)",
+        }}
+      >
+        <img src={IP.shape.flower_white} alt="flower white" />
+      </div>,
+
+      <div
+        style={{
+          width: "18.8527%",
+          height: "19.9657%",
+          transform: "translate(167.2621%, 167.5091%)",
+        }}
+      >
+        <img src={IP.shape.flower_gray} alt="flower gray" />
+      </div>,
+
+      <div
+        style={{
+          width: "22.6807%",
+          height: "24.9352%",
+          transform: "translate(68.1538%, 49.7365%) rotate(-180deg)",
+        }}
+      >
+        <img src={IP.shape.flower_yellow} alt="flower yellow" />
+      </div>,
+    ],
+    ratio: "624.222 / 580.85",
+  },
+  bunch: {
+    elements: [
+      <div
+        style={{
+          width: "54.3958%",
+          height: "64.9349%",
+          transform: "translate(0%, 54%) scale(-1, 1)",
+        }}
+      >
+        <img src={IP.shape.flower_branch} alt="flower icon" />
+      </div>,
+
+      <div
+        style={{
+          width: "49.5953%",
+          height: "68.5064%",
+          transform: "translate(71.6%, 0%) scale(-1, 1)",
+        }}
+      >
+        <img src={IP.shape.flower_gray} alt="flower icon" />
+      </div>,
+
+      <div
+        style={{
+          width: "41.8593%",
+          height: "45.5667%",
+          transform: "translate(56.2214%, 107.4457%) rotate(0deg)",
+        }}
+      >
+        <img src={IP.shape.flower_blue} alt="flower icon" />
+      </div>,
+
+      <div
+        style={{
+          width: "54.3958%",
+          height: "71.1328%",
+          transform: "translate(83.8383%, 32.3500%)",
+        }}
+      >
+        <img src={IP.shape.flower_white} alt="flower icon" />
+      </div>,
+    ],
+    ratio: "254.161 / 181.24",
+  },
+  branches: {
+    elements: [
+      <div
+        style={{
+          width: "56.3511%",
+          height: "91.7288%",
+          transform: "translate(39.1807%, -21.3790%) rotate(89.7379deg)",
+        }}
+      >
+        <img src={IP.shape.flower_lilac} alt="flower lilac" />
+      </div>,
+
+      <div
+        style={{
+          width: "39.2287%",
+          height: "63.8569%",
+          transform: "translate(35.8123%, 49.1149%) rotate(151.653deg)",
+        }}
+      >
+        <img src={IP.shape.flower_lilac} alt="flower lilac" />
+      </div>,
+    ],
+    ratio: "142.544 / 154.209",
+  },
+};
