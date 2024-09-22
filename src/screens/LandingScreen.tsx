@@ -45,7 +45,10 @@ const _LandingScreen = (props: LandingScreenProps) => {
         </h1>
       </FlowerEmphasis>
 
-      <DecorationWrapper wrappers={[{ _type: "corner", _reverse: true }]} className="pseudo-shadow">
+      <DecorationWrapper
+        wrappers={[{ _type: "corner", _reverse: true }]}
+        className="pseudo-shadow"
+      >
         <Paralax _src={IP.misc.aniversario} _shape={"circle"} />
       </DecorationWrapper>
 
@@ -236,7 +239,11 @@ const _LandingScreen = (props: LandingScreenProps) => {
         <FlowerStrip _type="gold" _style={{ marginBottom: "-3.5rem" }} />
       </h2>
 
-      <Paralax _src={IP.bg.standing_dark} _childmax _bgPosition="center 40%">
+      <Paralax
+        _src={IP.bg.standing_dark}
+        _childmax
+        _bgPosition={["center", 0.4]}
+      >
         <div className="flex-col-even">
           <h1
             className="remark"
@@ -269,11 +276,18 @@ const _LandingScreen = (props: LandingScreenProps) => {
         </p>
       </DecorationWrapper>
 
-      <DecorationWrapper wrappers={[{ _type: "corner", _reverse: false }, { _type: "corner", _reverse: true }]} className="pseudo-shadow">
+      <DecorationWrapper
+        wrappers={[
+          { _type: "corner", _reverse: false },
+          { _type: "corner", _reverse: true },
+        ]}
+        className="pseudo-shadow"
+      >
         <Paralax
           _src={IP.misc.aniversario}
-          _autoheight="100svh"
-          _bgPosition="center 30%"
+          _autoheight="100lvh"
+          _bgPosition={["center", 0.3]}
+          _debug
         />
       </DecorationWrapper>
 
@@ -291,6 +305,23 @@ const _LandingScreen = (props: LandingScreenProps) => {
         Buscar
       </button>
       */}
+
+      {/* <button
+        style={{ marginBottom: "10rem", minHeight: "100lvh" }}
+        onClick={(e) => {
+          // const comput = getComputedStyle(document.documentElement);
+
+          alert(
+            `Width: ${window.screen.width} Avail: ${
+              window.screen.availWidth
+            }, Height: ${window.screen.height} Avail: ${
+              window.screen.availHeight
+            }, ROOT: ${getComputedStyle(document.documentElement).maxHeight}`
+          );
+        }}
+      >
+        DEBUG
+      </button> */}
     </div>
   );
 };

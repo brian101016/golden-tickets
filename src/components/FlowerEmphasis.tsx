@@ -33,7 +33,7 @@ const _FlowerEmphasis = (props: FlowerEmphasisProps) => {
   if (props._type === "branches") {
     [aux._rotate, aux2._rotate] = checkRev(0, 180);
   } else if (props._type === "bunch") {
-    [aux._scale, aux2._scale] = checkRev("", "-1, 1");
+    [aux._scale, aux2._scale] = checkRev("1", "-1, 1");
   }
 
   // ---------------------------------------------------------------------- RETURN

@@ -51,9 +51,10 @@ const FlowerDecoration = styled(_FlowerDecoration).attrs(
   ${(props) => css`
     position: ${props._abs ? "absolute" : "relative"};
 
-    width: 50%;
-    max-width: 500px;
-    min-width: 200px;
+
+    width: ${IMAGES[props._type].width};
+    max-width: ${IMAGES[props._type].maxWidth};
+    min-width: ${IMAGES[props._type].minWidth};
     aspect-ratio: ${IMAGES[props._type].ratio};
     transform: translate(${props._x}, ${props._y}) rotate(${props._rotate}deg)
       scale(${props._scale?.toString()});
@@ -194,6 +195,9 @@ const IMAGES = {
         <img src={IP.shape.flower_yellow} alt="flower yellow" />
       </div>,
     ],
+    width: "50%",
+    maxWidth: "500px",
+    minWidth: "200px",
     ratio: "624.222 / 580.85",
   },
   bunch: {
@@ -238,6 +242,9 @@ const IMAGES = {
         <img src={IP.shape.flower_white} alt="flower icon" />
       </div>,
     ],
+    width: "500px",
+    maxWidth: "",
+    minWidth: "",
     ratio: "254.161 / 181.24",
   },
   branches: {
@@ -262,6 +269,9 @@ const IMAGES = {
         <img src={IP.shape.flower_lilac} alt="flower lilac" />
       </div>,
     ],
+    width: "500px",
+    maxWidth: "",
+    minWidth: "",
     ratio: "142.544 / 154.209",
   },
 };

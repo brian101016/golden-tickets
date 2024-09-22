@@ -2,6 +2,7 @@ import styled, { css } from "styled-components";
 import {
   getImageSize,
   parseCSS,
+  parseNumber,
   useRefCallback,
 } from "scripts/FunctionsBundle";
 import { useCallback } from "react";
@@ -20,13 +21,16 @@ type ParalaxProps = {
   _filter?: string;
   /** Overrides the default of `height: 90svh;` from the `bg-img` element. */
   _autoheight?: boolean | string;
-  /** Overrides the default `background-position: top center;` from the `bg-img` element. */
-  _bgPosition?: string;
+  /** Overrides the default `background-position: top center;` from the `bg-img` element.
+   * `string`s are used as is. `number`s are used as percentage where 0.1 = 10%. */
+  _bgPosition?: [string | number, string | number | undefined];
 
   /** Children to append to the container generated. */
   children?: React.ReactNode;
   /** If the children would get a `height: 100%;` by selector `bg-image > *`. */
   _childmax?: boolean;
+
+  _debug?: boolean;
 } & _Base;
 // #endregion
 
@@ -35,25 +39,51 @@ const _Paralax = (props: ParalaxProps) => {
   const onMount = useCallback(
     async (el: HTMLElement) => {
       const size = await getImageSize(props._src);
-      // console.log("Mounted on image", props._src, "with size", size);
+      const aspc = size.width / size.height;
+      let prev = {
+        y: -100,
+        x: -100,
+      };
 
       function handleAdjustSize() {
-        const num = visualViewport!.height * size.width;
+        // Support for mobile showing or not the URL bar
+        const screenY = parseNumber(
+          getComputedStyle(document.documentElement).maxHeight
+        );
+        const screenX = el.offsetWidth;
 
-        if (el.offsetWidth > num / size.height)
-          el.style.backgroundSize = el.offsetWidth + "px auto";
-        else el.style.backgroundSize = "auto 100%";
+        // CHECK CACHE
+        if (prev.x === screenX && prev.y === screenY) return;
+        prev.x = screenX;
+        prev.y = screenY;
+
+        // CALCUALTE NEW RENDER COORDS
+        const [rx, ry] =
+          screenX / screenY > aspc
+            ? [screenX, screenX / aspc]
+            : [screenY * aspc, screenY];
+        el.style.backgroundSize = `${rx}px ${ry}px`;
+
+        // ADJUST POSITIONS
+        if (!props._bgPosition) return;
+        const percX = props._bgPosition[0];
+        const percY = props._bgPosition[1] ?? percX;
+
+        const posX =
+          typeof percX === "number" ? (screenX - rx) * percX + "px" : percX;
+        const posY =
+          typeof percY === "number" ? (screenY - ry) * percY + "px" : percY;
+
+        el.style.backgroundPositionX = posX;
+        el.style.backgroundPositionY = posY;
       }
 
       handleAdjustSize();
 
       window.addEventListener("resize", handleAdjustSize);
-      return (el: HTMLElement) => {
-        window.removeEventListener("resize", handleAdjustSize);
-        // console.log("unmounted on image", props._src, "with elem", el);
-      };
+      return () => window.removeEventListener("resize", handleAdjustSize);
     },
-    [props._src]
+    [props._src, props._bgPosition]
   );
 
   const setref = useRefCallback(onMount);
@@ -85,8 +115,6 @@ const Paralax = styled(_Paralax).attrs((props: ParalaxProps): ParalaxProps => {
     .bg-image {
       background-image: url(${props._src});
       background-size: auto 100%;
-
-      background-position: ${props._bgPosition};
       height: ${props._autoheight === true ? "auto" : props._autoheight || ""};
 
       &::before {
