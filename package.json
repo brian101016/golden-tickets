@@ -1,6 +1,6 @@
 {
   "name": "golden-tickets",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "private": true,
   "dependencies": {
     "firebase": "^9.22.2",
@@ -15,7 +15,9 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build:fun": "cd functions && tsc --watch",
+    "emulators": "firebase emulators:start --import ./emulator-data --export-on-exit ./emulator-data"
   },
   "eslintConfig": {
     "extends": [

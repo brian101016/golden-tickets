@@ -1,0 +1,23 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+  
+    // isAdmin shortcut
+    function isAdmin() {
+      return request.auth != null && request.auth.token.role == "admin";
+    }
+
+    // Allow everything to admin role
+  	match /tickets/{docs=**} {
+    	allow read, write, list: if isAdmin();
+    }
+
+	// Allow read per specific document
+    match /tickets/{ticketid} {
+      allow read: if true; // Allow per specific ID
+      allow write: if false; // Done via Cloud Functions
+      allow list: if false; // Only admin
+    }
+  }
+}
