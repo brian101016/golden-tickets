@@ -884,6 +884,7 @@ textarea,
   font-size: 0.8rem;
 
   --priv-color: var(--color-palette-blue-ultra);
+  --priv-size: 2px;
 
   background-color: var(--color-shadow-white);
   color: var(--color-palette-brown);
@@ -941,6 +942,14 @@ textarea,
     }
   }
 
+  // -------------------------------------------------- IMPORTANT CLASS
+  &.important {
+    --priv-size: 5px;
+    font-size: 1.5rem;
+    text-align: center;
+    border-width: 5px;
+  }
+
   // -------------------------------------------------- PLACEHOLDER
   &::placeholder {
     opacity: 75%;
@@ -958,13 +967,13 @@ textarea,
       --priv-color: var(--color-palette-beige);
     }
 
-    box-shadow: 0 0 0px 2px var(--priv-color);
+    box-shadow: 0 0 0px var(--priv-size) var(--priv-color);
   }
 
   // -------------------------------------------------- INVALID
   &:invalid {
     --priv-color: var(--color-palette-brown);
-    box-shadow: 0 0 0px 2px var(--priv-color);
+    box-shadow: 0 0 0px var(--priv-size) var(--priv-color);
   }
 
   // -------------------------------------------------- FOCUS
@@ -977,7 +986,7 @@ textarea,
       --priv-color: var(--color-classic-red);
     }
 
-    box-shadow: 0 0 0px 2px var(--priv-color);
+    box-shadow: 0 0 0px var(--priv-size) var(--priv-color);
   }
 }
 
@@ -1401,6 +1410,17 @@ footer,
   a:active {
     color: var(--color-palette-blue-light);
   }
+}
+
+// ---------------------------------------------------------------------- ADMIN BUBBLE
+.admin-bubble {
+  position: fixed;
+  top: 0;
+  z-index: 6;
+  display: flex;
+  background-color: mix($color-palette-blue-royal, transparent, 50%);
+  border-bottom-right-radius: 0.5rem;
+  padding: var(--padding-button);
 }
 // #endregion
 

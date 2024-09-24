@@ -5,6 +5,8 @@ import { Ticket } from "@utils/ClassTypes";
 import { Link } from "react-router-dom";
 import Modal from "@components/Modal";
 import { useState } from "react";
+import { GS } from "App";
+import LoginScreen from "./LoginScreen";
 
 // #region ##################################################################################### PROPS
 type _Base = import("@utils/ClassTypes")._Base;
@@ -37,6 +39,9 @@ const _AdminScreen = (props: AdminScreenProps) => {
     refresh();
   }
 
+  // ---------------------------------------------------------------------- HANDLE LOGIN SCREEN
+  if (!GS.isAdmin || !data) return <LoginScreen />;
+
   // ---------------------------------------------------------------------- RETURN
   return (
     <div className={props.className + " screen"}>
@@ -50,46 +55,47 @@ const _AdminScreen = (props: AdminScreenProps) => {
       />
 
       <div className="tickets-container">
-        {data &&
-          data.map((tic, index) => {
-            return (
-              <div key={index}>
-                <h2>Familia {tic.family}</h2>
-                <button className="secondary" onClick={() => handleEdit(tic)}>
-                  Editar
-                </button>
-                <button className="danger" onClick={() => handleDelete(tic)}>
-                  Eliminar
-                </button>
-                <p>
-                  URL: <Link to={`/tickets/${tic.id}`}>{tic.id}</Link>
-                </p>
-                <p>
-                  Visto por ultima vez: {tic.lastSeen?.toISOString() || "N/A"}
-                </p>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Nombre</th>
-                      <th>Confirmado?</th>
-                      <th>Fecha</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {tic.members &&
-                      tic.members.map((memb, i) => (
-                        <tr key={i}>
-                          <td>{memb.name}</td>
-                          <td>{memb.accepted ? "Si" : "No"}</td>
-                          <td>{memb.acceptedDate?.toISOString() || "N/A"}</td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </table>
-              </div>
-            );
-          })}
+        {data.map((tic, index) => {
+          return (
+            <div key={index}>
+              <h2>Familia {tic.family}</h2>
+              <button className="secondary" onClick={() => handleEdit(tic)}>
+                Editar
+              </button>
+              <button className="danger" onClick={() => handleDelete(tic)}>
+                Eliminar
+              </button>
+              <p>
+                URL: <Link to={`/tickets/${tic.id}`}>{tic.id}</Link>
+              </p>
+              <p>
+                Visto por ultima vez: {tic.lastSeen?.toISOString() || "N/A"}
+              </p>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Confirmado?</th>
+                    <th>Fecha</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {tic.members &&
+                    tic.members.map((memb, i) => (
+                      <tr key={i}>
+                        <td>{memb.name}</td>
+                        <td>{memb.accepted ? "Si" : "No"}</td>
+                        <td>{memb.acceptedDate?.toISOString() || "N/A"}</td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          );
+        })}
       </div>
+
+      <div style={{ height: "4rem" }} />
     </div>
   );
 };

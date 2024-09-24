@@ -86,6 +86,7 @@ const IMAGES = {
   corner: {
     elements: [
       <div
+        key={0}
         style={{
           width: "23.3821%",
           height: "22.7522%",
@@ -96,6 +97,7 @@ const IMAGES = {
       </div>,
 
       <div
+        key={1}
         style={{
           width: "17.7030%",
           height: "17.7450%",
@@ -106,6 +108,7 @@ const IMAGES = {
       </div>,
 
       <div
+        key={2}
         style={{
           width: "29.6628%",
           height: "37.4632%",
@@ -116,6 +119,7 @@ const IMAGES = {
       </div>,
 
       <div
+        key={3}
         style={{
           width: "37.3415%",
           height: "31.1554%",
@@ -126,6 +130,7 @@ const IMAGES = {
       </div>,
 
       <div
+        key={4}
         style={{
           width: "31.9374%",
           height: "31.0770%",
@@ -136,6 +141,7 @@ const IMAGES = {
       </div>,
 
       <div
+        key={5}
         style={{
           width: "29.6628%",
           height: "37.4632%",
@@ -146,6 +152,7 @@ const IMAGES = {
       </div>,
 
       <div
+        key={6}
         style={{
           width: "30.6091%",
           height: "32.7751%",
@@ -156,6 +163,7 @@ const IMAGES = {
       </div>,
 
       <div
+        key={7}
         style={{
           width: "25.8054%",
           height: "27.3289%",
@@ -166,6 +174,7 @@ const IMAGES = {
       </div>,
 
       <div
+        key={8}
         style={{
           width: "29.8064%",
           height: "29.8772%",
@@ -176,6 +185,7 @@ const IMAGES = {
       </div>,
 
       <div
+        key={9}
         style={{
           width: "18.8527%",
           height: "19.9657%",
@@ -186,6 +196,7 @@ const IMAGES = {
       </div>,
 
       <div
+        key={10}
         style={{
           width: "22.6807%",
           height: "24.9352%",
@@ -203,6 +214,7 @@ const IMAGES = {
   bunch: {
     elements: [
       <div
+        key={0}
         style={{
           width: "54.3958%",
           height: "64.9349%",
@@ -213,6 +225,7 @@ const IMAGES = {
       </div>,
 
       <div
+        key={1}
         style={{
           width: "49.5953%",
           height: "68.5064%",
@@ -223,6 +236,7 @@ const IMAGES = {
       </div>,
 
       <div
+        key={2}
         style={{
           width: "41.8593%",
           height: "45.5667%",
@@ -233,6 +247,7 @@ const IMAGES = {
       </div>,
 
       <div
+        key={3}
         style={{
           width: "54.3958%",
           height: "71.1328%",
@@ -250,6 +265,7 @@ const IMAGES = {
   branches: {
     elements: [
       <div
+        key={0}
         style={{
           width: "56.3511%",
           height: "91.7288%",
@@ -260,6 +276,7 @@ const IMAGES = {
       </div>,
 
       <div
+        key={1}
         style={{
           width: "39.2287%",
           height: "63.8569%",

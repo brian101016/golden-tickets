@@ -5,17 +5,16 @@ import {
   redirect,
   RouterProvider,
 } from "react-router-dom";
-import { useRefresh } from "scripts/FunctionsBundle";
+import { parseNumber } from "scripts/FunctionsBundle";
 import * as _T from "@utils/ClassTypes";
 import { initializeApp } from "firebase/app";
 import * as FS from "firebase/firestore";
 import * as AO from "firebase/auth";
-import LoginScreen from "@screens/LoginScreen";
-import { useEffect } from "react";
 import HomeScreen from "@screens/HomeScreen";
 import LandingScreen from "@screens/LandingScreen";
-import TicketScreen from "@screens/TicketScreen";
 import AdminScreen from "@screens/AdminScreen";
+import GoldenTicket from "@screens/GoldenTicket";
+import ConfirmationScreen from "@screens/ConfirmationScreen";
 
 // ---------------------------------------------------------------------- TYPESCRIPT IMPORTS
 type _LoaderFunctionArgs = import("react-router-dom").LoaderFunctionArgs;
@@ -35,7 +34,18 @@ export const firebaseApp = initializeApp({
 const db = FS.getFirestore(firebaseApp); // FIRESTORE (data db)
 export const auth = AO.getAuth(firebaseApp); // AUTHETICATION (users db)
 
-const adminids = ["k8CneZeguQMyVzX2GuQ97M5Q9NO2"];
+// Override with emulator settings in development
+if (process.env.NODE_ENV === "development") {
+  AO.connectAuthEmulator(
+    auth,
+    `http://localhost:${process.env.REACT_APP_EMULATOR_AUTH}/`
+  );
+  FS.connectFirestoreEmulator(
+    db,
+    "localhost",
+    parseNumber(process.env.REACT_APP_EMULATOR_FIRESTORE || "8080")
+  );
+}
 // #endregion
 
 // #region ##################################################################################### FIRESTORE
@@ -230,13 +240,21 @@ export async function LogIn(email: string, pass: string) {
 export async function LogOut(resetOnly = false) {
   await auth.signOut();
   GS.cache = {};
+  GS.isAdmin = false;
   if (!resetOnly) GS.refresh();
 }
 
 // ---------------------------------------------------------------------- IS ADMIN
 /** Indica si el usuario registrado en la sesión actual es admin o no. */
-export function isAdmin(uid?: string) {
-  return adminids.includes(uid || auth.currentUser?.uid || "");
+export async function isAdmin(user = auth.currentUser) {
+  if (!user) return false;
+
+  const token = await user.getIdTokenResult(true).catch((err) => {
+    console.error(err);
+    return null;
+  });
+
+  return token && token.claims["role"] === "admin";
 }
 // #endregion
 
@@ -251,14 +269,18 @@ export const GS = new _T.Global();
 /** Verifica si el usuario actual tiene iniciada la sesión, de lo contrario regresa a login. */
 // ---------------------------------------------------------------------- CHECK USER
 async function checkUser(req: _LoaderFunctionArgs) {
+  if (GS.firstTime) return false;
+  console.log("enter check...");
+
   if (!auth.currentUser) {
     GS.setAlert({
       _message: "Inicie sesión para continuar",
       _type: "warning",
     });
-    return redirect("/login");
+    return (GS.isAdmin = false);
   }
-  return null;
+
+  return GS.isAdmin;
 }
 
 // ---------------------------------------------------------------------- LOAD ADMIN DATA
@@ -266,35 +288,56 @@ async function checkUser(req: _LoaderFunctionArgs) {
 async function loadAdmin(req: _LoaderFunctionArgs) {
   // ============================== PREV CHECK
   const prev = await checkUser(req);
-  if (prev) return prev;
+  if (!prev) return prev;
 
   // ============================== GET ALL USERS
-  if (isAdmin()) {
-    const data = await FSAction("getall", "", { id: "" });
+  const data = await FSAction("getall", "", { id: "" });
 
-    // NO DATA
-    if (!data) {
-      throw new Response("Not Found", {
-        status: 404,
-        statusText: "No se han encontrado tickets.",
-      });
-    }
-
-    // RETURN DATA
-    return data;
+  // NO DATA
+  if (!data) {
+    throw new Response("Not Found", {
+      status: 404,
+      statusText: "No se han encontrado tickets.",
+    });
   }
 
-  // ============================== DEFAULT RETURN
-  return null;
+  // ============================== DATA
+  GS.isAdmin = true;
+  return data;
+}
+
+/** Verifica si el usuario actual tiene iniciada la sesión, de lo contrario regresa a login. */
+// ---------------------------------------------------------------------- CHECK USER
+async function callLogout(req: _LoaderFunctionArgs) {
+  await LogOut();
+  return redirect("/");
+}
+
+// ---------------------------------------------------------------------- CHECK TICKET
+/** Revisa un ticket específico y marca `lastSeen` en caso de que exista. */
+async function checkTicket(req: _LoaderFunctionArgs) {
+  // ============================== GET PARAMS
+  const { ticketid } = req.params;
+
+  // ============================== GET ALL USERS
+  const data = ticketid ? await FSAction("read", ticketid, { id: "" }) : null;
+
+  // NO DATA
+  if (!data) {
+    throw new Response("Not Found", {
+      status: 404,
+      statusText: "No se encontró el ticket ingresado.",
+    });
+  }
+
+  // RETURN DATA
+  return data;
 }
 
 // ---------------------------------------------------------------------- LOAD TICKET
 /** Obtiene información sobre un ticket específico. */
 async function loadTicket(req: _LoaderFunctionArgs) {
-  // ============================== PREV CHECK
-  // no needed
-
-  /** ============================== GET PARAMS */
+  // ============================== GET PARAMS
   const { ticketid } = req.params;
 
   // ============================== GET ALL USERS
@@ -364,9 +407,6 @@ async function actionAdmin(req: _ActionFunctionArgs) {
 // ---------------------------------------------------------------------- ACTION TICKET CRUD
 /** Se encarga de enviar los checks para confirmar un ticket. */
 async function actionTicket(req: _ActionFunctionArgs) {
-  // ============================== PREV CHECK
-  // no needed
-
   // ============================== RETRIEVE CACHE
   const data = GS.cache?.ticket as _T.Ticket;
 
@@ -405,23 +445,6 @@ async function actionTicket(req: _ActionFunctionArgs) {
 
 // #region ##################################################################################### MAIN APPLICATION
 function App() {
-  // ---------------------------------------------------------------------- GLOBAL STATE
-  const [refresh] = useRefresh();
-  GS.refresh = refresh;
-
-  // ---------------------------------------------------------------------- FIRST TIME
-  useEffect(() => {
-    const a = (GS.cache = setTimeout(() => {
-      GS.firstTime = false;
-      GS.refresh();
-    }, 1000));
-
-    return () => {
-      GS.firstTime = false;
-      clearTimeout(a);
-    };
-  }, []);
-
   // ---------------------------------------------------------------------- RETURN
   return (
     <RouterProvider
@@ -437,10 +460,11 @@ function App() {
               index: true,
               element: <LandingScreen />,
             },
-            // -------------------------------------------------- ADMIN LOGIN
+            // -------------------------------------------------- LOGOUT SHORTCUT
             {
-              path: "login",
-              element: <LoginScreen />,
+              path: "logout",
+              loader: callLogout,
+              element: <>...</>,
             },
             // -------------------------------------------------- ADMIN PAGE
             {
@@ -452,9 +476,16 @@ function App() {
             // -------------------------------------------------- TICKETS PAGE
             {
               path: "tickets/:ticketid",
+              loader: checkTicket,
+              action: undefined,
+              element: <GoldenTicket />,
+            },
+            // -------------------------------------------------- CONFIRMATION PAGE
+            {
+              path: "tickets/:ticketid/confirm",
               loader: loadTicket,
               action: actionTicket,
-              element: <TicketScreen />,
+              element: <ConfirmationScreen />,
             },
           ],
         },

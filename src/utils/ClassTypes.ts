@@ -88,7 +88,7 @@ export type _Base = {
  * Modelo para la variable global a utilizar en todo el sistema. Esta se creó con el propósito de minimizar las llamadas
  * a la base de datos (Firebase) y acceder a la información relevante más fácilmente.
  *
- * 1. {@link currentUser} - `User | null`.
+ * 1. {@link isAdmin} - `boolean`.
  * 1. {@link cache} - `any`.
  * 1. {@link refresh} - `() => void`.
  * 1. {@link firstTime} - `boolean`.
@@ -97,8 +97,8 @@ export type _Base = {
  * 1. {@link setAlert} - ***readonly*** `() => void`.
  */
 export class Global {
-  /** `User | null` - Representa el usuario con la sesión iniciada actualmente. También describe sus permisos. */
-  // currentUser: User | null = null;
+  /** `boolean` - Representa si el usuario tiene custom claims de admin para mostrar los controles. */
+  isAdmin: boolean = false;
   /** `any` - Guarda cualquier clase de información, puede estar vacío y no es confiable. */
   cache: any = {};
   /** `() => void` - Representa una función para refrescar toda la aplicación desde la raíz. */

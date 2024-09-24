@@ -9,12 +9,12 @@ import { GS } from "App";
 
 // #region ##################################################################################### PROPS
 type _Base = import("@utils/ClassTypes")._Base;
-// TicketScreen => Rename all instances to use (CTRL + SHIFT + L)
-type TicketScreenProps = {} & _Base;
+// ConfirmationScreen => Rename all instances to use (CTRL + SHIFT + L)
+type ConfirmationScreenProps = {} & _Base;
 // #endregion
 
 // #region ##################################################################################### COMPONENT
-const _TicketScreen = (props: TicketScreenProps) => {
+const _ConfirmationScreen = (props: ConfirmationScreenProps) => {
   const tic = useLoaderData() as Ticket;
   const [refresh, volkey] = useRefresh();
   const [LS, setLS] = useState(new Ticket());
@@ -105,11 +105,11 @@ const _TicketScreen = (props: TicketScreenProps) => {
 // #endregion
 
 // #region ##################################################################################### STYLES
-const TicketScreen = styled(_TicketScreen).attrs(
-  (props: TicketScreenProps): TicketScreenProps => {
+const ConfirmationScreen = styled(_ConfirmationScreen).attrs(
+  (props: ConfirmationScreenProps): ConfirmationScreenProps => {
     return { ...props };
   }
-)<TicketScreenProps>`
+)<ConfirmationScreenProps>`
   ${(props) => css`
     // Ingresa aquí todos los estilos.
     ${parseCSS(props._style)}
@@ -118,5 +118,5 @@ const TicketScreen = styled(_TicketScreen).attrs(
 // #endregion
 
 // #region ##################################################################################### EXPORTS
-export default TicketScreen;
+export default ConfirmationScreen;
 // #endregion

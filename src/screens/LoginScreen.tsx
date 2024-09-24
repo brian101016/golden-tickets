@@ -1,16 +1,13 @@
 import styled, { css } from "styled-components";
 import { parseCSS } from "scripts/FunctionsBundle";
 import IP from "utils/ImageProvider";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Input from "@components/Input";
-import { LogIn, auth, firebaseApp } from "App";
+import { GS, LogIn, LogOut, auth } from "App";
 import {
   browserLocalPersistence,
   browserSessionPersistence,
-  getAuth,
 } from "firebase/auth";
-import { useNavigate } from "react-router";
-import { Helmet } from "react-helmet";
 
 // #region ##################################################################################### PROPS
 type _Base = import("@utils/ClassTypes")._Base;
@@ -22,37 +19,45 @@ type LoginScreenProps = {} & _Base;
 const _LoginScreen = (props: LoginScreenProps) => {
   const [passInput, setPassInput] = useState(false);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
   const [LS] = useState({ email: "", pass: "", savePass: true });
-  const a = getAuth(firebaseApp);
+
+  if (auth.currentUser && !GS.isAdmin) {
+    GS.setAlert({
+      _message: "Acceso denegado.",
+      _type: "error",
+    });
+  }
 
   const visiblePass = () => setPassInput(!passInput);
 
-  useEffect(() => {
-    if (a.currentUser) navigate("/");
-  }, [a.currentUser, navigate]);
+  // ---------------------------------------------------------------------- HANDLE LOG IN
+  async function handleLogin(e) {
+    e.preventDefault();
+    if (loading) return;
+    setLoading(true);
+
+    if (LS.savePass) auth.setPersistence(browserLocalPersistence);
+    else auth.setPersistence(browserSessionPersistence);
+
+    await LogIn(LS.email, LS.pass);
+    setLoading(false);
+  }
+
+  // ---------------------------------------------------------------------- HANDLE LOG OUT
+  async function handleLogout() {
+    if (loading) return;
+    setLoading(true);
+
+    await LogOut();
+    setLoading(false);
+  }
 
   // ---------------------------------------------------------------------- RETURN
   return (
     <div className={props.className + " screen"}>
       {loading && <div className="spinner">Cargando...</div>}
 
-      <Helmet>
-        <title>Iniciar Sesión | Golden Tickets</title>
-      </Helmet>
-
-      <form
-        className="login-container"
-        onSubmit={async (e) => {
-          e.preventDefault();
-          setLoading(true);
-          if (LS.savePass) auth.setPersistence(browserLocalPersistence);
-          else auth.setPersistence(browserSessionPersistence);
-          const res = await LogIn(LS.email, LS.pass);
-          setLoading(false);
-          if (res) navigate("/admin");
-        }}
-      >
+      <form className="login-container" onSubmit={handleLogin}>
         <Input
           _store={LS}
           _placeholder="Usuario"
@@ -92,6 +97,12 @@ const _LoginScreen = (props: LoginScreenProps) => {
         </div>
         <button className="input login">Iniciar sesión</button>
       </form>
+
+      {auth.currentUser && (
+        <button onClick={handleLogout}>
+          Cerrar sesión "{auth.currentUser.displayName}"
+        </button>
+      )}
     </div>
   );
 };
