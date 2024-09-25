@@ -508,8 +508,8 @@ a {
   }
 }
 
-// ---------------------------------------------------------------------- REVERSED
-.reversed {
+// ---------------------------------------------------------------------- FLEX REVERSED
+.flex-reversed {
   display: flex;
   flex-direction: row-reverse;
   justify-content: flex-end;
@@ -1421,6 +1421,19 @@ footer,
   background-color: mix($color-palette-blue-royal, transparent, 50%);
   border-bottom-right-radius: 0.5rem;
   padding: var(--padding-button);
+}
+
+// ---------------------------------------------------------------------- FLOATING CONTROLS
+.floating-controls {
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: var(--margin-big);
+
+  &.reversed {
+    left: initial;
+    right: 0;
+  }
 }
 // #endregion
 

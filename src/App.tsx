@@ -5,7 +5,7 @@ import {
   redirect,
   RouterProvider,
 } from "react-router-dom";
-import { parseNumber } from "scripts/FunctionsBundle";
+import { cipher, parseNumber } from "scripts/FunctionsBundle";
 import * as _T from "@utils/ClassTypes";
 import { initializeApp } from "firebase/app";
 import * as FS from "firebase/firestore";
@@ -33,6 +33,7 @@ export const firebaseApp = initializeApp({
 });
 const db = FS.getFirestore(firebaseApp); // FIRESTORE (data db)
 export const auth = AO.getAuth(firebaseApp); // AUTHETICATION (users db)
+const CF_URL = process.env.REACT_APP_EMULATOR_FUNCTIONS; // CLOUD FUNCTIONS URL
 
 // Override with emulator settings in development
 if (process.env.NODE_ENV === "development") {
@@ -265,6 +266,40 @@ export async function isAdmin(user = auth.currentUser) {
 export const GS = new _T.Global();
 // #endregion
 
+// #region ##################################################################################### CLOUD FUNCTIONS
+/** Verifica la última fecha de acceso de un ticket, y ejecuta la Cloud Function "lastSeen". */
+// ---------------------------------------------------------------------- CHECK LAST SEEN
+async function checkLastSeen(ticketid: string) {
+  const timethen = parseNumber(localStorage.getItem(ticketid + "-dat") || 0);
+  const timenow = Date.now();
+
+  const hoursnow = Math.floor(timenow / 1000 / 3600);
+  const hoursthen = Math.floor(timethen / 1000 / 3600);
+
+  // Refresh only after +12hrs from previous "lastSeen".
+  if (hoursnow - hoursthen < 12) return;
+
+  const res = await fetch(CF_URL + "updateLastSeen", {
+    method: "post",
+    body: JSON.stringify({
+      apikey: "custompass",
+      ticketid,
+    }),
+  }).catch((err) => {
+    console.error(err);
+    return null;
+  });
+
+  if (res?.ok) {
+    try {
+      localStorage.setItem(ticketid + "-dat", Date.now() + "");
+    } catch (e) {
+      console.error(e);
+    }
+  }
+}
+// #endregion
+
 // #region ##################################################################################### FUNCIONES LOADERS
 /** Verifica si el usuario actual tiene iniciada la sesión, de lo contrario regresa a login. */
 // ---------------------------------------------------------------------- CHECK USER
@@ -318,20 +353,43 @@ async function callLogout(req: _LoaderFunctionArgs) {
 async function checkTicket(req: _LoaderFunctionArgs) {
   // ============================== GET PARAMS
   const { ticketid } = req.params;
+  const askey = cipher(ticketid || "", true);
+  const asval = cipher(ticketid || "");
+
+  // ============================== CHECK CACHE
+  if (ticketid) {
+    if (localStorage.getItem(askey) === asval) {
+      // Somehow the ticketid got into localstorage,
+      // which means that the user already had it
+      await checkLastSeen(ticketid);
+      return true;
+    }
+    localStorage.removeItem(askey);
+  }
 
   // ============================== GET ALL USERS
   const data = ticketid ? await FSAction("read", ticketid, { id: "" }) : null;
 
   // NO DATA
-  if (!data) {
+  if (!data || !ticketid) {
     throw new Response("Not Found", {
       status: 404,
       statusText: "No se encontró el ticket ingresado.",
     });
   }
 
+  // ============================== SAVE CACHE
+  // At this point, the user will get access and we can
+  // facilitate the next request for the same ticketid
+  try {
+    localStorage.setItem(askey, asval);
+    await checkLastSeen(askey);
+  } catch (e) {
+    console.error(e);
+  }
+
   // RETURN DATA
-  return data;
+  return true;
 }
 
 // ---------------------------------------------------------------------- LOAD TICKET

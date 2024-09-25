@@ -8,6 +8,7 @@ import {
   browserLocalPersistence,
   browserSessionPersistence,
 } from "firebase/auth";
+import { Link } from "react-router-dom";
 
 // #region ##################################################################################### PROPS
 type _Base = import("@utils/ClassTypes")._Base;
@@ -57,52 +58,60 @@ const _LoginScreen = (props: LoginScreenProps) => {
     <div className={props.className + " screen"}>
       {loading && <div className="spinner">Cargando...</div>}
 
-      <form className="login-container" onSubmit={handleLogin}>
-        <Input
-          _store={LS}
-          _placeholder="Usuario"
-          _store_var={"email"}
-          _preset={"email"}
-          _label={""}
-          _width={"max"}
-        />
-        <div className="pass-container">
+      <div className="floating-controls">
+        <Link to={"/"} className="as-button warning">
+          {"< Volver al inicio"}
+        </Link>
+      </div>
+
+      <form onSubmit={handleLogin}>
+        <fieldset>
+          <legend>Iniciar sesión</legend>
+
           <Input
             _store={LS}
-            _placeholder="Contraseña"
+            _store_var={"email"}
+            _preset={"email"}
+            _label={"Usuario"}
+            _width={"l"}
+            _withWrapper={false}
+          />
+
+          <Input
+            _store={LS}
             _store_var={"pass"}
             _type={passInput ? "text" : "password"}
-            _label=""
-            _required="*"
-            _width={"max"}
-            _className="pass"
-          />
-          <button type="button" onClick={visiblePass} className="eye">
-            <img
-              src={passInput ? IP.icon.eye_off : IP.icon.eye_on}
-              alt={passInput ? "Mostrar contraseña" : "Ocultar contraseña"}
-              width="27.5px"
-              height="27.5px"
-            />
-          </button>
-        </div>
-        <div className="save-pass-container">
+            _label="Contraseña"
+            _required={"*"}
+            _width={"m"}
+          >
+            <button type="button" onClick={visiblePass} className="eye">
+              <img
+                src={passInput ? IP.icon.eye_off : IP.icon.eye_on}
+                alt={passInput ? "Mostrar contraseña" : "Ocultar contraseña"}
+                width="27.5px"
+                height="27.5px"
+              />
+            </button>
+          </Input>
+
           <Input
             _store={LS}
             _store_var={"savePass"}
             _type="checkbox"
             _label="Recordar mi constraseña"
-            _className="checkbox"
+            _withWrapper={false}
           />
-        </div>
-        <button className="input login">Iniciar sesión</button>
-      </form>
 
-      {auth.currentUser && (
-        <button onClick={handleLogout}>
-          Cerrar sesión "{auth.currentUser.displayName}"
-        </button>
-      )}
+          <button className="login">Iniciar sesión</button>
+
+          {auth.currentUser && (
+            <button onClick={handleLogout} className="danger">
+              Cerrar sesión "{auth.currentUser.displayName}"
+            </button>
+          )}
+        </fieldset>
+      </form>
     </div>
   );
 };
@@ -115,89 +124,35 @@ const LoginScreen = styled(_LoginScreen).attrs(
   }
 )<LoginScreenProps>`
   ${(props) => css`
-    display: flex;
-    flex-grow: 1;
-    justify-content: center;
-    align-items: center;
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
     background-image: url(${IP.bg.petals});
 
-    // Ingresa aquí todos los estilos.
-    .login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    form {
       display: flex;
-      justify-content: baseline;
-      padding: 4.25rem 3.2rem 4.25rem 3.2rem;
-      gap: 2rem;
-      flex-direction: column;
-      background-color: white;
-      width: 31.375rem;
-      height: 33.25rem;
-      border-radius: 2.6875rem;
-      background: rgba(255, 255, 255, 0.78);
-      box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+      background-image: url(${IP.bg.granular});
+      background-size: cover;
+      border-radius: 1rem;
+      box-shadow: 0px 4px 10px #0008;
     }
 
-    .pass-container {
+    .wrapper {
       display: flex;
-      border-bottom: #814603 solid 3px;
-
-      .wrapper {
-        display: flex;
-        width: 90%;
-        margin: 0;
-
-        .pass {
-          margin: unset;
-          border: none;
-          width: 100%;
-        }
-      }
-
-      &:hover,
-      &:invalid,
-      &:focus,
-      &:focus-visible,
-      &:focus-within {
-        border-color: #da1919;
-        box-shadow: none;
-      }
+      gap: 0.5rem;
     }
 
-    .save-pass-container {
-      display: flex;
-      flex-direction: row-reverse;
-      justify-content: flex-end;
-    }
-
-    .img {
-      border-radius: 1.875rem;
-      box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    }
-
-    .input:not(.checkbox) {
-      border-radius: 0;
-      border: none;
-      background-color: transparent;
-      border-bottom: #814603 solid 3px;
-      font-size: 1rem;
-
-      &.login {
-        width: 12rem;
-        background-color: #814603;
-        margin: 0;
-        border: none;
-      }
-
-      &:hover,
-      &:invalid,
-      &:focus,
-      &:focus-visible,
-      &:focus-within {
-        border-color: #da1919;
-        box-shadow: none;
-      }
+    legend {
+      width: auto;
+      text-align: center;
+      font-weight: 700;
+      font-family: var(--font-cinzel);
+      letter-spacing: normal;
     }
 
     .eye {
@@ -209,52 +164,6 @@ const LoginScreen = styled(_LoginScreen).attrs(
       justify-content: center;
       border: none;
       background-color: transparent;
-    }
-
-    .label {
-      display: flex;
-      margin: 0 5rem 1rem 5rem;
-      text-align: left;
-    }
-
-    // ---------------------------------------------------------------------- MEDIA QUERY
-    @media screen and (max-width: 890px) {
-      .login-container {
-        padding: 4.25rem 3.2rem 4.25rem 3.2rem;
-        gap: 2rem;
-        width: 30rem;
-        height: 29rem;
-      }
-    }
-
-    @media screen and (max-width: 750px) {
-      .login-container {
-        padding: 4.25rem 3.2rem 4.25rem 3.2rem;
-        gap: 2rem;
-        width: 26rem;
-        height: 28rem;
-      }
-    }
-
-    @media screen and (max-width: 680px) {
-      .login-container {
-        padding: 4.25rem 3.2rem 4.25rem 3.2rem;
-        gap: 2rem;
-        width: 23rem;
-        height: 27.25rem;
-      }
-    }
-
-    @media screen and (max-width: 590px) {
-      .login-container {
-        padding: 2.35rem 3.2rem 4.25rem 3.2rem;
-        gap: 2rem;
-        width: 20.375rem;
-        height: 25.95rem;
-      }
-      label {
-        font-size: 0.8rem;
-      }
     }
 
     ${parseCSS(props._style)}
