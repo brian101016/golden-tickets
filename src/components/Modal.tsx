@@ -62,9 +62,12 @@ const _Modal = (props: ModalProps) => {
     <>
       {/* -------------------------------------------------- OPEN BUTTON */}
       <button
-        className="success"
+        className="success important input"
         disabled={open || loading}
         onClick={handleOpen}
+        style={{
+          margin: "0 auto",
+        }}
       >
         {loading ? "Cargando..." : "Crear nuevo ticket"}
       </button>
@@ -169,8 +172,7 @@ const _Modal = (props: ModalProps) => {
                   onClick={() => handleClose()}
                   disabled={loading}
                 >
-                  <img src={IP.icon.eye_on} alt="previous" />
-                  Regresar
+                  {"< Regresar"}
                 </button>
 
                 <button className="login" disabled={loading}>

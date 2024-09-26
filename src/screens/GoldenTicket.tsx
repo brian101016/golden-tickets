@@ -9,6 +9,7 @@ import Paralax from "@components/Paralax";
 import IP from "@utils/ImageProvider";
 import { Link } from "react-router-dom";
 import BackgroundScreen from "./BackgroundScreen";
+import SecretMessage from "@components/SecretMessage";
 
 // #region ##################################################################################### PROPS
 type _Base = import("@utils/ClassTypes")._Base;
@@ -24,6 +25,8 @@ const _GoldenTicket = (props: GoldenTicketProps) => {
       <BackgroundScreen />
 
       <div className={props.className + " vertical-screen"}>
+        <SecretMessage />
+
         <DecorationWrapper wrappers={[{ _type: "corner" }]}>
           <p className="big-title">
             Bodas

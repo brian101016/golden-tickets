@@ -613,6 +613,12 @@ a {
   font-family: var(--font-cinzel);
   font-size: 2.25rem;
 }
+
+// ---------------------------------------------------------------------- STUCK
+.stuck {
+  position: fixed;
+  overflow: hidden;
+}
 // #endregion
 
 // #region ##################################################################################### BACKGROUND IMAGES
