@@ -1,9 +1,9 @@
 import AlertMessage from "@components/AlertMessage";
-import { auth, GS, isAdmin } from "App";
+import { auth, GS } from "App";
 import { Outlet, useLocation, useNavigate, useNavigation } from "react-router";
 import NotFoundScreen from "./NotFoundScreen";
 import { NavLink } from "react-router-dom";
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { useRefresh } from "scripts/FunctionsBundle";
 
 // #region ##################################################################################### PROPS
@@ -27,26 +27,15 @@ const HomeScreen = (props: HomeScreenProps) => {
     [navigate, location]
   );
 
-  // ---------------------------------------------------------------------- WATCH FOR AUTH CHANGES
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (u) => {
-      if (GS.firstTime) console.log("########################## FIRST TIME");
-
-      console.log("AUTH CHANGE: ", u);
-      GS.firstTime = false;
-      GS.isAdmin = !!(await isAdmin(u));
-      console.log("IS ADMIN: ", GS.isAdmin);
-
-      GS.refresh();
-    });
-    return () => unsubscribe();
-  }, []);
-
   // ---------------------------------------------------------------------- GLOBAL STATE
   GS.refresh = () => {
+    GS.firstTime = false;
     retriggerLoaders();
     refresh();
+    console.log("REFRESH-ED HOME");
   };
+
+  console.log("RENDER HOME");
 
   // ---------------------------------------------------------------------- RETURN
   return (
@@ -71,7 +60,11 @@ const HomeScreen = (props: HomeScreenProps) => {
             </div>
           )}
 
-          <Outlet />
+          {location.pathname !== "/" && GS.firstTime ? (
+            <div className="spinner">Bienvenido</div>
+          ) : (
+            <Outlet />
+          )}
         </>
       )}
 

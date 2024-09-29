@@ -3,7 +3,7 @@ import { parseCSS } from "scripts/FunctionsBundle";
 import IP from "utils/ImageProvider";
 import { useState } from "react";
 import Input from "@components/Input";
-import { GS, LogIn, LogOut, auth } from "App";
+import { LogIn, LogOut, auth } from "App";
 import {
   browserLocalPersistence,
   browserSessionPersistence,
@@ -21,13 +21,6 @@ const _LoginScreen = (props: LoginScreenProps) => {
   const [passInput, setPassInput] = useState(false);
   const [loading, setLoading] = useState(false);
   const [LS] = useState({ email: "", pass: "", savePass: true });
-
-  if (auth.currentUser && !GS.isAdmin) {
-    GS.setAlert({
-      _message: "Acceso denegado.",
-      _type: "error",
-    });
-  }
 
   const visiblePass = () => setPassInput(!passInput);
 

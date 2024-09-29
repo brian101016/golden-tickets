@@ -14,7 +14,11 @@ type NotFoundScreenProps = {} & _Base;
 const _NotFoundScreen = (props: NotFoundScreenProps) => {
   const navigate = useNavigate();
   const error = useRouteError() as any;
-  const errtext = error?.statusText || error?.message;
+  const errtext =
+    error?.statusText ||
+    error?.message ||
+    error?.toString?.() ||
+    "Ocurrió un error...";
   if (error) console.warn(error);
 
   // ---------------------------------------------------------------------- RETURN
@@ -25,12 +29,12 @@ const _NotFoundScreen = (props: NotFoundScreenProps) => {
       </Helmet>
 
       <img
-        src={ImageProvider.shape.ring_full}
+        src={ImageProvider.shape.not_found_ticket}
         alt="Unable to load content"
         className="img-not-found"
       />
 
-      {errtext && <h4>{errtext}</h4>}
+      {<h4>{errtext}</h4>}
 
       <button
         className="login"
@@ -57,16 +61,18 @@ const NotFoundScreen = styled(_NotFoundScreen).attrs(
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #ffff;
+    background-color: var(--color-shadow-white);
 
     .img-not-found {
       width: 300px;
-      // height: 32%:
+      border-radius: 50%;
     }
 
     h4 {
       color: var(--color-palette-brown);
       font-weight: 400;
+      font-size: 1.5rem;
+      margin: var(--margin-medium);
     }
 
     ${parseCSS(props._style)}

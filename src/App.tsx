@@ -5,7 +5,7 @@ import {
   redirect,
   RouterProvider,
 } from "react-router-dom";
-import { cipher, parseNumber } from "scripts/FunctionsBundle";
+import { cipher, parseNumber, stall } from "scripts/FunctionsBundle";
 import * as _T from "@utils/ClassTypes";
 import { initializeApp } from "firebase/app";
 import * as FS from "firebase/firestore";
@@ -15,6 +15,7 @@ import LandingScreen from "@screens/LandingScreen";
 import AdminScreen from "@screens/AdminScreen";
 import GoldenTicket from "@screens/GoldenTicket";
 import ConfirmationScreen from "@screens/ConfirmationScreen";
+import { useEffect } from "react";
 
 // ---------------------------------------------------------------------- TYPESCRIPT IMPORTS
 type _LoaderFunctionArgs = import("react-router-dom").LoaderFunctionArgs;
@@ -39,11 +40,11 @@ const CF_URL = process.env.REACT_APP_EMULATOR_FUNCTIONS; // CLOUD FUNCTIONS URL
 if (process.env.NODE_ENV === "development") {
   AO.connectAuthEmulator(
     auth,
-    `http://localhost:${process.env.REACT_APP_EMULATOR_AUTH}/`
+    `http://192.168.0.2:${process.env.REACT_APP_EMULATOR_AUTH}/`
   );
   FS.connectFirestoreEmulator(
     db,
-    "localhost",
+    "192.168.0.2",
     parseNumber(process.env.REACT_APP_EMULATOR_FIRESTORE || "8080")
   );
 }
@@ -270,6 +271,8 @@ export const GS = new _T.Global();
 /** Verifica la última fecha de acceso de un ticket, y ejecuta la Cloud Function "lastSeen". */
 // ---------------------------------------------------------------------- CHECK LAST SEEN
 async function checkLastSeen(ticketid: string) {
+  console.log("### ### CheckLastSeen start...");
+
   const timethen = parseNumber(localStorage.getItem(ticketid + "-dat") || 0);
   const timenow = Date.now();
 
@@ -279,6 +282,7 @@ async function checkLastSeen(ticketid: string) {
   // Refresh only after +12hrs from previous "lastSeen".
   if (hoursnow - hoursthen < 12) return;
 
+  console.log("### ### ### CLOUD FUNCTION fetch...");
   const res = await fetch(CF_URL + "updateLastSeen", {
     method: "post",
     body: JSON.stringify({
@@ -289,6 +293,7 @@ async function checkLastSeen(ticketid: string) {
     console.error(err);
     return null;
   });
+  console.log("### ### ### ...done func");
 
   if (res?.ok) {
     try {
@@ -298,6 +303,34 @@ async function checkLastSeen(ticketid: string) {
     }
   }
 }
+
+/** Actualiza la información de un ticket con respecto a sus miembros. */
+async function updateTicketInfo(ticketid: string, members: _T.Member[]) {
+  console.log("### ### updateTicketInfo start...");
+
+  const res = await fetch(CF_URL + "updateTicketInfo", {
+    method: "post",
+    body: JSON.stringify({
+      apikey: "custompass",
+      ticketid,
+      members,
+    }),
+  }).catch((err) => {
+    console.error(err);
+    return null;
+  });
+
+  console.log("### ### ...done updateTicketInfo");
+
+  if (!res?.ok) {
+    GS.setAlert({
+      _type: "error",
+      _message: "Ocurrió un error al mandar la información...",
+    });
+  }
+
+  return res?.ok ?? false;
+}
 // #endregion
 
 // #region ##################################################################################### FUNCIONES LOADERS
@@ -305,8 +338,9 @@ async function checkLastSeen(ticketid: string) {
 // ---------------------------------------------------------------------- CHECK USER
 async function checkUser(req: _LoaderFunctionArgs) {
   if (GS.firstTime) return false;
-  console.log("enter check...");
+  console.log("### CHECK USER...", GS.isAdmin);
 
+  // ============================== CHECK USER
   if (!auth.currentUser) {
     GS.setAlert({
       _message: "Inicie sesión para continuar",
@@ -322,11 +356,12 @@ async function checkUser(req: _LoaderFunctionArgs) {
 /** Obtiene todos los tickets existentes. */
 async function loadAdmin(req: _LoaderFunctionArgs) {
   // ============================== PREV CHECK
-  const prev = await checkUser(req);
-  if (!prev) return prev;
+  if (!(await checkUser(req))) return null;
 
   // ============================== GET ALL USERS
+  console.log("### ### LOAD ADMIN...");
   const data = await FSAction("getall", "", { id: "" });
+  console.log("### ### ...done");
 
   // NO DATA
   if (!data) {
@@ -351,39 +386,38 @@ async function callLogout(req: _LoaderFunctionArgs) {
 // ---------------------------------------------------------------------- CHECK TICKET
 /** Revisa un ticket específico y marca `lastSeen` en caso de que exista. */
 async function checkTicket(req: _LoaderFunctionArgs) {
+  if (GS.firstTime) return false;
+
   // ============================== GET PARAMS
   const { ticketid } = req.params;
   const askey = cipher(ticketid || "", true);
   const asval = cipher(ticketid || "");
 
   // ============================== CHECK CACHE
+  console.log("### CHECK TICKET (cache)...");
   if (ticketid) {
     if (localStorage.getItem(askey) === asval) {
       // Somehow the ticketid got into localstorage,
       // which means that the user already had it
+      console.log("### ...(cache) done");
       await checkLastSeen(ticketid);
+      console.log("### ### ...done CheckLastSeen");
       return true;
     }
     localStorage.removeItem(askey);
   }
+  console.log("### (cache) fail");
 
-  // ============================== GET ALL USERS
-  const data = ticketid ? await FSAction("read", ticketid, { id: "" }) : null;
-
-  // NO DATA
-  if (!data || !ticketid) {
-    throw new Response("Not Found", {
-      status: 404,
-      statusText: "No se encontró el ticket ingresado.",
-    });
-  }
+  // ============================== GET TICKET
+  const data = await loadTicket(req);
+  if (!data || !ticketid) return false;
 
   // ============================== SAVE CACHE
   // At this point, the user will get access and we can
   // facilitate the next request for the same ticketid
   try {
     localStorage.setItem(askey, asval);
-    await checkLastSeen(askey);
+    await checkLastSeen(ticketid);
   } catch (e) {
     console.error(e);
   }
@@ -395,11 +429,15 @@ async function checkTicket(req: _LoaderFunctionArgs) {
 // ---------------------------------------------------------------------- LOAD TICKET
 /** Obtiene información sobre un ticket específico. */
 async function loadTicket(req: _LoaderFunctionArgs) {
+  if (GS.firstTime) return null;
+
   // ============================== GET PARAMS
   const { ticketid } = req.params;
 
-  // ============================== GET ALL USERS
+  // ============================== GET FIRESTORE
+  console.log("### LOAD TICKET TO FIRESTORE...");
   const data = ticketid ? await FSAction("read", ticketid, { id: "" }) : null;
+  console.log("### ...done FSAction");
 
   // NO DATA
   if (!data) {
@@ -419,12 +457,13 @@ async function loadTicket(req: _LoaderFunctionArgs) {
 /** Se encarga del CRUD de admin para administrar los Tickets y familias. */
 async function actionAdmin(req: _ActionFunctionArgs) {
   // ============================== PREV CHECK
-  const prev = await checkUser(req);
-  if (prev) return prev;
+  if (!(await checkUser(req))) return null;
 
   // ============================== RETRIEVE CACHE
   const data = GS.cache?.ticket as _T.Ticket;
   const action = GS.cache?.action as "delete" | "edit" | "add";
+  const fun = GS.cache?.closeModal || (() => {});
+  GS.cache = {};
 
   if (!data) {
     GS.setAlert({
@@ -433,6 +472,8 @@ async function actionAdmin(req: _ActionFunctionArgs) {
     });
     return null;
   }
+
+  console.log("### ACTION ADMIN start... ");
 
   // ============================== CHECK DATA
   data.members.forEach((memb) => {
@@ -443,11 +484,15 @@ async function actionAdmin(req: _ActionFunctionArgs) {
 
   // ============================== FS ACTION
   let success: object | null = null;
-  if (action === "delete")
+  if (action === "delete") {
     success = await FSAction("delete", data.id || "error", {});
-  else if (action === "edit")
+  } else if (action === "edit") {
     success = await FSAction("update", data.id || "error", data);
-  else success = await FSAction("add", "n/a", data);
+  } else {
+    success = await FSAction("add", "n/a", data);
+  }
+
+  console.log("### ...done ACTION ADMIN");
 
   if (success) {
     GS.setAlert({
@@ -457,18 +502,21 @@ async function actionAdmin(req: _ActionFunctionArgs) {
   }
 
   // ============================== RETURN
-  GS.cache?.closeModal?.(); // CLOSE MODAL ACTIVATOR
-  GS.cache = {};
+  fun?.(); // CLOSE MODAL ACTIVATOR
   return null;
 }
 
 // ---------------------------------------------------------------------- ACTION TICKET CRUD
 /** Se encarga de enviar los checks para confirmar un ticket. */
 async function actionTicket(req: _ActionFunctionArgs) {
-  // ============================== RETRIEVE CACHE
-  const data = GS.cache?.ticket as _T.Ticket;
+  console.log("tst", GS.cache);
 
-  if (!data) {
+  // ============================== RETRIEVE CACHE
+  const ticketid = GS.cache?.ticketid as string;
+  const members = GS.cache?.members as _T.Member[];
+  GS.cache = {};
+
+  if (!ticketid || !members || !members.length) {
     GS.setAlert({
       _message: "Falta información importante!",
       _type: "error",
@@ -476,33 +524,46 @@ async function actionTicket(req: _ActionFunctionArgs) {
     return null;
   }
 
-  // ============================== CHECK DATA
-  data.members.forEach((memb) => {
-    if (memb.accepted !== !!memb.acceptedDate) {
-      memb.acceptedDate = memb.accepted ? new Date() : null;
-    }
-  });
-
-  // ============================== FS ACTION
-  const success = await FSAction("update", data.id || "error", {
-    members: data.members,
-  });
+  // CHECKS ALREADY HANDLED BY CLOUD FUNCTION
+  console.log("### ACTION TICKET start... ");
+  const success = await updateTicketInfo(ticketid, members);
+  console.log("### ...done ACTION TICKET", success);
 
   if (success) {
     GS.setAlert({
       _message: "Gracias por confirmar!",
       _type: "success",
     });
+
+    if (members.every((m) => m.accepted))
+      return redirect("/tickets/" + ticketid);
   }
 
   // ============================== RETURN
-  GS.cache = {};
   return null;
 }
 // #endregion
 
 // #region ##################################################################################### MAIN APPLICATION
 function App() {
+  // ---------------------------------------------------------------------- WATCH FOR AUTH CHANGES
+  useEffect(() => {
+    console.log("RENDER WHOLE APP");
+
+    const unsubscribe = auth.onAuthStateChanged(async (u) => {
+      if (GS.firstTime) console.log("########################## FIRST TIME");
+
+      console.log(" === AUTH CHANGE === ", u);
+      GS.isAdmin = !!(await isAdmin(u));
+      console.log(" === IS ADMIN === ", GS.isAdmin);
+
+      await stall();
+
+      GS.refresh();
+    });
+    return () => unsubscribe();
+  }, []);
+
   // ---------------------------------------------------------------------- RETURN
   return (
     <RouterProvider

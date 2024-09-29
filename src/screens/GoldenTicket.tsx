@@ -7,7 +7,7 @@ import FlowerEmphasis from "@components/FlowerEmphasis";
 import FlowerStrip from "@components/FlowerStrip";
 import Paralax from "@components/Paralax";
 import IP from "@utils/ImageProvider";
-import { Link } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import BackgroundScreen from "./BackgroundScreen";
 import SecretMessage from "@components/SecretMessage";
 
@@ -19,6 +19,10 @@ type GoldenTicketProps = {} & _Base;
 
 // #region ##################################################################################### COMPONENT
 const _GoldenTicket = (props: GoldenTicketProps) => {
+  const hasAccess = useLoaderData() as boolean;
+
+  if (!hasAccess) return <br />;
+
   // ---------------------------------------------------------------------- RETURN
   return (
     <>

@@ -15,14 +15,12 @@ const FS = getFirestore();
 // Start writing functions
 // https://firebase.google.com/docs/functions/typescript
 
-export const helloWorld = onRequest((req, res) => {
-  res.send("Hello from Firebase not updated!");
-});
-
 // ---------------------------------------------------------------------- UPDATE TICKET INFO
 /** Se encarga de enviar los checks para confirmar un ticket. */
 export const updateTicketInfo = onRequest(async (req, res) => {
   // ============================== READ BODY
+  console.log(req.body);
+
   const { apikey, ticketid, members } = JSON.parse(req.body) as {
     apikey: string;
     ticketid: string;
@@ -52,7 +50,7 @@ export const updateTicketInfo = onRequest(async (req, res) => {
       name: memb.name || "Undefined",
       accepted: memb.accepted ?? false,
       acceptedDate: memb.acceptedDate
-        ? Timestamp.fromDate(memb.acceptedDate)
+        ? Timestamp.fromDate(new Date(memb.acceptedDate))
         : null,
     };
   });
@@ -115,6 +113,9 @@ export const updateLastSeen = onRequest(async (req, res) => {
       return error;
     }
     return null;
+  }).catch((err) => {
+    console.error("Error outside transaction:", err);
+    return err;
   });
 
   // ============================== CHECK ERROR

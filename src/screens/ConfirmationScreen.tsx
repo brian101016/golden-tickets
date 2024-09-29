@@ -3,9 +3,10 @@ import { parseCSS, parseDate, useRefresh } from "scripts/FunctionsBundle";
 import { useLoaderData, useNavigation } from "react-router";
 import { Ticket } from "@utils/ClassTypes";
 import Input from "@components/Input";
-import { useEffect, useState } from "react";
-import { Form } from "react-router-dom";
+import { Fragment, useEffect, useState } from "react";
+import { useSubmit } from "react-router-dom";
 import { GS } from "App";
+import IP from "@utils/ImageProvider";
 
 // #region ##################################################################################### PROPS
 type _Base = import("@utils/ClassTypes")._Base;
@@ -18,87 +19,95 @@ const _ConfirmationScreen = (props: ConfirmationScreenProps) => {
   const tic = useLoaderData() as Ticket;
   const [refresh, volkey] = useRefresh();
   const [LS, setLS] = useState(new Ticket());
-  const navi = useNavigation();
+  const navigation = useNavigation();
+  const submit = useSubmit();
+
+  // ============================== SHORTCUT
+  const loading = navigation.state !== "idle";
 
   // ---------------------------------------------------------------------- HANDLERS
   // ============================== HANDLE SELECT ALL
-
   function handleSelectAll() {
-    if (navi.state !== "idle") return;
+    if (loading) return;
     LS.members.forEach((mm) => (mm.accepted = true));
     refresh();
   }
 
   // ============================== HANDLE SUBMIT
-  function handleSubmit() {
-    if (navi.state !== "idle") return;
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (loading) return;
 
     GS.cache = {
-      ticket: LS,
+      ticketid: tic.id,
+      members: LS.members,
     };
+
+    submit(null, { method: "POST" });
   }
 
-  // ============================== SYNC TIC
   useEffect(() => {
-    setLS(structuredClone(tic) as Ticket);
+    setLS(structuredClone(tic));
   }, [tic]);
 
-  // ============================== SHORTCUT
-  const loading = navi.state !== "idle";
+  if (!tic || !LS) return <div className="spinner">En espera...</div>;
 
   // ---------------------------------------------------------------------- RETURN
   return (
     <div className={props.className + " screen"}>
       <h1>Ticket de Oro</h1>
+
       <h2>Familia {tic.family}</h2>
-      <h6>{tic.id}</h6>
+      <h6>({tic.id})</h6>
 
-      <Form onSubmit={handleSubmit} method="POST">
-        <h3>Invitados:</h3>
-        <table>
-          <tbody>
-            {tic.members?.length && LS.members.length ? (
-              tic.members.map((memb, i) => (
-                <tr key={volkey + "-" + i}>
-                  <td className="as-label">{memb.name}</td>
+      <form onSubmit={handleSubmit}>
+        <h3 style={{ margin: 0, padding: 0 }}>Confirmar la asistencia de...</h3>
 
-                  <td>
-                    <Input
-                      _store={memb.accepted ? { ...memb } : LS.members[i]}
-                      _store_var={"accepted"}
-                      _type="checkbox"
-                      _label=""
-                      _disabled={loading || memb.accepted}
-                    />
-                  </td>
+        <div className="grid-container">
+          {tic?.members?.length && LS?.members?.length ? (
+            <>
+              {tic.members.map((memb, i) => (
+                <Fragment key={volkey + "-" + i}>
+                  <span className="as-label">{memb.name}</span>
 
-                  <td>
-                    {memb.acceptedDate && (
-                      <i>
-                        Confirmado el{" "}
-                        <b>{parseDate(memb.acceptedDate, true, false)}</b>
-                      </i>
-                    )}
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td>
-                  <b>No hay invitados!</b>
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+                  <Input
+                    _store={memb.accepted ? { ...memb } : LS.members[i]}
+                    _store_var={"accepted"}
+                    _type="checkbox"
+                    _label=""
+                    _disabled={loading || memb.accepted}
+                    _withWrapper={false}
+                  />
 
-        <button type="button" onClick={handleSelectAll} disabled={loading}>
-          Seleccionar todos
-        </button>
-        <button className="login" disabled={loading}>
-          {loading ? "Enviando..." : "Enviar"}
-        </button>
-      </Form>
+                  {memb.acceptedDate ? (
+                    <i>
+                      Confirmado el{" "}
+                      <b>{parseDate(memb.acceptedDate, true, false)}</b>
+                    </i>
+                  ) : (
+                    <br />
+                  )}
+                </Fragment>
+              ))}
+
+              <button
+                type="button"
+                onClick={handleSelectAll}
+                disabled={loading}
+                className="all-btn"
+              >
+                Seleccionar todos
+              </button>
+
+              <button className="login send-btn" disabled={loading}>
+                {loading ? "Enviando..." : "Enviar"}
+              </button>
+            </>
+          ) : (
+            <b>No hay invitados!</b>
+          )}
+        </div>
+      </form>
     </div>
   );
 };
@@ -112,6 +121,64 @@ const ConfirmationScreen = styled(_ConfirmationScreen).attrs(
 )<ConfirmationScreenProps>`
   ${(props) => css`
     // Ingresa aquí todos los estilos.
+
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url(${IP.bg.petals});
+
+    h6 {
+      margin: 0 auto;
+      font-style: italic;
+      width: max-content;
+    }
+
+    h2 {
+      margin: 0;
+    }
+
+    form,
+    h2 {
+      max-width: 50rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      padding: 1.75rem 0;
+
+      background-image: url(${IP.bg.granular});
+      background-size: cover;
+      border-radius: 1rem;
+      box-shadow: 0px 4px 10px #0008;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: 3fr max-content 4fr;
+      gap: 0.5rem 1rem;
+      border-bottom: 2px solid;
+      padding-bottom: 0.5rem;
+    }
+
+    .grid-controls {
+      display: flex;
+      justify-content: space-evenly;
+    }
+
+    .all-btn {
+      margin-right: 0;
+      grid-column: 1 / 3;
+      justify-self: end;
+    }
+
+    .send-btn {
+      justify-self: center;
+    }
+
     ${parseCSS(props._style)}
   `}
 `;

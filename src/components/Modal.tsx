@@ -5,7 +5,7 @@ import IP from "@utils/ImageProvider";
 import { GS } from "App";
 import { Member, Ticket } from "@utils/ClassTypes";
 import Input from "./Input";
-import { Form, useNavigation } from "react-router-dom";
+import { useNavigation, useSubmit } from "react-router-dom";
 
 // #region ##################################################################################### PROPS
 type _Base = import("@utils/ClassTypes")._Base;
@@ -23,12 +23,17 @@ const _Modal = (props: ModalProps) => {
   const [refresh, volkey] = useRefresh();
   const [LS, setLS] = useState<Ticket>(props._item || new Ticket());
   const [open, setOpen] = useState(!!props._item);
-  const navi = useNavigation();
+  const navigation = useNavigation();
+  const submit = useSubmit();
+
+  // ============================== SHORTCUT
+  const loading = navigation.state !== "idle";
 
   // ---------------------------------------------------------------------- FUNCTION HANDLERS
   // ============================== HANDLE OPEN
   function handleOpen() {
-    if (navi.state !== "idle") return;
+    if (loading) return;
+
     setLS(props._item || new Ticket());
     setOpen(true);
     refresh();
@@ -36,26 +41,27 @@ const _Modal = (props: ModalProps) => {
 
   // ============================== HANDLE CLOSE
   function handleClose() {
-    if (navi.state !== "idle") return;
+    if (loading) return;
+
     setLS(new Ticket());
     setOpen(false);
 
     if (props._item) props._onClose?.();
   }
 
-  // ---------------------------------------------------------------------- HANDLE SUBMIT
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    if (navi.state !== "idle") return;
+  // ============================== HANDLE SUBMIT
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (loading) return;
 
     GS.cache = {
       ticket: LS,
       action: props._isDelete ? "delete" : props._item ? "edit" : "add",
       closeModal: () => handleClose(),
     };
-  };
 
-  // ============================== SHORTCUT
-  const loading = navi.state !== "idle";
+    submit(null, { method: "POST" });
+  }
 
   // ---------------------------------------------------------------------- RETURN
   return (
@@ -97,7 +103,7 @@ const _Modal = (props: ModalProps) => {
             </div>
 
             {/* ============================== INPUTS */}
-            <Form onSubmit={handleSubmit} method="POST">
+            <form onSubmit={handleSubmit}>
               <Input
                 _store={LS}
                 _store_var="family"
@@ -179,7 +185,7 @@ const _Modal = (props: ModalProps) => {
                   {loading ? "Enviando..." : "Confirmar"}
                 </button>
               </div>
-            </Form>
+            </form>
           </div>
         </div>
       )}
