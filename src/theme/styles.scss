@@ -1654,55 +1654,18 @@ footer,
 
 // #region ##################################################################################### SHOW TABLE
 .show-table {
-  margin: 0 5%;
-  --navbar-size: 78px;
-
-  display: flex;
-  flex-direction: column;
-  max-height: calc(100svh - var(--navbar-size) - 1rem);
-
-  h1 {
-    margin-top: 2rem;
-  }
+  margin: 1rem 5%;
 
   // ---------------------------------------------------------------------- CONTROLS CONTAINER
   .controls-container {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    --size-icon: 25px;
-
-    background-color: var(--color-shadow-white);
     padding-bottom: 0.5rem;
 
     button {
-      margin-top: 0;
-      margin-bottom: 0;
-    }
-
-    .modal-button {
+      margin: 0;
       margin-left: auto;
-      .alt-resp {
-        display: none;
-        height: 100%;
-      }
-    }
-
-    .wrapper {
-      position: relative;
-    }
-
-    .search-input {
-      padding-left: calc(0.3em + var(--size-icon) + 0.3em);
-    }
-
-    .icon-search {
-      position: absolute;
-      top: 0;
-      left: 0.3em;
-      width: var(--size-icon);
-      height: 100%;
-      pointer-events: none;
     }
   }
 
@@ -1712,108 +1675,127 @@ footer,
     flex-grow: 1;
     margin: 0 -1rem;
     padding: 0 1rem;
-  }
 
-  .table-container > div {
-    border-radius: 0.75rem;
-    border: 1px solid var(--color-palette-brown);
-    box-shadow: 3px 1px 11px 1px rgba(0, 0, 0, 0.25);
-    margin: 1rem 0;
-    padding: 1rem 1.25rem;
-    background-color: var(--color-shadow-white);
-
-    h2 {
-      margin: 0;
-      line-height: normal;
-      cursor: pointer;
-
-      position: sticky;
-      top: 0;
+    // -------------------------------------------------- TABLE ENTRY
+    .table-entry {
+      border-radius: 0.75rem;
+      border: 1px solid var(--color-palette-brown);
+      box-shadow: 3px 1px 11px 1px rgba(0, 0, 0, 0.25);
+      margin: 1rem 0;
+      padding: 1rem 1.25rem;
       background-color: var(--color-shadow-white);
-      z-index: 3;
-
-      &:hover {
-        text-decoration: underline;
-        text-decoration-thickness: 1.5px;
+    
+      // ============================== TABLE ENTRY TITLE
+      .table-entry-title {
+        margin: 0;
+        line-height: normal;
+        cursor: pointer;
+  
+        position: sticky;
+        top: 0;
+        background-color: var(--color-shadow-white);
+        z-index: 3;
+        text-align: left;
+        width: 100%;
+  
+        &:hover {
+          text-decoration: underline;
+          text-decoration-thickness: 1.5px;
+        }
+      }
+  
+      // ============================== TABLE ENTRY CONTENT
+      .table-entry-content {
+        overflow: auto;
+        background-color: var(--color-shadow-white);
+      }
+  
+      .table-entry-title.collapsed + .table-entry-content {
+        display: none;
       }
     }
+  }
 
-    .subtable {
-      overflow: auto;
-      background-color: var(--color-shadow-white);
+  // ---------------------------------------------------------------------- FAMILY CONTAINER
+  .family-container {
+    &:not(:first-child) {
+      margin-top: 1.25rem;
+      padding-top: 1.25rem;
     }
 
-    table {
-      width: max-content;
-      min-width: 100%;
-      margin-bottom: 0.75rem;
-      border-collapse: collapse;
-    }
+    // &:nth-child(even) .family-content {
+    //   background-color: var(--color-palette-blue-pastel);
+    // }
+    // background-color: var(--color-shadow-semilight);
 
-    h2.collapsed + .subtable {
-      display: none;
-    }
-
-    tr {
-      border-bottom: 1px solid #d4d4d4;
-    }
-
-    tbody > tr:hover {
-      background: #f5f5f5;
-      cursor: pointer;
-    }
-
-    tbody > tr:active {
-      background: #e0e0e0;
-    }
-
-    th {
-      text-align: left;
-      color: var(--color-palette-brown);
-      font-size: 1.25rem;
-      font-weight: 400;
-      padding: 0.5rem;
-    }
-
-    td {
-      font-size: 1.15rem;
-      padding: 0.5rem;
-      vertical-align: middle;
-    }
-
-    .admin-controls {
+    // -------------------------------------------------- FAMILY HEADER
+    .family-header {
       display: flex;
-      gap: 1.5rem;
+      flex-direction: row;
+      align-items: center;
+      background-color: var(--color-shadow-semilight);
 
-      img {
-        width: 1.5rem;
-        z-index: 1;
+      // ============================== FAMILY TITLE
+      .family-title {
+        margin: 0;
+        width: auto;
+        flex-grow: 1;
+        text-align: left;
+      }
+    }
+
+    // -------------------------------------------------- FAMILY CONTENT
+    .family-content {
+      display: grid;
+      grid-template-columns: 40% 1fr 40%;
+      border: 1px solid var(--color-palette-blue-ultra);
+      background-color: var(--color-palette-white);
+
+      // ============================== FAMILY CONTENT HEADER
+      .family-content-header {
+        font-weight: 700;
+        border-bottom: 1px solid black;
+        background-color: var(--color-palette-blue-ultra);
+        color: var(--color-palette-white);
+      }
+      
+      // ============================== FAMILY CONTENT LINES
+      > span:nth-child(6n + 7),
+      > span:nth-child(6n + 8),
+      > span:nth-child(6n + 9) {
+        background-color: var(--color-palette-blue-pastel);
+
+        &.accepted {
+          background-color: var(--color-state-success);
+        }
       }
 
-      img:hover {
-        opacity: 0.8;
+      // ============================== FAMILY CONTENT EVERYTHING
+      > span {
+        padding: 0 0.5em;
+      }
+
+      // ============================== FAMILY CONTENT ACCEPTED
+      > span.accepted {
+        background-color: 
+          color-mix(in srgb, var(--color-state-success), var(--color-shadow-white) 35%);
+        font-weight: 700;
+        color: var(--color-shadow-semidark);
       }
     }
   }
 
+  // ---------------------------------------------------------------------- MEDIA QUERIES
   @media screen and (max-width: 750px) {
     --navbar-size: 64px;
   }
 
   @media screen and (max-width: 600px) {
-    h1 {
-      font-size: var(--size-subtitle);
-    }
-
     h2 {
       font-size: 1.75rem;
     }
 
     .controls-container {
-      .studies {
-        display: none;
-      }
-
       .modal-button {
         background: none;
         padding: 0;
@@ -2026,7 +2008,7 @@ footer,
   }
 
   h1,
-  h2 {
+  h2, h3, .break-spaces {
     white-space: break-spaces;
   }
 

@@ -4,7 +4,7 @@ import { useLoaderData, useNavigation } from "react-router";
 import { Ticket } from "@utils/ClassTypes";
 import Input from "@components/Input";
 import { Fragment, useEffect, useState } from "react";
-import { useSubmit } from "react-router-dom";
+import { Link, useSubmit } from "react-router-dom";
 import { GS } from "App";
 import IP from "@utils/ImageProvider";
 
@@ -55,13 +55,22 @@ const _ConfirmationScreen = (props: ConfirmationScreenProps) => {
   // ---------------------------------------------------------------------- RETURN
   return (
     <div className={props.className + " screen"}>
+      <Link
+        to={"/tickets/" + tic.id}
+        className="as-button login floating-controls"
+      >
+        {"< Volver a la invitación"}
+      </Link>
+
       <h1>Ticket de Oro</h1>
 
-      <h2>Familia {tic.family}</h2>
+      <h2>{"Familia \n" + tic.family}</h2>
       <h6>({tic.id})</h6>
 
       <form onSubmit={handleSubmit}>
-        <h3 style={{ margin: 0, padding: 0 }}>Confirmar la asistencia de...</h3>
+        <h3 style={{ margin: 0, padding: 0 }}>
+          {"Confirmar la\nasistencia de..."}
+        </h3>
 
         <div className="grid-container">
           {tic?.members?.length && LS?.members?.length ? (
@@ -80,8 +89,8 @@ const _ConfirmationScreen = (props: ConfirmationScreenProps) => {
                   />
 
                   {memb.acceptedDate ? (
-                    <i>
-                      Confirmado el{" "}
+                    <i className="break-spaces">
+                      {"Confirmado el\n"}
                       <b>{parseDate(memb.acceptedDate, true, false)}</b>
                     </i>
                   ) : (
@@ -162,6 +171,7 @@ const ConfirmationScreen = styled(_ConfirmationScreen).attrs(
       gap: 0.5rem 1rem;
       border-bottom: 2px solid;
       padding-bottom: 0.5rem;
+      align-items: center;
     }
 
     .grid-controls {

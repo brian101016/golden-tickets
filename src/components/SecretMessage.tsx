@@ -35,13 +35,13 @@ const _SecretMessage = (props: SecretMessageProps) => {
       <div className="modal">
         <h3 className="secret-title">
           ¡Shhh! <br />
-          ¡Es una sorpresa!
+          <span className="to-shrink">¡Es una sorpresa!</span>
         </h3>
 
         <p className="secret-body">
           <span>
             Esta invitación es estrictamente confidencial. <br />
-            <b>¡No reveles nada a Javier & Yolanda!</b>
+            <b>¡No reveles nada a Yolanda & Javier!</b>
           </span>
 
           <span>
@@ -99,6 +99,12 @@ const SecretMessage = styled(_SecretMessage).attrs(
     .secret-confirm {
       width: 100%;
       margin: 0;
+    }
+
+    @media screen and (max-width: 400px) {
+      .to-shrink {
+        font-size: 2.15rem;
+      }
     }
 
     ${parseCSS(props._style)}
