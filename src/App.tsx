@@ -5,7 +5,7 @@ import {
   redirect,
   RouterProvider,
 } from "react-router-dom";
-import { cipher, parseNumber, stall } from "scripts/FunctionsBundle";
+import { cipher, parseNumber } from "scripts/FunctionsBundle";
 import * as _T from "@utils/ClassTypes";
 import { initializeApp } from "firebase/app";
 import * as FS from "firebase/firestore";
@@ -556,8 +556,6 @@ function App() {
       console.log(" === AUTH CHANGE === ", u);
       GS.isAdmin = !!(await isAdmin(u));
       console.log(" === IS ADMIN === ", GS.isAdmin);
-
-      await stall();
 
       GS.refresh();
     });

@@ -3,14 +3,14 @@
   "name": "Golden Tickets: Anniversary remainders and more",
   "icons": [
     {
-      "src": "enlacelab.ico",
+      "src": "golden-ticket.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "enlacelab612.png",
+      "src": "golden-ticket-1024.png",
       "type": "image/png",
-      "sizes": "256x256 612x612"
+      "sizes": "256x256 512x512 1024x1024"
     }
   ],
   "start_url": ".",

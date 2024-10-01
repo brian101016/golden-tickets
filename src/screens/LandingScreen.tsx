@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import BackgroundScreen from "./BackgroundScreen";
 import IP from "@utils/ImageProvider";
+import { Helmet } from "react-helmet";
 
 // #region ##################################################################################### PROPS
 type _Base = import("@utils/ClassTypes")._Base;
@@ -29,6 +30,10 @@ const _LandingScreen = (props: LandingScreenProps) => {
       <BackgroundScreen />
 
       <div className={props.className + " vertical-screen"}>
+        <Helmet>
+          <title>Buscar ticket | Golden Tickets</title>
+        </Helmet>
+
         <div className="floating-controls reversed">
           <Link to={"/admin"} className="as-button warning">
             {"Iniciar sesión >"}

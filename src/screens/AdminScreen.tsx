@@ -7,6 +7,7 @@ import { useState } from "react";
 import { GS } from "App";
 import LoginScreen from "./LoginScreen";
 import ShowTable from "@components/ShowTable";
+import { Helmet } from "react-helmet";
 
 // #region ##################################################################################### PROPS
 type _Base = import("@utils/ClassTypes")._Base;
@@ -45,6 +46,10 @@ const _AdminScreen = (props: AdminScreenProps) => {
   // ---------------------------------------------------------------------- RETURN
   return (
     <div className={props.className + " screen"}>
+      <Helmet>
+        <title>Administrador | Golden Tickets</title>
+      </Helmet>
+
       <h1>Admin page</h1>
 
       <Modal

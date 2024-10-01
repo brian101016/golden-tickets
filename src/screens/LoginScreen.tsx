@@ -9,6 +9,7 @@ import {
   browserSessionPersistence,
 } from "firebase/auth";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 // #region ##################################################################################### PROPS
 type _Base = import("@utils/ClassTypes")._Base;
@@ -49,6 +50,10 @@ const _LoginScreen = (props: LoginScreenProps) => {
   // ---------------------------------------------------------------------- RETURN
   return (
     <div className={props.className + " screen"}>
+      <Helmet>
+        <title>Iniciar sesión | Golden Tickets</title>
+      </Helmet>
+
       {loading && <div className="spinner">Cargando...</div>}
 
       <div className="floating-controls">

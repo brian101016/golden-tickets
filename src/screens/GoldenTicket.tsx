@@ -10,6 +10,7 @@ import IP from "@utils/ImageProvider";
 import { Link, useLoaderData } from "react-router-dom";
 import BackgroundScreen from "./BackgroundScreen";
 import SecretMessage from "@components/SecretMessage";
+import { Helmet } from "react-helmet";
 
 // #region ##################################################################################### PROPS
 type _Base = import("@utils/ClassTypes")._Base;
@@ -29,6 +30,10 @@ const _GoldenTicket = (props: GoldenTicketProps) => {
       <BackgroundScreen />
 
       <div className={props.className + " vertical-screen"}>
+        <Helmet>
+          <title>Ver invitación | Golden Tickets</title>
+        </Helmet>
+
         <SecretMessage />
 
         <DecorationWrapper

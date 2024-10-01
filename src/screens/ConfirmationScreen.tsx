@@ -7,6 +7,7 @@ import { Fragment, useEffect, useState } from "react";
 import { Link, useSubmit } from "react-router-dom";
 import { GS } from "App";
 import IP from "@utils/ImageProvider";
+import { Helmet } from "react-helmet";
 
 // #region ##################################################################################### PROPS
 type _Base = import("@utils/ClassTypes")._Base;
@@ -55,6 +56,10 @@ const _ConfirmationScreen = (props: ConfirmationScreenProps) => {
   // ---------------------------------------------------------------------- RETURN
   return (
     <div className={props.className + " screen"}>
+      <Helmet>
+        <title>Confirmar reservación | Golden Tickets</title>
+      </Helmet>
+
       <Link
         to={"/tickets/" + tic.id}
         className="as-button login floating-controls"
