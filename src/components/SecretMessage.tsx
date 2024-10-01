@@ -49,6 +49,13 @@ const _SecretMessage = (props: SecretMessageProps) => {
           </span>
 
           <span>¡Muchas gracias por tu colaboración!</span>
+
+          <iframe
+            title="bgmusic"
+            src="https://freesound.org/embed/sound/iframe/744876/simple/small/"
+            width="375"
+            height="30"
+          ></iframe>
         </p>
 
         <button

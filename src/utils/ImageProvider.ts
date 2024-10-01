@@ -5,6 +5,7 @@ import bg_argollas from "@bg/argollas.jpg";
 import bg_carmen from "@bg/carmen.jpg";
 import bg_church from "@bg/church.jpg";
 import bg_common_decoration from "@bg/common-decoration.jpg";
+import bg_flower_doodles from "@bg/flower-doodles.jpg";
 import bg_granular from "@bg/granular.jpg";
 import bg_petals from "@bg/petals.jpg";
 import bg_standing_dark from "@bg/standing-dark.jpg";
@@ -58,6 +59,7 @@ const IP = {
     carmen: bg_carmen,
     church: bg_church,
     common_decoration: bg_common_decoration,
+    flower_doodles: bg_flower_doodles,
     granular: bg_granular,
     petals: bg_petals,
     standing_dark: bg_standing_dark,

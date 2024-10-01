@@ -291,4 +291,34 @@ const IMAGES = {
     minWidth: "",
     ratio: "142.544 / 154.209",
   },
+  clouds: {
+    elements: [
+      <div
+        key={0}
+        style={{
+          width: "67.0171%",
+          height: "37.5952%",
+          transform: "translate(-4.6726%, -44.4516%) rotate(180deg)",
+          opacity: 0.5,
+        }}
+      >
+        <img src={IP.shape.cloud} alt="cloud background" />
+      </div>,
+
+      <div
+        key={1}
+        style={{
+          width: "83.3569%",
+          height: "100%",
+          transform: "translate(-43.3252%, -30.9334%) rotate(25deg)",
+        }}
+      >
+        <img src={IP.shape.dots} alt="golden dots" />
+      </div>,
+    ],
+    width: "500px",
+    maxWidth: "",
+    minWidth: "",
+    ratio: "792.928 / 659.993",
+  },
 };

@@ -12,6 +12,8 @@ type FlowerStripProps = {
   /** Tells if the component should shrink or not. */
   _noResponsive?: boolean;
 
+  _vertical?: boolean;
+
   children?: React.ReactNode;
 } & _Base;
 // #endregion
@@ -61,9 +63,11 @@ const _FlowerStrip = (props: FlowerStripProps) => {
   return (
     <div
       className={props.className + " flower-strip"}
-      style={{
-        gridTemplateColumns: map[props._type || "blue"].grid,
-      }}
+      style={
+        !props._vertical
+          ? { gridTemplateColumns: map[props._type || "blue"].grid }
+          : { gridTemplateRows: map[props._type || "blue"].grid }
+      }
     >
       {map[props._type || "blue"].imgs.map((v, i) => {
         if ("element" in v) {
@@ -72,13 +76,27 @@ const _FlowerStrip = (props: FlowerStripProps) => {
           );
         }
 
+        if (!props._vertical) {
+          return (
+            <img
+              key={i}
+              src={v.src}
+              alt="Flower icon"
+              className="icon-holder"
+              style={{ transform: v.transform }}
+            />
+          );
+        }
+
         return (
-          <img
-            key={i}
-            src={v.src}
-            alt="Flower icon"
-            style={{ transform: v.transform }}
-          />
+          <div key={i} className="icon-holder">
+            <img
+              src={v.src}
+              alt="Flower icon"
+              className="icon-holder"
+              style={{ transform: v.transform }}
+            />
+          </div>
         );
       })}
     </div>
@@ -99,16 +117,36 @@ const FlowerStrip = styled(_FlowerStrip).attrs(
     display: grid;
     justify-items: center;
     align-items: center;
-    /* column-gap: 2.5rem; */
-    column-gap: 0.5rem;
+    gap: 0.5rem;
 
     margin: var(--margin-big);
     overflow: visible;
+    position: relative;
 
-    > img,
-    > div {
-      width: 100%;
-    }
+    ${props._vertical
+      ? `
+      height: 100vh;
+      margin: 0;
+      
+      div.icon-holder {
+        aspect-ratio: 1 / 1;
+        height: 100%;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      img.icon-holder {
+        width: 100%;
+        position: absolute;
+      }
+      `
+      : `
+      > div,
+      .icon-holder {
+        width: 100%;
+      }`}
 
     ${props._noResponsive
       ? ""

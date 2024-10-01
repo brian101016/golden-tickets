@@ -1,6 +1,8 @@
 import styled, { css } from "styled-components";
 import { parseCSS } from "scripts/FunctionsBundle";
-import FlowerDecoration from "@components/FlowerDecoration";
+import DecorationWrapper from "@components/DecorationWrapper";
+import FlowerStrip from "@components/FlowerStrip";
+import IP from "@utils/ImageProvider";
 
 // #region ##################################################################################### PROPS
 type _Base = import("@utils/ClassTypes")._Base;
@@ -13,41 +15,19 @@ const _BackgroundScreen = (props: BackgroundScreenProps) => {
   // ---------------------------------------------------------------------- RETURN
   return (
     <div className={props.className}>
-      <FlowerDecoration
-        _type="corner"
-        _x="calc((-100vw + 1024px) / 2 + 75%)"
-        _y="-25%"
-        _rotate={0}
-        _position={{ top: 0, right: 0 }}
-        _style={{ width: "300px", position: "absolute" }}
-      />
+      <DecorationWrapper
+        _wrappers={[{ _type: "corner", _reverse: true }, { _type: "clouds" }]}
+      >
+        <FlowerStrip _type="blue" _vertical />
+      </DecorationWrapper>
 
-      <FlowerDecoration
-        _type="corner"
-        _x="calc((100vw - 1024px) / 2 - 75%)"
-        _y="-25%"
-        _rotate={90}
-        _position={{ top: 0, left: 0 }}
-        _style={{ width: "300px", position: "absolute" }}
-      />
+      <div />
 
-      <FlowerDecoration
-        _type="corner"
-        _x="25%"
-        _y="25%"
-        _rotate={180}
-        _position={{ bottom: 0, right: 0 }}
-        _style={{ width: "300px", position: "absolute" }}
-      />
-
-      <FlowerDecoration
-        _type="corner"
-        _x="-25%"
-        _y="25%"
-        _rotate={270}
-        _position={{ left: 0, bottom: 0 }}
-        _style={{ width: "300px", position: "absolute" }}
-      />
+      <DecorationWrapper
+        _wrappers={[{ _type: "corner" }, { _type: "clouds", _reverse: true }]}
+      >
+        <FlowerStrip _type="blue" _vertical />
+      </DecorationWrapper>
     </div>
   );
 };
@@ -63,6 +43,14 @@ const BackgroundScreen = styled(_BackgroundScreen).attrs(
     // Ingresa aquí todos los estilos.
     position: fixed;
     inset: 0;
+
+    display: grid;
+    grid-template-columns: 1fr minmax(auto, 1024px) 1fr;
+
+    background-image: url(${IP.bg.granular});
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 
     ${parseCSS(props._style)};
   `}

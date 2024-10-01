@@ -31,7 +31,9 @@ const _GoldenTicket = (props: GoldenTicketProps) => {
       <div className={props.className + " vertical-screen"}>
         <SecretMessage />
 
-        <DecorationWrapper wrappers={[{ _type: "corner" }]}>
+        <DecorationWrapper
+          _wrappers={[{ _type: "corner" }, { _type: "clouds", _reverse: true }]}
+        >
           <p className="big-title">
             Bodas
             <br />
@@ -52,13 +54,13 @@ const _GoldenTicket = (props: GoldenTicketProps) => {
         </FlowerEmphasis>
 
         <DecorationWrapper
-          wrappers={[{ _type: "corner", _reverse: true }]}
+          _wrappers={[{ _type: "corner", _reverse: true }]}
           className="pseudo-shadow"
         >
           <Paralax _src={IP.misc.aniversario} _shape={"circle"} />
         </DecorationWrapper>
 
-        <DecorationWrapper wrappers={[{ _type: "corner" }]}>
+        <DecorationWrapper _wrappers={[{ _type: "corner" }]}>
           <h1 className="title-names">
             Yolanda
             <br />
@@ -70,7 +72,7 @@ const _GoldenTicket = (props: GoldenTicketProps) => {
 
         <Paralax _src={IP.bg.standing_light} _filter="grayscale(1)" />
 
-        <DecorationWrapper wrappers={[{ _type: "corner", _reverse: true }]}>
+        <DecorationWrapper _wrappers={[{ _type: "corner", _reverse: true }]}>
           <h2>
             Tenemos el gusto de invitarle
             <br />
@@ -93,10 +95,12 @@ const _GoldenTicket = (props: GoldenTicketProps) => {
           </div>
         </Paralax>
 
-        <h2>
-          En compañía de nuestros hijos y nietos
-          <FlowerStrip _type="gold" _style={{ marginBottom: "-3.5rem" }} />
-        </h2>
+        <DecorationWrapper _wrappers={[{ _type: "clouds", _reverse: true }]}>
+          <h2>
+            En compañía de nuestros hijos y nietos
+            <FlowerStrip _type="gold" _style={{ marginBottom: "-3.5rem" }} />
+          </h2>
+        </DecorationWrapper>
 
         <Paralax
           _src={IP.bg.common_decoration}
@@ -157,15 +161,17 @@ const _GoldenTicket = (props: GoldenTicketProps) => {
           </div>
         </Paralax>
 
-        <h2>
-          <FlowerEmphasis _type="branches" _style={{ overflow: "visible" }}>
-            Banquete
-          </FlowerEmphasis>
+        <DecorationWrapper _wrappers={[{ _type: "clouds" }]}>
+          <h2>
+            <FlowerEmphasis _type="branches" _style={{ overflow: "visible" }}>
+              Banquete
+            </FlowerEmphasis>
 
-          <FlowerStrip
-            _style={{ marginBottom: "-3.5rem", marginTop: "1rem" }}
-          />
-        </h2>
+            <FlowerStrip
+              _style={{ marginBottom: "-3.5rem", marginTop: "1rem" }}
+            />
+          </h2>
+        </DecorationWrapper>
 
         <Paralax
           _src={IP.bg.terranova}
@@ -204,7 +210,7 @@ const _GoldenTicket = (props: GoldenTicketProps) => {
           </div>
         </Paralax>
 
-        <DecorationWrapper wrappers={[{ _type: "corner" }]}>
+        <DecorationWrapper _wrappers={[{ _type: "corner" }]}>
           <h2>
             <FlowerEmphasis _type="bunch" _style={{ overflow: "visible" }}>
               <b
@@ -278,7 +284,9 @@ const _GoldenTicket = (props: GoldenTicketProps) => {
           </div>
         </Paralax>
 
-        <DecorationWrapper wrappers={[{ _type: "corner" }]}>
+        <DecorationWrapper
+          _wrappers={[{ _type: "corner" }, { _type: "clouds", _reverse: true }]}
+        >
           <p className="big-title title-final">
             <FlowerStrip _type="gold" _noResponsive />
             ¡Te esperamos!
@@ -287,7 +295,7 @@ const _GoldenTicket = (props: GoldenTicketProps) => {
         </DecorationWrapper>
 
         <DecorationWrapper
-          wrappers={[
+          _wrappers={[
             { _type: "corner", _reverse: false },
             { _type: "corner", _reverse: true },
           ]}

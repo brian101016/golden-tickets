@@ -45,7 +45,8 @@ const _ShowTable = (props: ShowTableProps) => {
         const aa = a.lastSeen || 0;
         const bb = b.lastSeen || 0;
 
-        return aa > bb ? -1 : aa < bb ? 1 : 0;
+        if (aa > bb) return -1;
+        if (aa < bb) return 1;
       }
 
       const aa = parseID(a.family);
