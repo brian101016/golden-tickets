@@ -7,6 +7,7 @@ import { getFirestore, FieldValue, Timestamp } from "firebase-admin/firestore";
 import { onRequest } from "firebase-functions/v2/https";
 
 import { Ticket } from "./classtypes";
+import { auth } from "firebase-admin";
 
 // INIT VARIABLES
 initializeApp();
@@ -14,6 +15,18 @@ const FS = getFirestore();
 
 // Start writing functions
 // https://firebase.google.com/docs/functions/typescript
+
+auth()
+  .setCustomUserClaims("BnQNjayhcIbcSjTIzkQjFYsODqu1", {
+    role: "admin",
+    admin: true,
+  })
+  .then(() => {
+    console.log("Custom claims set for user:", "BnQNjayhcIbcSjTIzkQjFYsODqu1");
+  })
+  .catch((error) => {
+    console.error("Error setting custom claims:", error);
+  });
 
 // ---------------------------------------------------------------------- UPDATE TICKET INFO
 /** Se encarga de enviar los checks para confirmar un ticket. */

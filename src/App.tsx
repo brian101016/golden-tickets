@@ -34,7 +34,9 @@ export const firebaseApp = initializeApp({
 });
 const db = FS.getFirestore(firebaseApp); // FIRESTORE (data db)
 export const auth = AO.getAuth(firebaseApp); // AUTHETICATION (users db)
-const CF_URL = process.env.REACT_APP_EMULATOR_FUNCTIONS; // CLOUD FUNCTIONS URL
+const CF_URL_updateLastSeen = process.env.REACT_APP_FUNCTIONS_updatelastseen;
+const CF_URL_updateTicketInfo =
+  process.env.REACT_APP_FUNCTIONS_updateticketinfo;
 
 // Override with emulator settings in development
 if (process.env.NODE_ENV === "development") {
@@ -256,6 +258,7 @@ export async function isAdmin(user = auth.currentUser) {
     return null;
   });
 
+  console.log(token);
   return token && token.claims["role"] === "admin";
 }
 // #endregion
@@ -283,7 +286,7 @@ async function checkLastSeen(ticketid: string) {
   if (hoursnow - hoursthen < 12) return;
 
   console.log("### ### ### CLOUD FUNCTION fetch...");
-  const res = await fetch(CF_URL + "updateLastSeen", {
+  const res = await fetch(CF_URL_updateLastSeen || "", {
     method: "post",
     body: JSON.stringify({
       apikey: "custompass",
@@ -308,7 +311,7 @@ async function checkLastSeen(ticketid: string) {
 async function updateTicketInfo(ticketid: string, members: _T.Member[]) {
   console.log("### ### updateTicketInfo start...");
 
-  const res = await fetch(CF_URL + "updateTicketInfo", {
+  const res = await fetch(CF_URL_updateTicketInfo || "", {
     method: "post",
     body: JSON.stringify({
       apikey: "custompass",

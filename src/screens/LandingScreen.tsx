@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 import { parseCSS } from "scripts/FunctionsBundle";
 import Input from "@components/Input";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import BackgroundScreen from "./BackgroundScreen";
 import IP from "@utils/ImageProvider";
 import { Helmet } from "react-helmet";
@@ -33,12 +33,6 @@ const _LandingScreen = (props: LandingScreenProps) => {
         <Helmet>
           <title>Buscar ticket | Golden Tickets</title>
         </Helmet>
-
-        <div className="floating-controls reversed">
-          <Link to={"/admin"} className="as-button warning">
-            {"Iniciar sesión >"}
-          </Link>
-        </div>
 
         <h2>
           Ingrese el código de su ticket <br />
