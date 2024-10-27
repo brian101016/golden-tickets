@@ -34,9 +34,7 @@ export const firebaseApp = initializeApp({
 });
 const db = FS.getFirestore(firebaseApp); // FIRESTORE (data db)
 export const auth = AO.getAuth(firebaseApp); // AUTHETICATION (users db)
-const CF_URL_updateLastSeen = process.env.REACT_APP_FUNCTIONS_updatelastseen;
-const CF_URL_updateTicketInfo =
-  process.env.REACT_APP_FUNCTIONS_updateticketinfo;
+const CF_URL = process.env.REACT_APP_FUNCTIONS;
 
 // Override with emulator settings in development
 if (process.env.NODE_ENV === "development") {
@@ -286,7 +284,7 @@ async function checkLastSeen(ticketid: string) {
   if (hoursnow - hoursthen < 12) return;
 
   console.log("### ### ### CLOUD FUNCTION fetch...");
-  const res = await fetch(CF_URL_updateLastSeen || "", {
+  const res = await fetch(CF_URL + "updateLastSeen", {
     method: "post",
     body: JSON.stringify({
       apikey: "custompass",
@@ -311,7 +309,7 @@ async function checkLastSeen(ticketid: string) {
 async function updateTicketInfo(ticketid: string, members: _T.Member[]) {
   console.log("### ### updateTicketInfo start...");
 
-  const res = await fetch(CF_URL_updateTicketInfo || "", {
+  const res = await fetch(CF_URL + "updateTicketInfo", {
     method: "post",
     body: JSON.stringify({
       apikey: "custompass",
