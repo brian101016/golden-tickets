@@ -16,6 +16,7 @@ import AdminScreen from "@screens/AdminScreen";
 import GoldenTicket from "@screens/GoldenTicket";
 import ConfirmationScreen from "@screens/ConfirmationScreen";
 import { useEffect } from "react";
+import TicketExpiredScreen from "@screens/TicketExpiredScreen";
 
 // ---------------------------------------------------------------------- TYPESCRIPT IMPORTS
 type _LoaderFunctionArgs = import("react-router-dom").LoaderFunctionArgs;
@@ -389,6 +390,10 @@ async function callLogout(req: _LoaderFunctionArgs) {
 async function checkTicket(req: _LoaderFunctionArgs) {
   if (GS.firstTime) return false;
 
+  if (!GS.firstTime) {
+    return redirect("/expired");
+  }
+
   // ============================== GET PARAMS
   const { ticketid } = req.params;
   const askey = cipher(ticketid || "", true);
@@ -431,6 +436,10 @@ async function checkTicket(req: _LoaderFunctionArgs) {
 /** Obtiene información sobre un ticket específico. */
 async function loadTicket(req: _LoaderFunctionArgs) {
   if (GS.firstTime) return null;
+
+  if (!GS.firstTime) {
+    return redirect("/expired");
+  }
 
   // ============================== GET PARAMS
   const { ticketid } = req.params;
@@ -604,6 +613,13 @@ function App() {
               loader: loadTicket,
               action: actionTicket,
               element: <ConfirmationScreen />,
+            },
+            // -------------------------------------------------- EXPIRED PAGE
+            {
+              path: "expired",
+              loader: undefined,
+              action: undefined,
+              element: <TicketExpiredScreen />,
             },
           ],
         },

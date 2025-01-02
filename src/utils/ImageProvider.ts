@@ -30,6 +30,7 @@ import shape_golden_frame from "@shape/golden-frame.svg";
 import shape_golden_separator from "@shape/golden-separator.png";
 import shape_golden_text_decor from "@shape/golden-text-decor.svg";
 import shape_not_found_ticket from "@shape/not-found-ticket.jpg";
+import shape_party_ended from "@shape/party-ended.png";
 import shape_ring_empty from "@shape/ring-empty.png";
 import shape_ring_full from "@shape/ring-full.png";
 import shape_ring_half from "@shape/ring-half.png";
@@ -83,6 +84,7 @@ const IP = {
     golden_separator: shape_golden_separator,
     golden_text_decor: shape_golden_text_decor,
     not_found_ticket: shape_not_found_ticket,
+    party_ended: shape_party_ended,
     ring_empty: shape_ring_empty,
     ring_full: shape_ring_full,
     ring_half: shape_ring_half,
